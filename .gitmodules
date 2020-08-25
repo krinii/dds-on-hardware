@@ -1,3 +1,6 @@
 [submodule "Docker/cyclonedds"]
 	path = Docker/cyclonedds
 	url = https://github.com/eclipse-cyclonedds/cyclonedds.git
+[submodule "pi2/cyclonedds"]
+	path = pi2/cyclonedds
+	url = https://github.com/eclipse-cyclonedds/cyclonedds.git
