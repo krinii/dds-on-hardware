@@ -1,4 +1,5 @@
 #!/bin/bash
+# testDDS can be changed to anything you want
 mkdir testDDS
 cd cyclonedds/build
 cmake -DCMAKE_INSTALL_PREFIX=../../testDDS ..
