@@ -1,0 +1,5 @@
+#!/bin/bash
+cd cyclonedds/build
+cmake -DCMAKE_INSTALL_PREFIX=../../testDDS ..
+cmake --build .
+cmake --build . --target install
