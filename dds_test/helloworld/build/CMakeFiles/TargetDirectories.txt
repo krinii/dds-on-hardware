@@ -1,0 +1,6 @@
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/rebuild_cache.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/HelloWorldData_lib_idlc_generate.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/idlc.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/edit_cache.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/HelloworldPublisher.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/helloworld/build/CMakeFiles/HelloworldSubscriber.dir
