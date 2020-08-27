@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/SubscriberLoop.dir/subscriber.c.o CMakeFiles/SubscriberLoop.dir/PubSubLoopData.c.o  -o SubscriberLoop -Wl,-rpath,/home/k/Desktop/Workspaces/Libraries/cyclonedds/lib /home/k/Desktop/Workspaces/Libraries/cyclonedds/lib/libddsc.so.0.5.0 
