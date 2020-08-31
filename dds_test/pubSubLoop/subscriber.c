@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 1
+#define MAX_SAMPLES 10
 
 int main (int argc, char ** argv)
 {
@@ -21,17 +21,20 @@ int main (int argc, char ** argv)
   (void)argv;
 
   /* Create a Participant. */
+  /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
   participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
   if (participant < 0)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create a Topic. */
+  /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
     participant, &PubSubLoopData_Msg_desc, "PubSubLoopData_Msg", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
   /* Create a reliable Reader. */
+  /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
   reader = dds_create_reader (participant, topic, qos, NULL);
@@ -45,35 +48,46 @@ int main (int argc, char ** argv)
   /* Initialize sample buffer, by pointing the void pointer within
    * the buffer array to a valid sample memory location. */
   samples[0] = PubSubLoopData_Msg__alloc ();
+  samples[1] = PubSubLoopData_Msg__alloc ();
 
-  /* Poll until data has been read. */
-  while (true)
-  {
-    /* Do the actual read.
-     * The return value contains the number of read samples. */
-    rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-    if (rc < 0)
-      DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+  int i = 0;
 
-    /* Check if we read some data and it is valid. */
-    if ((rc > 0) && (infos[0].valid_data))
+  while (i < 10){
+    /* Poll until data has been read. */
+    while (true)
     {
-      /* Print Message. */
-      msg = (PubSubLoopData_Msg*) samples[0];
-      printf ("=== [Subscriber] Received : ");
-      printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
-      fflush (stdout);
-      break;
+      /* Do the actual read.
+       * The return value contains the number of read samples. */
+      rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      //printf ("***rc: %d*** \n", rc);
+      //printf("*** infos: %d \n", infos[i].valid_data);
+      //fflush (stdout);
+      if (rc < 0)
+        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+
+      /* Check if we read some data and it is valid. */
+      if ((rc > 0) && (infos[0].valid_data))
+      {
+        /* Print Message. */
+        msg = (PubSubLoopData_Msg*) samples[i];
+        printf ("=== [Subscriber] Received : ");
+        printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
+        fflush (stdout);
+        break;
+      }
+      else
+      {
+        /* Polling sleep. */
+        dds_sleepfor (DDS_MSECS (20));
+      }
     }
-    else
-    {
-      /* Polling sleep. */
-      dds_sleepfor (DDS_MSECS (20));
-    }
+    /* Free the data location. */
+    PubSubLoopData_Msg_free (samples, DDS_FREE_ALL);
+    i ++;
   }
 
   /* Free the data location. */
-  PubSubLoopData_Msg_free (samples[0], DDS_FREE_ALL);
+  PubSubLoopData_Msg_free (samples, DDS_FREE_ALL);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);

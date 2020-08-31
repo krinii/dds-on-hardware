@@ -15,17 +15,20 @@ int main (int argc, char ** argv)
   (void)argv;
 
   /* Create a Participant. */
+  /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
   participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
   if (participant < 0)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create a Topic. */
+  /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
     participant, &PubSubLoopData_Msg_desc, "PubSubLoopData_Msg", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
   /* Create a Writer. */
+  /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   writer = dds_create_writer (participant, topic, NULL, NULL);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
