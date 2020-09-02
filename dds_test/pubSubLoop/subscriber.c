@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 10
+#define MAX_SAMPLES 1
 
 int main (int argc, char ** argv)
 {
@@ -48,17 +48,20 @@ int main (int argc, char ** argv)
   /* Initialize sample buffer, by pointing the void pointer within
    * the buffer array to a valid sample memory location. */
   samples[0] = PubSubLoopData_Msg__alloc ();
-  samples[1] = PubSubLoopData_Msg__alloc ();
+  //samples[1] = PubSubLoopData_Msg__alloc ();
 
   int i = 0;
 
   while (i < 10){
     /* Poll until data has been read. */
+    // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
+    rc = 0;
     while (true)
     {
       /* Do the actual read.
        * The return value contains the number of read samples. */
-      rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
       //printf ("***rc: %d*** \n", rc);
       //printf("*** infos: %d \n", infos[i].valid_data);
       //fflush (stdout);
@@ -69,7 +72,7 @@ int main (int argc, char ** argv)
       if ((rc > 0) && (infos[0].valid_data))
       {
         /* Print Message. */
-        msg = (PubSubLoopData_Msg*) samples[i];
+        msg = (PubSubLoopData_Msg*) samples[0];
         printf ("=== [Subscriber] Received : ");
         printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
         fflush (stdout);
@@ -81,13 +84,11 @@ int main (int argc, char ** argv)
         dds_sleepfor (DDS_MSECS (20));
       }
     }
-    /* Free the data location. */
-    PubSubLoopData_Msg_free (samples, DDS_FREE_ALL);
     i ++;
   }
 
   /* Free the data location. */
-  PubSubLoopData_Msg_free (samples, DDS_FREE_ALL);
+  PubSubLoopData_Msg_free (samples[0], DDS_FREE_ALL);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
