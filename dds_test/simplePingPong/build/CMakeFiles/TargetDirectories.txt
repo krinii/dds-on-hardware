@@ -1,0 +1,6 @@
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/rebuild_cache.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/sPingPongData_lib_idlc_generate.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/idlc.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/edit_cache.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/pingSimple.dir
+/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/dds_test/simplePingPong/build/CMakeFiles/pongSimple.dir

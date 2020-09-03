@@ -1,0 +1,99 @@
+#include "dds/dds.h"
+#include "simplePingPongData.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* An array of one message (aka sample in dds terms) will be used. */
+#define MAX_SAMPLES 1
+
+int main (int argc, char ** argv)
+{
+  dds_entity_t participant;
+  dds_entity_t topic;
+  dds_entity_t reader;
+  sPingPongData_Msg *msg;
+  void *samples[MAX_SAMPLES];
+  dds_sample_info_t infos[MAX_SAMPLES];
+  dds_return_t rc;
+  dds_qos_t *qos;
+  (void)argc;
+  (void)argv;
+
+  /* Create a Participant. */
+  /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
+  participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  if (participant < 0)
+    DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
+
+  /* Create a Topic. */
+  /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
+  topic = dds_create_topic (
+    participant, &sPingPongData_Msg_desc, "sPingPongData_Msg", NULL, NULL);
+  if (topic < 0)
+    DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
+
+  /* Create a reliable Reader. */
+  /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
+  qos = dds_create_qos ();
+  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  reader = dds_create_reader (participant, topic, qos, NULL);
+  if (reader < 0)
+    DDS_FATAL("dds_create_reader: %s\n", dds_strretcode(-reader));
+  dds_delete_qos(qos);
+
+  printf ("\n=== [Subscriber] Waiting for a sample ...\n");
+  fflush (stdout);
+
+  /* Initialize sample buffer, by pointing the void pointer within
+   * the buffer array to a valid sample memory location. */
+  samples[0] = sPingPongData_Msg__alloc ();
+  //samples[1] = PubSubLoopData_Msg__alloc ();
+
+  int i = 0;
+
+  while (i < 10){
+    /* Poll until data has been read. */
+    // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
+    rc = 0;
+    while (true)
+    {
+      /* Do the actual read.
+       * The return value contains the number of read samples. */
+      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      //printf ("***rc: %d*** \n", rc);
+      //printf("*** infos: %d \n", infos[i].valid_data);
+      //fflush (stdout);
+      if (rc < 0)
+        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+
+      /* Check if we read some data and it is valid. */
+      if ((rc > 0) && (infos[0].valid_data))
+      {
+        /* Print Message. */
+        msg = (sPingPongData_Msg*) samples[0];
+        printf ("=== [Subscriber] Received : ");
+        printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
+        fflush (stdout);
+        break;
+      }
+      else
+      {
+        /* Polling sleep. */
+        dds_sleepfor (DDS_MSECS (20));
+      }
+    }
+    i ++;
+  }
+
+  /* Free the data location. */
+  sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
+
+  /* Deleting the participant will delete all its children recursively as well. */
+  rc = dds_delete (participant);
+  if (rc != DDS_RETCODE_OK)
+    DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
+
+  return EXIT_SUCCESS;
+}
