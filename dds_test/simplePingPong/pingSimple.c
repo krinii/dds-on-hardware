@@ -112,7 +112,7 @@ int main (int argc, char ** argv)
   printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);
   fflush (stdout);
 
-  rc = dds_write (writer, &msg);
+  rc = dds_write (writer, &msgO);
   if (rc != DDS_RETCODE_OK)
     DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
