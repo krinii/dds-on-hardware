@@ -106,7 +106,7 @@ int main (int argc, char ** argv)
 
   /* Create a message to write. */
   msgO.userID = 0;
-  msgO.message = "Did you get it";
+  msgO.message = "Did you get it, Pong";
 
   printf ("=== [Publisher]  Writing : ");
   printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);

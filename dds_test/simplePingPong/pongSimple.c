@@ -109,7 +109,7 @@ int main (int argc, char ** argv)
     /* Do the actual read.
      * The return value contains the number of read samples. */
     //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-    rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
     //printf ("***rc: %d*** \n", rc);
     //printf("*** infos: %d \n", infos[i].valid_data);
     //fflush (stdout);
@@ -124,8 +124,9 @@ int main (int argc, char ** argv)
       printf ("=== [Subscriber] Received : ");
       printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
       fflush (stdout);
+
       msgO.userID = 1;
-      msgO.message = "Got it";
+      msgO.message = "Got it, Ping";
       rc = dds_write (writer, &msgO);
       if (rc != DDS_RETCODE_OK)
         DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
