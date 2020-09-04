@@ -12,11 +12,27 @@ int main (int argc, char ** argv)
   dds_entity_t participant;
   dds_entity_t topic;
   dds_entity_t reader;
+  
+  dds_entity_t writer;
+  dds_entity_t subscriber;
+  dds_entity_t publisher;
+  dds_return_t status;
+
+
   sPingPongData_Msg *msg;
+  sPingPongData_Msg msgO;
   void *samples[MAX_SAMPLES];
   dds_sample_info_t infos[MAX_SAMPLES];
   dds_return_t rc;
   dds_qos_t *qos;
+
+  const char *pubPartitions[] = { "pong" };
+  const char *subPartitions[] = { "ping" };
+  dds_qos_t *pubQos;
+  dds_qos_t *dwQos;
+  dds_qos_t *drQos;
+  dds_qos_t *subQos;
+
   (void)argc;
   (void)argv;
 
@@ -27,22 +43,59 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create a Topic. */
+  /* A DDS_Topic is created for our sample type on the domain participant. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &sPingPongData_Msg_desc, "sPingPongData_Msg", NULL, NULL);
+    participant, &sPingPongData_Msg_desc, "sPingPongData", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
+  /* Publisher and DataWriter ********************************************************************************************************* */
+
+  /* A DDS Publisher is created on the domain participant. */
+  /* The Publisher's qos is given a partition (So it is not connected to its own reader) */
+  qos = dds_create_qos ();
+  dds_qset_partition (qos, 1, pubPartitions);
+
+  publisher = dds_create_publisher (participant, qos, NULL);
+  if (publisher < 0)
+    DDS_FATAL("dds_create_publisher: %s\n", dds_strretcode(-publisher));
+  dds_delete_qos (qos);
+
+
+  /* A DDS DataWriter is created on the Publisher & Topic with a modififed Qos. */
+  qos = dds_create_qos ();
+  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS(10));
+  dds_qset_writer_data_lifecycle (qos, false);
+  writer = dds_create_writer (publisher, topic, qos, NULL);
+  if (writer < 0)
+    DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
+  dds_delete_qos (qos);
+
+
+  /* Subscriber and DataReader ********************************************************************************************************* */
+
+  /* A DDS Subscriber is created on the domain participant. */
+  qos = dds_create_qos ();
+  dds_qset_partition (qos, 1, subPartitions);
+
+  subscriber = dds_create_subscriber (participant, qos, NULL);
+  if (subscriber < 0)
+    DDS_FATAL("dds_create_subscriber: %s\n", dds_strretcode(-subscriber));
+  dds_delete_qos (qos);
+
+
   /* Create a reliable Reader. */
-  /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
+  /* A DDS DataReader is created on the Subscriber & Topic with a modified QoS. */
+  /* dds_create_reader ( participant_or_publisher, topic, qos, listener ) */
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
-  reader = dds_create_reader (participant, topic, qos, NULL);
+  reader = dds_create_reader (subscriber, topic, qos, NULL);
   if (reader < 0)
     DDS_FATAL("dds_create_reader: %s\n", dds_strretcode(-reader));
   dds_delete_qos(qos);
 
-  printf ("\n=== [Subscriber] Waiting for a sample ...\n");
+  printf ("\n=== [Pong] Waiting for a sample ...\n");
   fflush (stdout);
 
   /* Initialize sample buffer, by pointing the void pointer within
@@ -50,41 +103,39 @@ int main (int argc, char ** argv)
   samples[0] = sPingPongData_Msg__alloc ();
   //samples[1] = PubSubLoopData_Msg__alloc ();
 
-  int i = 0;
 
-  while (i < 10){
-    /* Poll until data has been read. */
-    // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
-    rc = 0;
-    while (true)
+  while (true)
+  {
+    /* Do the actual read.
+     * The return value contains the number of read samples. */
+    //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    //printf ("***rc: %d*** \n", rc);
+    //printf("*** infos: %d \n", infos[i].valid_data);
+    //fflush (stdout);
+    if (rc < 0)
+      DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+
+    /* Check if we read some data and it is valid. */
+    if ((rc > 0) && (infos[0].valid_data))
     {
-      /* Do the actual read.
-       * The return value contains the number of read samples. */
-      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      //printf ("***rc: %d*** \n", rc);
-      //printf("*** infos: %d \n", infos[i].valid_data);
-      //fflush (stdout);
-      if (rc < 0)
-        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
-
-      /* Check if we read some data and it is valid. */
-      if ((rc > 0) && (infos[0].valid_data))
-      {
-        /* Print Message. */
-        msg = (sPingPongData_Msg*) samples[0];
-        printf ("=== [Subscriber] Received : ");
-        printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
-        fflush (stdout);
-        break;
-      }
-      else
-      {
-        /* Polling sleep. */
-        dds_sleepfor (DDS_MSECS (20));
-      }
+      /* Print Message. */
+      msg = (sPingPongData_Msg*) samples[0];
+      printf ("=== [Subscriber] Received : ");
+      printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
+      fflush (stdout);
+      msgO.userID = 1;
+      msgO.message = "Got it";
+      rc = dds_write (writer, &msgO);
+      if (rc != DDS_RETCODE_OK)
+        DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
+      break;
     }
-    i ++;
+    else
+    {
+      /* Polling sleep. */
+      dds_sleepfor (DDS_MSECS (20));
+    }
   }
 
   /* Free the data location. */
