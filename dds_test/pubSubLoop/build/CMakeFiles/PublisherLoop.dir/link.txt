@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/PublisherLoop.dir/publisher.c.o CMakeFiles/PublisherLoop.dir/PubSubLoopData.c.o  -o PublisherLoop -Wl,-rpath,/home/k/Desktop/Workspaces/Libraries/cyclonedds/lib /home/k/Desktop/Workspaces/Libraries/cyclonedds/lib/libddsc.so.0.5.0 
