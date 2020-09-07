@@ -66,6 +66,10 @@ int main (int argc, char ** argv)
   return EXIT_SUCCESS;
 }
 
+/**
+ * @brief Set up topic, dataWriter, and dataReader.
+ * The function is very specific and should be look through and changed upon re-use.
+*/
 dds_entity_t prepare_dds(dds_entity_t *dw, dds_entity_t *dr, dds_entity_t *topic, dds_entity_t *participant){
 
   dds_entity_t publisher;
