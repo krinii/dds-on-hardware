@@ -3,17 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* --- Defines --- */
 /* An array of one message (aka sample in dds terms) will be used. */
 #define MAX_SAMPLES 1
 
+
+/* --- Globals ---*/
+void *samples[MAX_SAMPLES];
+dds_sample_info_t infos[MAX_SAMPLES];
+
+
+/* --- Function prototypes --- */
 dds_entity_t prepare_dds(dds_entity_t *dw, dds_entity_t *dr, dds_entity_t *topic, dds_entity_t *participant);
-
-dds_entity_t createParticipant(dds_entity_t *participantP);
-dds_entity_t createTopic(dds_entity_t *topicP);
-
 uint32_t discoverReader(dds_return_t *rc, dds_entity_t *dw);
-
-sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr, sPingPongData_Msg *msg);
+sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr);
 
 int main (int argc, char ** argv)
 {
@@ -28,6 +31,10 @@ int main (int argc, char ** argv)
   (void)argc;
   (void)argv;
 
+  /* Initialize sample buffer, by pointing the void pointer within
+   * the buffer array to a valid sample memory location. */
+  samples[0] = sPingPongData_Msg__alloc ();
+
   /* Function that sets up the dds entities */
   prepare_dds(&writer, &reader, &topic, &participant);
 
@@ -36,27 +43,31 @@ int main (int argc, char ** argv)
   fflush (stdout);
 
   discoverReader(&rc, &writer);
+  int i = 0;
 
+  while(i<10){
+    /* Create a message to write. */
+    msgO.userID = 10 + i;
+    msgO.message = "Did you get the message, Pong";
 
-  /* Create a message to write. */
-  msgO.userID = 0;
-  msgO.message = "Did you get the message, Pong";
+    /* To user: Print the information which is going to be sent */
+    //printf ("=== [Publisher]  Writing : ");
+    //printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);
+    //fflush (stdout);
+    dds_sleepfor (DDS_MSECS (20));
+    rc = dds_write (writer, &msgO);
+    if (rc != DDS_RETCODE_OK)
+      DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
-  /* To user: Print the information which is going to be sent */
-  printf ("=== [Publisher]  Writing : ");
-  printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);
-  fflush (stdout);
+    /* Wait for a message on the dataReader and then read it */
+    msg = readMsg(&rc, &reader);
+    printf ("=== [Subscriber] Received : ");
+    printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
+    fflush (stdout);
 
-  rc = dds_write (writer, &msgO);
-  if (rc != DDS_RETCODE_OK)
-    DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
-
-  /* Wait for a message on the dataReader and then read it */
-  msg = readMsg(&rc, &reader, msg);
-
-  printf ("=== [Subscriber] Received : ");
-  printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
-  fflush (stdout);
+    i++;
+  }
+  sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
@@ -171,21 +182,18 @@ uint32_t discoverReader(dds_return_t *rc, dds_entity_t *dw){
  * @brief Read and return a message from the given dataReader.
  * The function makes the required sample_info array and buffer array of pointers, their size is desided by MAX_SAMPLES. The buffer's pointer type has to be changed manually based on the IDL.
  */
-sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr, sPingPongData_Msg *msg){
+sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr){
   /* Prepare to read */
 
-  void *samples[MAX_SAMPLES];
-  dds_sample_info_t infos[MAX_SAMPLES];
-  /* Initialize sample buffer, by pointing the void pointer within
-   * the buffer array to a valid sample memory location. */
-  samples[0] = sPingPongData_Msg__alloc ();
+  sPingPongData_Msg *msg;
 
   /* Poll until data has been read. */
   while (true)
   {
     /* Do the actual read.
      * The return value contains the number of read samples. */
-    *rc = dds_read (*dr, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    // Important to use take and NOT read (find out why that is)
+    *rc = dds_take (*dr, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
     if (*rc < 0)
       DDS_FATAL("dds_read: %s\n", dds_strretcode(-*rc));
 
