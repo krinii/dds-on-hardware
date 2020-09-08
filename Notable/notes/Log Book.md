@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-02T11:43:01.257Z'
+modified: '2020-09-08T17:29:06.512Z'
 ---
 
 # Log Book
@@ -78,3 +78,25 @@ Tried to make the looping publisher and subscriber, but it does not work atm, it
 
 ### 2/9-2020
 The subscriber loop now works. I have put the code that writes into a while true loop, inside another while loop, and the only other change I had to make was to "reset" the rc variable back to 0 in each cycle. The publisher loop also works, I have simply put the writing part into a while loop.
+
+### 3/9-2020
+Started the work on a simplere version of the ping pong example. It seems that the code uses the same topic to write over both ways, and then uses a partition to make sure that ping does not pick up its own message with its reader and vice versa. The partition is made to the qos using the dds_qset_partition() function.
+
+### 4/9-2020
+The simple ping pong programs can now send and recieve messages between eachother, however, when pong tries to display the message from ping it writes a long number for the id (should be 0) and nothing for the message part. Found the mistake, I was sending the address of a non-pointer in ping which explains the long number recieved by pong.
+
+### 6/9-2020
+A program "Join group 239.255.0.1 for any sources" twice when it starts. Both subscriber and publisher will "ping" "239.255.0.1 (Protocol RTPS)" the network every once in awhile when waiting for the other one to appear on the network.
+
+## Week 37
+
+### 7/9-2020
+I have started putting code bits into functions from the simplePingPong code to make it easier for me to understand later and to it better for re-use later on. I have also moved from Sublime Text over to VSCode in order to have library support/syntax to make programming easier. To add the library I had to add its IncludePath to a file called c_cpp_properties.json which is created by C/C++ extension (I think)
+
+### 8/9-2020
+I added loops to the simplePingPong programs. I had an issue where both ping and pong would take the first message they  received and then print that one 9 more times instead of the new once. The problems seems to have been because I used dds_read and not dds_take, seen as the code worked after I made the switch. I would guess that I could get around this "problem" by somehow checking if there is a new message or something like that. By looking at the documentation I found that dds_take removes the sample from the data Reader so it cannot be read/taken again 
+(not sure if counts for all data readers on the topic or only the one used with the function, should be looked into. it seems to be possible to remove it for others, but not sure, it says something about *The buffer
+required for data values, could be allocated explicitly or can use the memory from data reader to prevent
+copy. In the latter case, buffer and sample_info should be returned back, once it is no longer using the
+Data.* not sure what it means exactly, but I have to find out)(dds_take_wl can access loaned samples and dds_return_loan can return it)
+Learning more about the memory space should be an upcomming priority.

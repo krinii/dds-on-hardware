@@ -1,7 +1,7 @@
 ---
 title: Meetings with MiR
 created: '2020-03-04T08:41:24.600Z'
-modified: '2020-08-20T08:28:05.684Z'
+modified: '2020-09-03T14:43:26.322Z'
 ---
 
 # Meetings with MiR
@@ -49,5 +49,10 @@ RTI (Student License) look into
   - Set up github
   - sphinx (markdown)
 
+## 3/9-2020
 
+### Meeting
+Loaned message
+cyclonedds monitor
+Which vendor was easiest to use/setting up to start using from your perspective (give your background, do you have experience in networking?)
 
