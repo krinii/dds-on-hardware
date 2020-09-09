@@ -50,6 +50,9 @@ int main (int argc, char ** argv)
   samples[0] = PubSubLoopData_Msg__alloc ();
   //samples[1] = PubSubLoopData_Msg__alloc ();
 
+  //Sleep for testing
+  dds_sleepfor (DDS_MSECS (1000));
+
   int i = 0;
 
   while (i < 10){
