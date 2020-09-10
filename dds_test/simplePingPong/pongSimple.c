@@ -60,7 +60,8 @@ int main (int argc, char ** argv)
   fflush (stdout);
 
   int j = 0;
-  while (j<10 && sigintH){
+  while ((j<10) && sigintH){
+  //while (sigintH){
     //msg = readMsg(&rc, &reader, msg);
     msg = readMsg(&rc, &reader);
 

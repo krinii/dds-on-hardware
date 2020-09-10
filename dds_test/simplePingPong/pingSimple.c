@@ -65,6 +65,7 @@ int main (int argc, char ** argv)
   int j = 0;
 
   while((j<10) && sigintH){
+  //while(sigintH){
     /* Create a message to write. */
     msgO.userID = "Ping";
     msgO.message = "Did you get the message, Pong";
