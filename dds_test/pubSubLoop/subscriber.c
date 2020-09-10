@@ -60,44 +60,44 @@ int main (int argc, char ** argv)
   }
 
   //Sleep for testing
-  //dds_sleepfor (DDS_MSECS (1000));
+  dds_sleepfor (DDS_MSECS (1000));
 
   int j = 0;
 
-  //while (j < 10){
+  while (j < 10){
     /* Poll until data has been read. */
     // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
   rc = 0;
-  while (true)
-  {
-    /* Do the actual read.
-      * The return value contains the number of read samples. */
-    //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-    rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-    if (rc < 0)
-      DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
-    /* Check if we read some data and it is valid. */
-    if ((rc > 0) && (infos[0].valid_data))
+    while (true)
     {
-      for (int i = 0; i < rc; i ++){
-        if ((rc > 0) && (infos[i].valid_data)){
-          /* Print Message. */
-          msg = (PubSubLoopData_Msg*) samples[i];
-          printf ("=== [Subscriber] Received : ");
-          printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
-          fflush (stdout);
+      /* Do the actual read.
+        * The return value contains the number of read samples. */
+      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      if (rc < 0)
+        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+      /* Check if we read some data and it is valid. */
+      if ((rc > 0) && (infos[0].valid_data))
+      {
+        for (int i = 0; i < rc; i ++){
+          if ((rc > 0) && (infos[i].valid_data)){
+            /* Print Message. */
+            msg = (PubSubLoopData_Msg*) samples[i];
+            printf ("=== [Subscriber] Received : ");
+            printf ("Message (%"PRId32", %s; %d)\n", msg->userID, msg->message, i);
+            fflush (stdout);
+          }
         }
+        break;
       }
-      break;
+      else
+      {
+        /* Polling sleep. */
+        dds_sleepfor (DDS_MSECS (20));
+      }
     }
-    else
-    {
-      /* Polling sleep. */
-      dds_sleepfor (DDS_MSECS (20));
-    }
+    j++;
   }
-    //j++;
-  //}
 
   /* Free the data location. */
   //PubSubLoopData_Msg_free (samples[0], DDS_FREE_ALL);

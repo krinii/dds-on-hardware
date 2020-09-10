@@ -56,7 +56,7 @@ int main (int argc, char ** argv)
     msg.message = "I send you this message with dds";
 
     printf ("=== [Publisher]  Writing : ");
-    printf ("Message (%"PRId32", %s)\n", msg.userID, msg.message);
+    printf ("Message (%"PRId32", %s;)\n", msg.userID, msg.message);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);
