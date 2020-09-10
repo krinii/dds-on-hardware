@@ -49,25 +49,47 @@ int main (int argc, char ** argv)
   printf ("\n=== [Pong] Waiting for a sample ...\n");
   fflush (stdout);
 
-  int i = 0;
-  while (i<10){
+  int j = 0;
+  while (j<10){
     //msg = readMsg(&rc, &reader, msg);
     msg = readMsg(&rc, &reader);
 
-    printf ("=== [Subscriber] Received : ");
-    printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
-    fflush (stdout);
+    /*printf ("=== [Subscriber] Received : ");
+    printf ("Message (%s, %s, instance: %"PRId32")\n", msg->userID, msg->message, msg->instance);
+    fflush (stdout);*/
 
-    msgO.userID = 20 + i;
+    for (int i = 0; i < rc; i ++){
+      if ((rc > 0) && (infos[i].valid_data)){
+        /* Print Message. */
+        msg = (sPingPongData_Msg*) samples[i];
+        printf ("=== [Subscriber] Received : ");
+        printf ("Message (%s, %s, instance: %"PRId32")\n", msg->userID, msg->message, msg->instance);
+        fflush (stdout);
+      }
+    }
+
+    msgO.userID = "Pong";
     msgO.message = "Yeah I got it, Ping";
+    msgO.instance = j;
     //printf ("=== [Publisher]  Writing : ");
     //printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);
     //fflush (stdout);
 
     rc = dds_write (writer, &msgO);
+
+    /*msgO.userID = "Pong2";
+    msgO.instance = j;
+    msgO.message = "Yeah I got it, Ping2";
+    rc = dds_write (writer, &msgO);
+    
+    msgO.userID = "Pong3";
+    msgO.instance = j;
+    msgO.message = "Yeah I got it, Ping";
+    rc = dds_write (writer, &msgO);*/
+
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
-    i++;
+    j++;
   }
   //sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
 

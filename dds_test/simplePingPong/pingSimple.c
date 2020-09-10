@@ -52,29 +52,41 @@ int main (int argc, char ** argv)
   fflush (stdout);
 
   discoverReader(&rc, &writer);
-  int i = 0;
+  int j = 0;
 
-  while(i<10){
+  while(j<10){
     /* Create a message to write. */
-    msgO.userID = 10 + i;
+    msgO.userID = "Ping";
     msgO.message = "Did you get the message, Pong";
+    msgO.instance = j;
 
     /* To user: Print the information which is going to be sent */
     //printf ("=== [Publisher]  Writing : ");
     //printf ("Message (%"PRId32", %s)\n", msgO.userID, msgO.message);
     //fflush (stdout);
-    dds_sleepfor (DDS_MSECS (20));
+    
     rc = dds_write (writer, &msgO);
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
     /* Wait for a message on the dataReader and then read it */
     msg = readMsg(&rc, &reader);
-    printf ("=== [Subscriber] Received : ");
+    /*printf ("=== [Subscriber] Received : ");
     printf ("Message (%"PRId32", %s)\n", msg->userID, msg->message);
-    fflush (stdout);
+    fflush (stdout);*/
 
-    i++;
+    dds_sleepfor (DDS_MSECS (100));
+    for (int i = 0; i < rc; i ++){
+      if ((rc > 0) && (infos[i].valid_data)){
+        /* Print Message. */
+        msg = (sPingPongData_Msg*) samples[i];
+        printf ("=== [Subscriber] Received : ");
+        printf ("Message (%s, %s, instance: %"PRId32")\n", msg->userID, msg->message, msg->instance);
+        fflush (stdout);
+      }
+    }
+
+    j++;
   }
   //sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
 
