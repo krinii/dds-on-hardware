@@ -6,9 +6,10 @@
 
 /* --- Defines --- */
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 1
+#define MAX_SAMPLES 10
 
 /* --- Globals ---*/
+static sPingPongData_Msg data[MAX_SAMPLES];
 void *samples[MAX_SAMPLES];
 dds_sample_info_t infos[MAX_SAMPLES];
 
@@ -34,7 +35,14 @@ int main (int argc, char ** argv)
 
   /* Initialize sample buffer, by pointing the void pointer within
   * the buffer array to a valid sample memory location. */
-  samples[0] = sPingPongData_Msg__alloc ();
+  //samples[0] = sPingPongData_Msg__alloc ();
+
+  /* Initialize sample data */
+  memset (data, 0, sizeof (data));
+  for (int i = 0; i < MAX_SAMPLES; i++)
+  {
+    samples[i] = &data[i];
+  }
 
   prepare_dds(&writer, &reader, &topic, &participant);
 
@@ -61,7 +69,12 @@ int main (int argc, char ** argv)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
     i++;
   }
-  sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
+  //sPingPongData_Msg_free (samples[0], DDS_FREE_ALL);
+
+  for (unsigned int i = 0; i < MAX_SAMPLES; i++)
+  {
+    sPingPongData_Msg_free (&data[i], DDS_FREE_CONTENTS);
+  }
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
