@@ -2,8 +2,9 @@ module sPingPongData
 {
   struct Msg
   {
-    long userID;
+    string userID;
     string message;
+    long instance;
   };
   #pragma keylist Msg userID
 };
