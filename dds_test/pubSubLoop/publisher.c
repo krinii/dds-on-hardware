@@ -62,6 +62,7 @@ int main (int argc, char ** argv)
     rc = dds_write (writer, &msg);
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
+
     i ++;
   }
 

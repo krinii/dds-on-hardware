@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 10
+#define MAX_SAMPLES 20
 
 int main (int argc, char ** argv)
 {
@@ -60,7 +60,7 @@ int main (int argc, char ** argv)
   }
 
   //Sleep for testing
-  dds_sleepfor (DDS_MSECS (1000));
+  //dds_sleepfor (DDS_MSECS (1000));
 
   int j = 0;
 
