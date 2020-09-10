@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 1
+#define MAX_SAMPLES 10
 
 int main (int argc, char ** argv)
 {
@@ -13,6 +13,8 @@ int main (int argc, char ** argv)
   dds_entity_t topic;
   dds_entity_t reader;
   PubSubLoopData_Msg *msg;
+
+  static PubSubLoopData_Msg data[MAX_SAMPLES];
   void *samples[MAX_SAMPLES];
   dds_sample_info_t infos[MAX_SAMPLES];
   dds_return_t rc;
@@ -47,51 +49,63 @@ int main (int argc, char ** argv)
 
   /* Initialize sample buffer, by pointing the void pointer within
    * the buffer array to a valid sample memory location. */
-  samples[0] = PubSubLoopData_Msg__alloc ();
+  //samples[0] = PubSubLoopData_Msg__alloc ();
   //samples[1] = PubSubLoopData_Msg__alloc ();
+
+  /* Initialize sample data */
+  memset (data, 0, sizeof (data));
+  for (int i = 0; i < MAX_SAMPLES; i++)
+  {
+    samples[i] = &data[i];
+  }
 
   //Sleep for testing
   dds_sleepfor (DDS_MSECS (1000));
 
-  int i = 0;
+  int j = 0;
 
-  while (i < 10){
+  //while (j < 10){
     /* Poll until data has been read. */
     // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
-    rc = 0;
-    while (true)
+  rc = 0;
+  while (true)
+  {
+    /* Do the actual read.
+      * The return value contains the number of read samples. */
+    //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+    if (rc < 0)
+      DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+    /* Check if we read some data and it is valid. */
+    if ((rc > 0) && (infos[0].valid_data))
     {
-      /* Do the actual read.
-       * The return value contains the number of read samples. */
-      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      //printf ("***rc: %d*** \n", rc);
-      //printf("*** infos: %d \n", infos[i].valid_data);
-      //fflush (stdout);
-      if (rc < 0)
-        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
-
-      /* Check if we read some data and it is valid. */
-      if ((rc > 0) && (infos[0].valid_data))
-      {
-        /* Print Message. */
-        msg = (PubSubLoopData_Msg*) samples[0];
-        printf ("=== [Subscriber] Received : ");
-        printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
-        fflush (stdout);
-        break;
+      for (int i = 0; i < rc; i ++){
+        if ((rc > 0) && (infos[i].valid_data)){
+          /* Print Message. */
+          msg = (PubSubLoopData_Msg*) samples[i];
+          printf ("=== [Subscriber] Received : ");
+          printf ("Message (%"PRId32", %s, %d)\n", msg->userID, msg->message, i);
+          fflush (stdout);
+        }
       }
-      else
-      {
-        /* Polling sleep. */
-        dds_sleepfor (DDS_MSECS (20));
-      }
+      break;
     }
-    i ++;
+    else
+    {
+      /* Polling sleep. */
+      dds_sleepfor (DDS_MSECS (20));
+    }
   }
+    //j++;
+  //}
 
   /* Free the data location. */
-  PubSubLoopData_Msg_free (samples[0], DDS_FREE_ALL);
+  //PubSubLoopData_Msg_free (samples[0], DDS_FREE_ALL);
+
+  for (unsigned int i = 0; i < MAX_SAMPLES; i++)
+  {
+    PubSubLoopData_Msg_free (&data[i], DDS_FREE_CONTENTS);
+  }
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
