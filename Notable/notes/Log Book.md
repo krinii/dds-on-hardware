@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-08T17:29:06.512Z'
+modified: '2020-09-10T14:15:04.997Z'
 ---
 
 # Log Book
@@ -95,8 +95,25 @@ I have started putting code bits into functions from the simplePingPong code to 
 
 ### 8/9-2020
 I added loops to the simplePingPong programs. I had an issue where both ping and pong would take the first message they  received and then print that one 9 more times instead of the new once. The problems seems to have been because I used dds_read and not dds_take, seen as the code worked after I made the switch. I would guess that I could get around this "problem" by somehow checking if there is a new message or something like that. By looking at the documentation I found that dds_take removes the sample from the data Reader so it cannot be read/taken again 
-(not sure if counts for all data readers on the topic or only the one used with the function, should be looked into. it seems to be possible to remove it for others, but not sure, it says something about *The buffer
-required for data values, could be allocated explicitly or can use the memory from data reader to prevent
+(not sure if counts for all data readers on the topic or only the one used with the function, should be looked into. it seems to be possible to remove it for others, but not sure, it says something about 
+*The buffer required for data values, could be allocated explicitly or can use the memory from data reader to prevent
 copy. In the latter case, buffer and sample_info should be returned back, once it is no longer using the
 Data.* not sure what it means exactly, but I have to find out)(dds_take_wl can access loaned samples and dds_return_loan can return it)
 Learning more about the memory space should be an upcomming priority.
+
+### 9/9-2020
+Playing around with some sample buffer to try and understand how it works.
+So I put a 1000 ms sleep, in the subscirber from pubSubLoop, after the creation of the reader. The publisher has no delay and as soon as the reader is discovered and the subscriber will then read all 10 messages one by one even with a sample buffer of size one. From this I would guess that if I increased the buffer size forexample 10 I would only have to do one take, will test tomorrow.
+
+**Instances seems** to refer to data/messages in the dataWriter's data/memory space. dds_dispose *This operation requests the Data Distribution Service to modify the instance and mark it for deletion.
+Copies of the instance and its corresponding samples, which are stored in every connected reader ...*, tihs would suggest that a dataWriter can have a instance it made be delete after it have been sent and recieved by dataReader, even in the reader's memory.
+
+### 10/9-2020
+Looking into the IDL files I found that the naming of the data type goes as following: _**module name** _ **struct name**_. So for example if the module is called RoundTripModule and the struct is called DataType than the data type will be called **RoundTripModule_DataType**.
+
+Waitset are interseting, they are used to control your program, they can be used to make the program wait for data or shutdown the program when the writer is terminated (it would seem).
+
+I removed the while 10 loop in pubsubloop's subscriber and inscread its buffer size to 10 and it works the same as before. 
+I put a 1s delay into the publisher after it has sent its 5th message, the subscriber only got 5 messages, **this was expected** since the program only wait for a message to be sent once, instead of before where it would wait for every message, maybe the reader does not stop reading as long as the writer makes a contiuned stream of data or the dds_sleepfor does something that signals the network that it has stopped working for a bit. The reader gets all 10 messges when the puhslisher only has a 10ms delay. Anything higher than 10ms seems to have the same effect as the 1s does.
+It seems that the program only reads the newest message from each **key**, so the only reason it worked like when it had a loop around it was becuase I changed the key of the publisher's message every message. Finding a way to take all messages would be useful and I think it has something to do with the QoS.
+When having sPing and sPong running infinit, I am able to turn off ping and then on again with out it being an issue for pong, ping seems to just rediscover pong and then move on.
