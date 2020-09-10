@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 
 /* --- Defines --- */
 /* An array of one message (aka sample in dds terms) will be used. */
@@ -18,6 +19,13 @@ dds_entity_t prepare_dds(dds_entity_t *dw, dds_entity_t *dr, dds_entity_t *topic
 sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr);
 
 
+static volatile int sigintH = 1;
+
+/* Handel Ctrl-C */
+void sigintHandler(int sig_num) {
+  sigintH = 0;
+}
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
@@ -32,6 +40,8 @@ int main (int argc, char ** argv)
 
   (void)argc;
   (void)argv;
+
+  signal(SIGINT, sigintHandler);
 
   /* Initialize sample buffer, by pointing the void pointer within
   * the buffer array to a valid sample memory location. */
@@ -50,7 +60,7 @@ int main (int argc, char ** argv)
   fflush (stdout);
 
   int j = 0;
-  while (j<10){
+  while (j<10 && sigintH){
     //msg = readMsg(&rc, &reader, msg);
     msg = readMsg(&rc, &reader);
 
@@ -102,6 +112,9 @@ int main (int argc, char ** argv)
   rc = dds_delete (participant);
   if (rc != DDS_RETCODE_OK)
     DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
+
+  printf ("\nExit Program\n");
+  fflush (stdout);
 
   return EXIT_SUCCESS;
 }
@@ -194,7 +207,7 @@ sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr){
 
   sPingPongData_Msg *msg;
 
-  while (true)
+  while (true && sigintH)
   {
     /* Do the actual read.
      * The return value contains the number of read samples. */

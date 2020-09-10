@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 
 /* --- Defines --- */
 /* An array of one message (aka sample in dds terms) will be used. */
@@ -20,6 +21,13 @@ dds_entity_t prepare_dds(dds_entity_t *dw, dds_entity_t *dr, dds_entity_t *topic
 uint32_t discoverReader(dds_return_t *rc, dds_entity_t *dw);
 sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr);
 
+static volatile int sigintH = 1;
+
+/* Handel Ctrl-C */
+void sigintHandler(int sig_num) {
+  sigintH = 0;
+}
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
@@ -32,6 +40,8 @@ int main (int argc, char ** argv)
   sPingPongData_Msg *msg;
   (void)argc;
   (void)argv;
+
+  signal(SIGINT, sigintHandler);
 
   /* Initialize sample buffer, by pointing the void pointer within
    * the buffer array to a valid sample memory location. */
@@ -54,7 +64,7 @@ int main (int argc, char ** argv)
   discoverReader(&rc, &writer);
   int j = 0;
 
-  while(j<10){
+  while((j<10) && sigintH){
     /* Create a message to write. */
     msgO.userID = "Ping";
     msgO.message = "Did you get the message, Pong";
@@ -99,6 +109,9 @@ int main (int argc, char ** argv)
   rc = dds_delete (participant);
   if (rc != DDS_RETCODE_OK)
     DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
+
+  printf ("\nExit Program\n");
+  fflush (stdout);
 
   return EXIT_SUCCESS;
 }
@@ -192,7 +205,7 @@ uint32_t discoverReader(dds_return_t *rc, dds_entity_t *dw){
     DDS_FATAL("dds_set_status_mask: %s\n", dds_strretcode(-*rc));
 
   // Wait for a matching dataReader to appear on the network
-  while(!(status & DDS_PUBLICATION_MATCHED_STATUS))
+  while(!(status & DDS_PUBLICATION_MATCHED_STATUS) && sigintH)
   {
     *rc = dds_get_status_changes (*dw, &status);
     if (*rc != DDS_RETCODE_OK)
@@ -214,7 +227,7 @@ sPingPongData_Msg* readMsg(dds_return_t *rc, dds_entity_t *dr){
   sPingPongData_Msg *msg;
 
   /* Poll until data has been read. */
-  while (true)
+  while (true && sigintH)
   {
     /* Do the actual read.
      * The return value contains the number of read samples. */
