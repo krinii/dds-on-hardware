@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-10T14:15:04.997Z'
+modified: '2020-09-11T14:04:59.021Z'
 ---
 
 # Log Book
@@ -117,3 +117,15 @@ I removed the while 10 loop in pubsubloop's subscriber and inscread its buffer s
 I put a 1s delay into the publisher after it has sent its 5th message, the subscriber only got 5 messages, **this was expected** since the program only wait for a message to be sent once, instead of before where it would wait for every message, maybe the reader does not stop reading as long as the writer makes a contiuned stream of data or the dds_sleepfor does something that signals the network that it has stopped working for a bit. The reader gets all 10 messges when the puhslisher only has a 10ms delay. Anything higher than 10ms seems to have the same effect as the 1s does.
 It seems that the program only reads the newest message from each **key**, so the only reason it worked like when it had a loop around it was becuase I changed the key of the publisher's message every message. Finding a way to take all messages would be useful and I think it has something to do with the QoS.
 When having sPing and sPong running infinit, I am able to turn off ping and then on again with out it being an issue for pong, ping seems to just rediscover pong and then move on.
+
+### 11/9-2020
+I have given the PI's static I ip's through the [router](https://url.net.au/help/routers/mikrotik-951-assign-static-leases-to-device) now. The old process didn't work after a while so I hope the router will make sure the ip's stays static.
+
+Setup wireshark and router
+https://www.wizzycom.net/traffic-capture-from-a-mikrotik-device-to-wireshark/
+
+The tcp and ssh messages seen between the RTPS message are the prints from the program.
+
+I have been capturing the helloworld publisher in a few different ways, so there is something to compare, but only up til the point it waits for the reader to be discovered.
+
+It seems like there is nothing to observe on the network when a topic is created by the helloworld publisher. Maybe some will happen when two "node" connects to the same topic.
