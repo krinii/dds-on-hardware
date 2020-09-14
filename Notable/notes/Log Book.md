@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-11T14:04:59.021Z'
+modified: '2020-09-14T14:27:59.626Z'
 ---
 
 # Log Book
@@ -116,7 +116,7 @@ Waitset are interseting, they are used to control your program, they can be used
 I removed the while 10 loop in pubsubloop's subscriber and inscread its buffer size to 10 and it works the same as before. 
 I put a 1s delay into the publisher after it has sent its 5th message, the subscriber only got 5 messages, **this was expected** since the program only wait for a message to be sent once, instead of before where it would wait for every message, maybe the reader does not stop reading as long as the writer makes a contiuned stream of data or the dds_sleepfor does something that signals the network that it has stopped working for a bit. The reader gets all 10 messges when the puhslisher only has a 10ms delay. Anything higher than 10ms seems to have the same effect as the 1s does.
 It seems that the program only reads the newest message from each **key**, so the only reason it worked like when it had a loop around it was becuase I changed the key of the publisher's message every message. Finding a way to take all messages would be useful and I think it has something to do with the QoS.
-When having sPing and sPong running infinit, I am able to turn off ping and then on again with out it being an issue for pong, ping seems to just rediscover pong and then move on.
+When having sPing and sPong running infinit, I am able to turn off ping and then on again with out it being an issue for pong, ping seems to just rediscover pong and then move on. **Contiuned on 14/9-2020**
 
 ### 11/9-2020
 I have given the PI's static I ip's through the [router](https://url.net.au/help/routers/mikrotik-951-assign-static-leases-to-device) now. The old process didn't work after a while so I hope the router will make sure the ip's stays static.
@@ -129,3 +129,17 @@ The tcp and ssh messages seen between the RTPS message are the prints from the p
 I have been capturing the helloworld publisher in a few different ways, so there is something to compare, but only up til the point it waits for the reader to be discovered.
 
 It seems like there is nothing to observe on the network when a topic is created by the helloworld publisher. Maybe some will happen when two "node" connects to the same topic.
+
+## Week 38
+
+### 14/9-2020
+While preparing the PubSubloop programs to have infinit cycles I found that the publisher does not know when the subscriber is gone, this does make sense as there is no kind of check in the code which would find out that the reader is gone, I presume that this is what I should use the waitset for, but also it should not be an issue that the publisher just contiunes to write as the messages will be saved in the dataWriters history, depending on the QoS which is the next big feature to look into.
+
+**Contiuning from **
+RoundTrip example: Ping will not start working again after pong has been turned off and on again, this could simply be cause by the functinallity of the code. Pong still works and is accpted by ping after ping have been turned off and on.
+The same goes for my own simplePingPong, and I know why it works like this now. It is because that when you turn off pong, ping will get stucḱ waiting for a message from pong, before it sends one back again, and when you turn pong back on it will wait for a message from ping before it writes back to ping. And it works with turning ping off becasue ping always send a message as its first action.
+
+PubSubLoop has a 500 ms delay after each write, both for making it easier to read the wireshark capture and to make sure that the dataReader takes the messages one by one, this part does not matter really, it should not matter if the reader take more than one messages at a time.
+
+Some of the test from today was made because I was unsure if wireshark can actually capture the actual messages between the two raspberry pi's. I am still not sure, but it should become cleare after looking into the captures at greater depths. 
+
