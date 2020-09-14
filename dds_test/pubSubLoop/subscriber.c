@@ -3,9 +3,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
 #define MAX_SAMPLES 20
+
+static volatile int sigintH = 1;
+
+/* Handel Ctrl-C */
+void sigintHandler(int sig_num) {
+  sigintH = 0;
+}
 
 int main (int argc, char ** argv)
 {
@@ -21,6 +29,8 @@ int main (int argc, char ** argv)
   dds_qos_t *qos;
   (void)argc;
   (void)argv;
+
+  signal(SIGINT, sigintHandler);
 
   /* Create a Participant. */
   /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
@@ -60,15 +70,16 @@ int main (int argc, char ** argv)
   }
 
   //Sleep for testing
-  dds_sleepfor (DDS_MSECS (1000));
+  //dds_sleepfor (DDS_MSECS (1000));
 
   int j = 0;
 
-  while (j < 10){
+  //while ((j < 10) && sigintH){
+  while (sigintH){
     /* Poll until data has been read. */
     // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
-  rc = 0;
-    while (true)
+  	rc = 0;
+    while (true && sigintH)
     {
       /* Do the actual read.
         * The return value contains the number of read samples. */
@@ -106,6 +117,9 @@ int main (int argc, char ** argv)
   {
     PubSubLoopData_Msg_free (&data[i], DDS_FREE_CONTENTS);
   }
+
+  //printf("Delete\n");
+  //fflush(stdout);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);

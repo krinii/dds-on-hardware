@@ -2,6 +2,14 @@
 #include "PubSubLoopData.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+
+static volatile int sigintH = 1;
+
+/* Handel Ctrl-C */
+void sigintHandler(int sig_num) {
+  sigintH = 0;
+}
 
 int main (int argc, char ** argv)
 {
@@ -13,6 +21,8 @@ int main (int argc, char ** argv)
   uint32_t status = 0;
   (void)argc;
   (void)argv;
+
+  signal(SIGINT, sigintHandler);
 
   /* Create a Participant. */
   /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
@@ -40,7 +50,7 @@ int main (int argc, char ** argv)
   if (rc != DDS_RETCODE_OK)
     DDS_FATAL("dds_set_status_mask: %s\n", dds_strretcode(-rc));
 
-  while(!(status & DDS_PUBLICATION_MATCHED_STATUS))
+  while(!(status & DDS_PUBLICATION_MATCHED_STATUS) && sigintH)
   {
     rc = dds_get_status_changes (writer, &status);
     if (rc != DDS_RETCODE_OK)
@@ -50,7 +60,8 @@ int main (int argc, char ** argv)
     dds_sleepfor (DDS_MSECS (20));
   }
   int i = 0;
-  while (i < 10){
+  //while (i < 10  && sigintH){
+  while (sigintH){
     /* Create a message to write. */
     msg.userID = i;
     msg.message = "I send you this message with dds";
@@ -63,9 +74,12 @@ int main (int argc, char ** argv)
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
+  	dds_sleepfor (DDS_MSECS (20));
     i ++;
   }
 
+  //printf("Delete\n");
+  //fflush(stdout);
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
   if (rc != DDS_RETCODE_OK)
