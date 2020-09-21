@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-14T14:27:59.626Z'
+modified: '2020-09-21T13:29:09.940Z'
 ---
 
 # Log Book
@@ -135,7 +135,7 @@ It seems like there is nothing to observe on the network when a topic is created
 ### 14/9-2020
 While preparing the PubSubloop programs to have infinit cycles I found that the publisher does not know when the subscriber is gone, this does make sense as there is no kind of check in the code which would find out that the reader is gone, I presume that this is what I should use the waitset for, but also it should not be an issue that the publisher just contiunes to write as the messages will be saved in the dataWriters history, depending on the QoS which is the next big feature to look into.
 
-**Contiuning from **
+**Contiuning from 10/9-2020**
 RoundTrip example: Ping will not start working again after pong has been turned off and on again, this could simply be cause by the functinallity of the code. Pong still works and is accpted by ping after ping have been turned off and on.
 The same goes for my own simplePingPong, and I know why it works like this now. It is because that when you turn off pong, ping will get stucḱ waiting for a message from pong, before it sends one back again, and when you turn pong back on it will wait for a message from ping before it writes back to ping. And it works with turning ping off becasue ping always send a message as its first action.
 
@@ -143,3 +143,18 @@ PubSubLoop has a 500 ms delay after each write, both for making it easier to rea
 
 Some of the test from today was made because I was unsure if wireshark can actually capture the actual messages between the two raspberry pi's. I am still not sure, but it should become cleare after looking into the captures at greater depths. 
 
+### 15/9-2020
+Started making the requirement specification more detailed/polished as this should help give me more direction to my work so I don't spread my focus to much (**suggested by Thor**). I should make the requirements so that it is somewhat clear what kind of test I can do to *prove* that the requirement have been met.
+
+### 16/9-2020
+Working on the requriment specification
+https://blivprojektleder.dk/kravspecifikation/
+
+### 18/9-2020
+I have created an account at **Adlinktech** so that I can try their Vortex Insight program to monitor my DDS programs
+
+
+## Week 39
+### 21/9-2020
+Update the requirement specification so that it should follow Thor's guidelines, it's not done yet, but way closer than before, still need to finish the problem analyse. 
+I have printed and than started reading a DDS tutorial, notes will be made during and it seems promising

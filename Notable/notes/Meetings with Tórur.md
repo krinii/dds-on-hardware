@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-09-01T13:09:08.010Z'
+modified: '2020-09-15T11:06:00.581Z'
 ---
 
 # Meetings with Tórur
@@ -54,3 +54,24 @@ tcp dump
 
 rød tråd i krav sp
 beskriv testene
+
+## 15/9
+
+### Notes
+Hvad kræver det at stætte pi'sne op (husk at nævne alt der har været en del af projeket)
+
+strace (hvilke filer et progam accesser)
+
+reconnector it device til netwærket hvis det bliver fra koblet.
+
+lave requriement baseret på mir's behove
+
+test dårligt netwærk
+
+hvordan virker historien.
+
+Hvilke ting vill du test i qos, skriv det ind i krævspecifikation.
+
+Hvilken scalabllity har dds. Hvor meget press kan det håndtere (hvad er dets throughput, er det begrænset af processer kraft, netværket eller noget andet.)
+
+ss -p opensockets (til at finde programmet som bliver ved med at lave et dns kald)
