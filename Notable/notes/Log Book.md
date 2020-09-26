@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-21T13:29:09.940Z'
+modified: '2020-09-26T23:11:57.644Z'
 ---
 
 # Log Book
@@ -151,10 +151,31 @@ Working on the requriment specification
 https://blivprojektleder.dk/kravspecifikation/
 
 ### 18/9-2020
-I have created an account at **Adlinktech** so that I can try their Vortex Insight program to monitor my DDS programs
+I have created an account at **Adlinktech** so that I can try their Vortex Insight program to monitor my DDS programs, I only have a 30-day trail atm.
 
 
 ## Week 39
 ### 21/9-2020
 Update the requirement specification so that it should follow Thor's guidelines, it's not done yet, but way closer than before, still need to finish the problem analyse. 
-I have printed and than started reading a DDS tutorial, notes will be made during and it seems promising
+I have printed and than started reading a DDS tutorial, notes will be made during and it seems promising.
+
+### 22/9-2020
+Wrote some notes about partitions which more or less just needs to be added to the latex document.
+
+### 23/9-2020
+I found the soucre code for the cycloneDDS functions, the library is complied so they were binaries. They are in the "cyclonedds/src/core/ddsc/src" of the git repository and they are separated into different files
+
+### 25/9-2020
+The DDSI specification seems to have more of the relavant information regarding the more tecnical parts of the protocol. **This is not completly correct, the DDSI is the layer below DDS and the "I" stands for Interoperability Wire Protocol, so it should be more about how the actual communication works**
+
+The DDS specification seems to only focus on the programming objects of the protocol.
+
+Read the two lastes bookmarks in the DDS folder and read the DDSI specification.
+
+### 26/9-2020
+Qoute from DDSI specification section 7.1: 
+*The DDS specification does not address the protocol used by the implementation to exchange messages over
+transports such as TCP/UDP/IP, so different implementations of DDS will not interoperate with each other
+unless vendor-specific “bridges” are provided.*
+
+It would seems like I'm on the right track.
