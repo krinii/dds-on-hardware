@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-26T23:11:57.644Z'
+modified: '2020-09-27T19:13:40.887Z'
 ---
 
 # Log Book
@@ -179,3 +179,17 @@ transports such as TCP/UDP/IP, so different implementations of DDS will not inte
 unless vendor-specific “bridges” are provided.*
 
 It would seems like I'm on the right track.
+
+### 27/9-2020
+Section 8.3 is about the **Messages Module**, might be relavent.
+
+Section 8.5 is about the ** Discovery module**, this is what makes the participants able to discover eachother. Important to understand.
+
+Section 7.6 qoute: *RTPS supports a wide variety of transports and transport QoS. The protocol is designed to be able to run on multicast and best-effort transports, such as UDP/IP and requires only very simple services from the transport.
+In fact, it is sufficient that the transport offers a connectionless service capable of sending packets best-effort.
+That is, the transport need not guarantee each packet will reach its destination or that packets are delivered in-
+order. Where required, RTPS implements reliability in the transfer of data and state above the transport interface. This does not preclude RTPS from being implemented on top of a reliable transport. It simply makes it possible to support a wider range of transports.*
+
+Section 7.6 has a general requirements from RTPS for the underlying transport (layer?). Short useful information.
+
+**pubSubLoop_instanceTest** has a writer and a reader, the writer only writes to one instance every 500ms and the reader takes a messages every 1s. I can see from the msgNr element that the reader only get about every second message (this is mostly casued by the fact that the sleep functions are only relative), which makes sense as there has been made no changes to the QoS, so the history only holds 1 message and the writer overwrites the old message every 500ms.
