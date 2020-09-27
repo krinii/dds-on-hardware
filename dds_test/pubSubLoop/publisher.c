@@ -63,7 +63,8 @@ int main (int argc, char ** argv)
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
-    msg.userID = i;
+    //msg.userID = i;
+    msg.userID = 1;
     msg.message = "I send you this message with dds";
 
     printf ("=== [Publisher]  Writing : ");
