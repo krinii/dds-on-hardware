@@ -1,0 +1,10 @@
+module PubSubLoopData
+{
+  struct Msg
+  {
+    long userID;
+    string message;
+    long msgNr;
+  };
+  #pragma keylist Msg userID
+};
