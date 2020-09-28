@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-09-15T11:06:00.581Z'
+modified: '2020-09-28T12:24:26.376Z'
 ---
 
 # Meetings with Tórur
@@ -75,3 +75,8 @@ Hvilke ting vill du test i qos, skriv det ind i krævspecifikation.
 Hvilken scalabllity har dds. Hvor meget press kan det håndtere (hvad er dets throughput, er det begrænset af processer kraft, netværket eller noget andet.)
 
 ss -p opensockets (til at finde programmet som bliver ved med at lave et dns kald)
+
+## 29/9-2020
+
+### Questions
+Hvordan kan man dokumenter test som f.eks. history size

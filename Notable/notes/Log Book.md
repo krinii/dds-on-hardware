@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-27T19:13:40.887Z'
+modified: '2020-09-28T13:13:41.859Z'
 ---
 
 # Log Book
@@ -193,3 +193,18 @@ order. Where required, RTPS implements reliability in the transfer of data and s
 Section 7.6 has a general requirements from RTPS for the underlying transport (layer?). Short useful information.
 
 **pubSubLoop_instanceTest** has a writer and a reader, the writer only writes to one instance every 500ms and the reader takes a messages every 1s. I can see from the msgNr element that the reader only get about every second message (this is mostly casued by the fact that the sleep functions are only relative), which makes sense as there has been made no changes to the QoS, so the history only holds 1 message and the writer overwrites the old message every 500ms.
+
+## Week 40
+
+### 28/9-2020
+To try and see if cycloneDDS could run as cpp instead of c I just changed the file extension. Without any changes to the code I can run the code as cpp, but I do get a few warnings from the complier (warnings can be found in picture first_cpp_complie_warnings.png).
+Added iostream's cout, everything still works the printf syntax warning is gone since I removed them (fun right).
+
+
+Acording to an artical from [Adlink](https://istkb.adlinktech.com/article/ddsi-networking-service-ports/), UDP port numbers are limited to 64K which will allow 230 domains with up to 120 Participants per node per domain.
+
+Quote from [Adlink](https://istkb.adlinktech.com/article/vortex-opensplice-memory-user-questions/):
+* **Is it possible to deploy OpenSplice on a node with only volatile memory storage?**
+
+*Yes. The only shortfall this brings is that this particular node will be unable to store data in a Persistent state, i.e. data will not outlive a restart on this node. However as long as there is at least one node in the system with non-volatile memory deployed in the system this will be used to store Persistent data from the entire system. The Transient persistency option will still be available on the volatile node as this doesn’t rely on non-volatile memory. All functionality offered by the full set of supported profiles are available on diskless nodes too.* This is useful if it works for other vendors aswell.
+
