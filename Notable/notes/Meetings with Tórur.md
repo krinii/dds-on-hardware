@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-09-28T12:24:26.376Z'
+modified: '2020-09-30T19:18:45.094Z'
 ---
 
 # Meetings with Tórur
@@ -80,3 +80,14 @@ ss -p opensockets (til at finde programmet som bliver ved med at lave et dns kal
 
 ### Questions
 Hvordan kan man dokumenter test som f.eks. history size
+
+### Notes
+* Programmer til at teste funktionaliteten af test programmeren under stress:
+  * stress-ng (hardware stress)
+  * iperf (netværk stress)
+
+* Nogle af testene skal laves for a på vise at lovede funktinoalit virker som lovet.
+
+* Slet/omskriv del omkring at bruge TCP eller UDP, bør bare laves om til at bruge best effort og reliable.
+
+* Forklar hvor "kravne" i problem analysen kommer fra, var det noget du snakkede med MiR om (hvorfor bruger du den MCU?) (de kan ikke bare komme fra den blå luft)

@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-28T13:13:41.859Z'
+modified: '2020-09-30T19:35:19.860Z'
 ---
 
 # Log Book
@@ -207,4 +207,20 @@ Quote from [Adlink](https://istkb.adlinktech.com/article/vortex-opensplice-memor
 * **Is it possible to deploy OpenSplice on a node with only volatile memory storage?**
 
 *Yes. The only shortfall this brings is that this particular node will be unable to store data in a Persistent state, i.e. data will not outlive a restart on this node. However as long as there is at least one node in the system with non-volatile memory deployed in the system this will be used to store Persistent data from the entire system. The Transient persistency option will still be available on the volatile node as this doesn’t rely on non-volatile memory. All functionality offered by the full set of supported profiles are available on diskless nodes too.* This is useful if it works for other vendors aswell.
+
+### 30/9-2020
+DDSI specification Table 8.16 has a reference to the UDP header: *The Address is set to the Address of the source of the message, assuming the Transport used supports this (e.g., for UDP the source address is part of the UDP header). Otherwise it is set to
+LOCATOR_ADDRESS_INVALID.*
+
+Section 8.3.5.4
+*SequenceNumber
+A sequence number is a 64-bit signed integer, that can take values in the range: -2^63 <= N <= 2^63-1. The selection of 64 bits as the representation of a sequence number ensures the sequence numbers never 1 wrap. Sequence numbers begin at 1.*
+
+I don't necessarly think the SequenceNumber is off any real relavance for DDS in general (the specification says it has no relation to DDS), but this does give us a limit to the amount of message in a system (I think this is for the entire system, but I am not sure yet). The specification also mentions: *Even assuming an extremely fast rate of message generation for a single RTPS Writer such as 100 messages per microsecond, the 64-bit integer would not roll over for approximately 3000 years of uninterrupted operation.*
+
+Terminology(I guess): When a RTPS writer has new data it will update a data-object in its local cache and then informs the readers that changes has been made (and term vise they update their own acordingly I think)
+
+In the Message Module: **Logical Interpretation** sections give a describtion of what the message is used for, should be useful for remembering or for short catch ups.
+
+Heartbeats (Section 8.3.7.5) inform the readers of new data in writers and of which are new.
 
