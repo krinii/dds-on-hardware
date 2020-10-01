@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-09-30T19:35:19.860Z'
+modified: '2020-10-01T15:08:20.733Z'
 ---
 
 # Log Book
@@ -224,3 +224,9 @@ In the Message Module: **Logical Interpretation** sections give a describtion of
 
 Heartbeats (Section 8.3.7.5) inform the readers of new data in writers and of which are new.
 
+### 1/10-2020
+The DDSI describes the wire protocol for DDS (more explenation). It has some interesting points and there are many detailted decribtions of how some the DDS functionallties work, but it is of greater interest for a DDS devoloper than a DDS implementer. 
+
+A behavior describtion of what happens, in DDSI, when a dataWriter discovers a dataReader can be found in section 8.4.8.1 for reliable and 8.4.9.1 for best-effot. Qoute from section 8.4.9.1.1: *This transition is triggered by the configuration of an RTPS Writer ‘the_rtps_writer’ with a matching RTPS Reader. This configuration is done by the Discovery protocol (8.5) as a consequence of the discovery of a DDS DataReader that matches the DDS DataWriter that is related to ‘the_rtps_writer.’*
+
+**For Report**: Describe the elements that comes with any DDS message like timestamps and more. Also, in best-effot communication, can you keep track of the message order (since they could be sent out of order, is there a way(probaly timestamps) or do you have to use reliable communication?)
