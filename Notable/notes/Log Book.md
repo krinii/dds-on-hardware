@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-01T15:08:20.733Z'
+modified: '2020-10-04T17:58:42.989Z'
 ---
 
 # Log Book
@@ -230,3 +230,33 @@ The DDSI describes the wire protocol for DDS (more explenation). It has some int
 A behavior describtion of what happens, in DDSI, when a dataWriter discovers a dataReader can be found in section 8.4.8.1 for reliable and 8.4.9.1 for best-effot. Qoute from section 8.4.9.1.1: *This transition is triggered by the configuration of an RTPS Writer ‘the_rtps_writer’ with a matching RTPS Reader. This configuration is done by the Discovery protocol (8.5) as a consequence of the discovery of a DDS DataReader that matches the DDS DataWriter that is related to ‘the_rtps_writer.’*
 
 **For Report**: Describe the elements that comes with any DDS message like timestamps and more. Also, in best-effot communication, can you keep track of the message order (since they could be sent out of order, is there a way(probaly timestamps) or do you have to use reliable communication?)
+
+Describe the different QoS setting and explain how they work and how they could used/relevant for different applications.
+
+### 2/10-2020
+Section 8.5.2: DDS discovery is done with built-in dataWriters and dataReader which has pre-defined QoS and Topics (there are four built-in topics and each has a dataWriter and dataReader). The dataWriters announce the presence and QoS of the local DDS Participant
+and the DDS Entities it contains (DataReaders, DataWriters and Topics) to the rest of the network.
+The built-in dataReaders collect this information from remote Participants, which is then used by the DDS
+implementation to identify matching remote Entities. The built-in dataWriter can be used as a regular (it also acts as one) dataReader and can be accessed by the user with the DDS API.
+The dataType used for discovery is called SPDPdiscoveredParticipantData and it's attribute are described in table 8.73.
+Quote from section 8.5.3.3.2: *Periodically, the SPDP examines the SPDPbuiltinParticipantReader HistoryCache looking for stale entries defined as those that have not been refreshed for a period longer than their specified leaseDuration. Stale entries are removed.*. It would seem like the reader makes sure to only keep track of active/alive writers.
+
+### 3/-9-2020
+**For Report**: It might be useful to have a section describing some the RTPS-DDSI functionllaity, mostly thing like how it relates to DDS writer and reader, you could use some of the figures that describe the relationship between the RTPS and DDS entities like for example the writer and reader. The disovery model would mostly also be interesting. And a general describtion of what the RTPS-DDSI is (if you can).
+
+Time_Based_Filter can either be implemented on the writer or the reader side. Implemented on the writer will save bandwidth. The choice is made by the vendor.
+
+ContentFiltered Topics (section 8.7.3) can be implemented on the writer, the reader side or both. Implemented on the writer will save bandwidth. The choice is made by the vendor. When filtering on the reader side any message that does not pass the filter will be dropped by the middelware. When implemented on the writer side will casue messages that does not pass the filter to sometimes not be sent which conserves bandwidth.
+Content-Filters can be updated at runtime.
+
+### 4/9-2020
+Section 9.1 has a list of points as to why UDP/Ip is a sutable transport for RTPS-DDSI.
+
+Section 9.4.1 states that a submessage has a boundary of 32-bits with repect to the start of the Message (Not sure what excally that means yet there are some illustrations in the specification that might help).
+*In the case of UDP/IP, the length of the Message is the
+length of the UDP payload.*
+
+Section 9.4.5.3 describes the mapping of the Data Submessage.
+Section 9.6.1.2 User traffic explains the choice of port (losely).
+Section 10.7 has a really good example of what a user-defined message could look like.
+All application data seems to be in the **serializedPayload** element in the **Data** submessage.
