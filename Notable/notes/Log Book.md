@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-04T17:58:42.989Z'
+modified: '2020-10-07T14:06:59.601Z'
 ---
 
 # Log Book
@@ -260,3 +260,21 @@ Section 9.4.5.3 describes the mapping of the Data Submessage.
 Section 9.6.1.2 User traffic explains the choice of port (losely).
 Section 10.7 has a really good example of what a user-defined message could look like.
 All application data seems to be in the **serializedPayload** element in the **Data** submessage.
+
+## Week 41
+
+### 5/10-2020
+The test describtion chapter needs alot of cleaning up (things have changed). You should talk about some of the things you did before you tested the requirements.
+
+### 7/10-2020
+I have started the testing of the history setting.
+**History:**
+First I set the reader to have a histery depth of 3. I have changed nothing in the writer. The reader uses the "take" operation and this has made the reader able to able to get all messages from the writer, where before it would only get every second. A new-commer/late-joiner reader will not get any of the old data since the writer's history depth is 1 (default values)(history is a local QoS), a reader does not check for information in other readers and most important the default durability is volatile which tell the servive(DDS) that is should only attemp to provide data to exitsing reader at the time where the data was written(See DDS specificaion page 105).
+*view_state*
+I tried to make the reader use the *read* operation instead of *take*. To do tihs I have to look at the *view state* to make sure that I don't keep keep looking at old data as if it was new, I made a check and the first time the reader reads/takes data the view_state is DDS_VST_NEW, but the second time its DDS_VST_OLD even though I can see that the data being displayed is new.
+**view_state seems to relate to the instance, so its tell you if it is the first time the reader reads from the instance and not if the sample/data has been read before by the reader, instead you should use the sample_state**
+**There's also problems with sample_state, it reads the first 5 messages and then its stops and says that the data in the cache is read, then once in awhile it will read the 3 (history cache) newest samples and return to saying that the data has been read.** **_This only happens when using the read operation and not with the take operation_** **Changed the depth to 5 instead and it only read the first 2 samples**
+**It was a problem in the first if statement, I was thinking that the new samples would "push out" the olds ones so I checked 0 and I should probaly check the last postion instead of the first one** I need to find a better why to check if there is new data. Later its gonna be with waitset or a lisener.
+
+**_Note for data availability test_**
+To make data avaliable for new commer reader you have to make changes to both the history and durability QoS settings. The history setting just at least needs to have its depth changed, you can also change the keep_last to keep_all, but that will depend on the application requirements. The durability changes depends on how you want the data store and how persistant the systems should be in perserving the data.

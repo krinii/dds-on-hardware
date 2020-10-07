@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-09-30T19:18:45.094Z'
+modified: '2020-10-05T14:29:11.545Z'
 ---
 
 # Meetings with Tórur
@@ -86,7 +86,7 @@ Hvordan kan man dokumenter test som f.eks. history size
   * stress-ng (hardware stress)
   * iperf (netværk stress)
 
-* Nogle af testene skal laves for a på vise at lovede funktinoalit virker som lovet.
+* Nogle af testene skal laves for at på vise at lovede funktinoalit virker som lovet.
 
 * Slet/omskriv del omkring at bruge TCP eller UDP, bør bare laves om til at bruge best effort og reliable.
 
