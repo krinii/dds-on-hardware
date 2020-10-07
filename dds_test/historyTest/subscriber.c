@@ -6,7 +6,8 @@
 #include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 20
+#define MAX_SAMPLES 10
+#define DEPTH 5
 
 static volatile int sigintH = 1;
 
@@ -14,6 +15,9 @@ static volatile int sigintH = 1;
 void sigintHandler(int sig_num) {
   sigintH = 0;
 }
+
+bool checkSampleState(dds_sample_info_t infos[DEPTH]);
+bool checkValidData(dds_sample_info_t infos[DEPTH]);
 
 int main (int argc, char ** argv)
 {
@@ -49,6 +53,8 @@ int main (int argc, char ** argv)
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
+
   reader = dds_create_reader (participant, topic, qos, NULL);
   if (reader < 0)
     DDS_FATAL("dds_create_reader: %s\n", dds_strretcode(-reader));
@@ -81,17 +87,30 @@ int main (int argc, char ** argv)
   	rc = 0;
     while (true && sigintH)
     {
+      rc = 0;
       /* Do the actual read.
         * The return value contains the number of read samples. */
-      //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+      //rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
       if (rc < 0)
         DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+
+      /*printf ("Data? \n");
+      fflush (stdout);*/
+
+      /*printf("--- Sample state = %d rc = %d \n", infos[DEPTH-1].sample_state, rc);
+      fflush (stdout);*/
       /* Check if we read some data and it is valid. */
-      if ((rc > 0) && (infos[0].valid_data))
+      //if ((rc > 0) && checkValidData(infos))
+      if ((rc > 0) && checkValidData(infos) && checkSampleState(infos))
       {
+        printf ("== New Read \n");
+        fflush (stdout);
         for (int i = 0; i < rc; i ++){
-          if ((rc > 0) && (infos[i].valid_data)){
+          /*printf("--- Sample state = %d \n", infos[i].sample_state);
+          fflush (stdout);*/
+          //if ((rc > 0) && (infos[i].valid_data)){
+          if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
             /* Print Message. */
             msg = (TestDataType_data*) samples[i];
             printf ("=== [Subscriber] Received : ");
@@ -128,4 +147,20 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
 
   return EXIT_SUCCESS;
+}
+
+bool checkSampleState(dds_sample_info_t infos[DEPTH]){
+  for (int i = 0; i < DEPTH-1; i++){
+    if(infos[i].sample_state == DDS_SST_NOT_READ)
+      return true;
+  }
+  return false; 
+}
+
+bool checkValidData(dds_sample_info_t infos[DEPTH]){
+  for (int i = 0; i < DEPTH-1; i++){
+    if(infos[i].valid_data)
+      return true;
+  }
+  return false;
 }
