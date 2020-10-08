@@ -77,7 +77,7 @@ int main (int argc, char ** argv)
   }
 
   //Sleep for testing
-  //dds_sleepfor (DDS_MSECS (1000));
+  //dds_sleepfor (DDS_MSECS (2000));
 
   int j = 0;
 
@@ -108,8 +108,8 @@ int main (int argc, char ** argv)
         printf ("== New Read \n");
         fflush (stdout);
         for (int i = 0; i < rc; i ++){
-          printf("--- Sample state = %d \n", infos[i].sample_state);
-          fflush (stdout);
+          /*printf("--- Sample state = %d \n", infos[i].sample_state);
+          fflush (stdout);*/
           //if ((rc > 0) && (infos[i].valid_data)){
           if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
             /* Print Message. */

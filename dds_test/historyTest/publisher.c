@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <signal.h>
 
+#define DEPTH 5
+
 static volatile int sigintH = 1;
 
 /* Handel Ctrl-C */
@@ -19,6 +21,7 @@ int main (int argc, char ** argv)
   dds_return_t rc;
   TestDataType_data msg;
   uint32_t status = 0;
+  dds_qos_t *qos;
   (void)argc;
   (void)argv;
 
@@ -37,9 +40,14 @@ int main (int argc, char ** argv)
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
+  /* Create QoS */
+  qos = dds_create_qos ();
+  /* Change History QoS setting */
+  dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
+
   /* Create a Writer. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
-  writer = dds_create_writer (participant, topic, NULL, NULL);
+  writer = dds_create_writer (participant, topic, qos, NULL);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
 
