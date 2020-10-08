@@ -108,8 +108,8 @@ int main (int argc, char ** argv)
         printf ("== New Read \n");
         fflush (stdout);
         for (int i = 0; i < rc; i ++){
-          /*printf("--- Sample state = %d \n", infos[i].sample_state);
-          fflush (stdout);*/
+          printf("--- Sample state = %d \n", infos[i].sample_state);
+          fflush (stdout);
           //if ((rc > 0) && (infos[i].valid_data)){
           if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
             /* Print Message. */
@@ -151,7 +151,7 @@ int main (int argc, char ** argv)
 }
 
 bool checkSampleState(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH-1; i++){
+  for (int i = 0; i < DEPTH; i++){
     if(infos[i].sample_state == DDS_SST_NOT_READ)
       return true;
   }
@@ -159,7 +159,7 @@ bool checkSampleState(dds_sample_info_t infos[DEPTH]){
 }
 
 bool checkValidData(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH-1; i++){
+  for (int i = 0; i < DEPTH; i++){
     if(infos[i].valid_data)
       return true;
   }
