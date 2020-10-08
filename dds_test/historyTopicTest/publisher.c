@@ -34,14 +34,14 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create QoS */
-  qos = dds_create_qos ();
+  //qos = dds_create_qos ();
   /* Change History QoS setting */
-  dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
+  //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", qos, NULL);
+    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
