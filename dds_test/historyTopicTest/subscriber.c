@@ -45,11 +45,12 @@ int main (int argc, char ** argv)
 
   qosT = dds_create_qos ();
   dds_qset_history(qosT, DDS_HISTORY_KEEP_LAST, DEPTH);
+  dds_qset_durability(qosT, DDS_DURABILITY_TRANSIENT_LOCAL);
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", qosT, NULL);
+    participant, &TestDataType_data_desc, "TestDataType_Topic_data", qosT, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
@@ -57,6 +58,7 @@ int main (int argc, char ** argv)
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+
   /* Change History setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
 
