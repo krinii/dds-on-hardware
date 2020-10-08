@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-07T14:06:59.601Z'
+modified: '2020-10-08T12:53:32.098Z'
 ---
 
 # Log Book
@@ -273,8 +273,15 @@ First I set the reader to have a histery depth of 3. I have changed nothing in t
 *view_state*
 I tried to make the reader use the *read* operation instead of *take*. To do tihs I have to look at the *view state* to make sure that I don't keep keep looking at old data as if it was new, I made a check and the first time the reader reads/takes data the view_state is DDS_VST_NEW, but the second time its DDS_VST_OLD even though I can see that the data being displayed is new.
 **view_state seems to relate to the instance, so its tell you if it is the first time the reader reads from the instance and not if the sample/data has been read before by the reader, instead you should use the sample_state**
-**There's also problems with sample_state, it reads the first 5 messages and then its stops and says that the data in the cache is read, then once in awhile it will read the 3 (history cache) newest samples and return to saying that the data has been read.** **_This only happens when using the read operation and not with the take operation_** **Changed the depth to 5 instead and it only read the first 2 samples**
-**It was a problem in the first if statement, I was thinking that the new samples would "push out" the olds ones so I checked 0 and I should probaly check the last postion instead of the first one** I need to find a better why to check if there is new data. Later its gonna be with waitset or a lisener.
+~~**There's also problems with sample_state, it reads the first 5 messages and then its stops and says that the data in the cache is read, then once in awhile it will read the 3 (history cache) newest samples and return to saying that the data has been read.**~~ ~~**_This only happens when using the read operation and not with the take operation_** **Changed the depth to 5 instead and it only read the first 2 samples**~~
+**It was a problem in the first if statement, I was thinking that the new samples would "push out" the olds ones so I checked 0 and I should probaly check the last postion instead of the first one. The newest sample will be in the last positon starting from 0 and pushing out 0 when full** I need to find a better why to check if there is new data(Done). Later its gonna be with waitset or a lisener.
 
 **_Note for data availability test_**
-To make data avaliable for new commer reader you have to make changes to both the history and durability QoS settings. The history setting just at least needs to have its depth changed, you can also change the keep_last to keep_all, but that will depend on the application requirements. The durability changes depends on how you want the data store and how persistant the systems should be in perserving the data.
+To make data avaliable for new comer reader you have to make changes to both the history and durability QoS settings. The history setting just at least needs to have its depth changed, you can also change the keep_last to keep_all, but that will depend on the application requirements. The durability changes depends on how you want the data store and how persistant the systems should be in perserving the data.
+
+### 8/10-2020
+A DataWriter has RELIABILITY set to RELIABLE by defualt and a DataReader has it set to BEST_EFFORT by defualt. So it makes sense that the examples had the subscriber be reliable, but didn't change anything on the publisher.
+
+I have confirmed that by just changing the writers history does not give new comers any of the old samples, it would seem like I have to make changes to the Durability
+
+I have applied the history changes to the topic instead of the reader and it seems to work the same way as when I did it to the reader. So it looks like the QoS of a topic applies to all the entities in that topic. Somehow it seems like it enough to just make the topic in the reader application have a history.
