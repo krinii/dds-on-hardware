@@ -1,7 +1,7 @@
 ---
 title: Meetings with MiR
 created: '2020-03-04T08:41:24.600Z'
-modified: '2020-09-28T12:23:17.095Z'
+modified: '2020-10-09T11:58:25.275Z'
 ---
 
 # Meetings with MiR
@@ -55,5 +55,4 @@ RTI (Student License) look into
 Loaned message
 cyclonedds monitor
 Which vendor was easiest to use/setting up to start using from your perspective (give your background, do you have experience in networking?)
-
 

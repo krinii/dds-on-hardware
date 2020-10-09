@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-10-05T14:29:11.545Z'
+modified: '2020-10-09T12:09:41.207Z'
 ---
 
 # Meetings with Tórur
@@ -91,3 +91,10 @@ Hvordan kan man dokumenter test som f.eks. history size
 * Slet/omskriv del omkring at bruge TCP eller UDP, bør bare laves om til at bruge best effort og reliable.
 
 * Forklar hvor "kravne" i problem analysen kommer fra, var det noget du snakkede med MiR om (hvorfor bruger du den MCU?) (de kan ikke bare komme fra den blå luft)
+
+## 13/10-2020
+
+### Questions
+* Hvordan skal jeg dokumenter mine resulater, der kommer ikke lige frem tal ud.
+* Burde jeg bruge scripts til at udføre testene for at ens svar.
+* Problemet med at reader nogle gange spammer "New Read" print'ed

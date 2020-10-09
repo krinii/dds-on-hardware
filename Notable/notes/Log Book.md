@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-08T21:25:37.044Z'
+modified: '2020-10-09T14:28:05.263Z'
 ---
 
 # Log Book
@@ -288,3 +288,8 @@ I have applied the history changes to the topic instead of the reader and it see
 
 I tried to apply the durability changes to only the readers in the HistoryTopicTest project, but when I did this it seemed like the writer and readers did not have a connection, I need to find a way to detect wether a connection is made or not, at the moment I just have to see that the writer does not find a reader (which I guess could be fine). I have applied the durability setting to all the Topics in HistoryTopicTest and all the readers and writer in HistoryTest and I am still not able to make a late-joiner receive old data, I am not sure what I'm doing wrong. **It would seem like I have to change durability-service setting for it to work. Durability-service can be applied to both topics and writer, but a  [guide](https://github.com/eclipse-cyclonedds/cyclonedds/blob/master/docs/manual/config.rst) mentioned that it is the topic, gonna try both**. I have applied durability service to the writer in HistoryTest and a late-joiner is now able to aquire earlier data. I have removed the history change from the writer so it is now only applied by the durability service and it still works. I let a reader have a larger depth then the writer and it only get the amount of samples specified by the writer. I also tried having the writer have a larger depth then the reader and it only gets the amount of samples specified by the readers depth. So the lowest depth sets the limit as one would excpeted.
 I applied the durability service setting to the HistoryTopicTest project, but only in the writer program and it works. I'm not sure what is gonna happen when I apply it to the "other" topics, most likely nothing as it should be the same topic.
+
+### 9/10-2020
+I have to install stress-ng and iperf on the PI's, is done with apt, and I need to find out how to use the programs.
+
+I have started documenting my findings/learnings from the HistoryTest and HistoryTopicTest projects in overleaf in an effort to make a template for later tests
