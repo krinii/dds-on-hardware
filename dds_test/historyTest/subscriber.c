@@ -82,6 +82,8 @@ int main (int argc, char ** argv)
 
   int j = 0;
 
+  setbuf(stdout, NULL);
+
   //while ((j < 10) && sigintH){
   while (sigintH){
     /* Poll until data has been read. */
