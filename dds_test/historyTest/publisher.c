@@ -66,9 +66,10 @@ int main (int argc, char ** argv)
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_get_status_changes: %s\n", dds_strretcode(-rc));
 
-    /* Polling sleep. */
+    //Polling sleep.
     dds_sleepfor (DDS_MSECS (20));
   }
+
   int i = 0;
   //while (i < 10  && sigintH){
   while (sigintH){
