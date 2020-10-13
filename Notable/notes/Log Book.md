@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-09T14:28:05.263Z'
+modified: '2020-10-13T21:03:34.250Z'
 ---
 
 # Log Book
@@ -292,4 +292,15 @@ I applied the durability service setting to the HistoryTopicTest project, but on
 ### 9/10-2020
 I have to install stress-ng and iperf on the PI's, is done with apt, and I need to find out how to use the programs.
 
-I have started documenting my findings/learnings from the HistoryTest and HistoryTopicTest projects in overleaf in an effort to make a template for later tests
+I have started documenting my findings/learnings from the HistoryTest and HistoryTopicTest projects in overleaf in an effort to make a template for later tests.
+
+### 12/10-2020
+Installed Valgrind, a tool used for observing a programs memory usage.
+
+### 13-10-2020
+From the history test I found that the readers can get old data as a late-joiner if they don't have a durability of at least transisent_local, which I don't quite understand why, I have might have written something about it earliere, but if not I should look into it for the discussion part of the test.
+**For the test chapter**
+Maybe setup the test so that they can kinda be in a table, something like "two rows, one for best effort and one for reliabe and then columns with DETPHS" and then you just write if it works. You could also just make "headlines" where you write up the parameters and then write how it looked, something like: "**TRANSISENT_LOCAL, HISTORY_KEEP_LAST, DEPTH 10, BEST EFFORT:** a late-joining reader recievies old data from the writer" or "**TRANSISENT_LOCAL, HISTORY_KEEP_ALL, BEST EFFORT:** a late-joining reader recievies old data from the writer and either the writer or reader crashed after 100000 samples".
+
+**HistoryTopicTest**
+So I tried to put the durability_service into both the writer and a reader. The reader that have the durability_service is not getting any old data as a late-joiner.
