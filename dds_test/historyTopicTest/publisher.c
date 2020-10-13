@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#define DEPTH 8
+#define DEPTH 5
 
 static volatile int sigintH = 1;
 

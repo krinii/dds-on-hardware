@@ -45,7 +45,7 @@ int main (int argc, char ** argv)
 
   qosT = dds_create_qos ();
   dds_qset_history(qosT, DDS_HISTORY_KEEP_LAST, DEPTH);
-  //dds_qset_durability(qosT, DDS_DURABILITY_TRANSIENT_LOCAL);
+  dds_qset_durability(qosT, DDS_DURABILITY_TRANSIENT_LOCAL);
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
@@ -86,6 +86,8 @@ int main (int argc, char ** argv)
   //dds_sleepfor (DDS_MSECS (2000));
 
   int j = 0;
+
+  setbuf(stdout, NULL);
 
   //while ((j < 10) && sigintH){
   while (sigintH){
