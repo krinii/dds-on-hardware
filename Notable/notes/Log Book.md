@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-13T21:03:34.250Z'
+modified: '2020-10-19T14:16:00.421Z'
 ---
 
 # Log Book
@@ -297,10 +297,33 @@ I have started documenting my findings/learnings from the HistoryTest and Histor
 ### 12/10-2020
 Installed Valgrind, a tool used for observing a programs memory usage.
 
-### 13-10-2020
+### 13/10-2020
 From the history test I found that the readers can get old data as a late-joiner if they don't have a durability of at least transisent_local, which I don't quite understand why, I have might have written something about it earliere, but if not I should look into it for the discussion part of the test.
 **For the test chapter**
-Maybe setup the test so that they can kinda be in a table, something like "two rows, one for best effort and one for reliabe and then columns with DETPHS" and then you just write if it works. You could also just make "headlines" where you write up the parameters and then write how it looked, something like: "**TRANSISENT_LOCAL, HISTORY_KEEP_LAST, DEPTH 10, BEST EFFORT:** a late-joining reader recievies old data from the writer" or "**TRANSISENT_LOCAL, HISTORY_KEEP_ALL, BEST EFFORT:** a late-joining reader recievies old data from the writer and either the writer or reader crashed after 100000 samples".
+Maybe setup the test so that they can kinda be in a table, something like "two rows, one for best effort and one for reliabe and then columns with DETPHS" and then you just write if it works. You could also just make "headlines" where you write up the parameters and then write how it looked, something like: 
+"**TRANSISENT_LOCAL, HISTORY_KEEP_LAST, DEPTH 10, BEST EFFORT:** a late-joining reader recievies old data from the writer" or "**TRANSISENT_LOCAL, HISTORY_KEEP_ALL, BEST EFFORT:** a late-joining reader recievies old data from the writer and either the writer or reader crashed after 100000 samples".
 
 **HistoryTopicTest**
 So I tried to put the durability_service into both the writer and a reader. The reader that have the durability_service is not getting any old data as a late-joiner.
+
+### 14/10-202
+The "setbuf(stdout, NULL)" does not remove the New Read print issue.
+A massif.out file from Valgrind can be printed with "ms_print"m, which makes the data easier to analyse. massif-visualizer is gui for analysing the massif.out files
+
+### 15/10-2020
+When connecting to the pi's with **screen** over serial, you have to run the screen command while the pi is booting up.
+
+### 16/10-2020
+Started learning how to use Valgrind:
+[Massif](https://www.valgrind.org/docs/manual/ms-manual.html): a heap profiler (`valgrind --tool=massif <program>`)
+*Massif is a heap profiler. It measures how much heap memory your program uses. This includes both the useful space, and the extra bytes allocated for book-keeping and alignment purposes. It can also measure the size of your program's stack(s), although it does not do so by default.*
+
+A massif.out."number" file will be made after the program is termianted, in the execution folder.
+
+### 19/10-2020
+**HistoryTest 2 instances:**
+I added another writer to the HistoryTest project to see how the history setting acts with two instances. **Notice** it is not necessary to make another program, the same writer can write to any instance you want to and one program can have multiple wirters. This was simply done so that I didn't have to remove code later if I need to test with only one instance.
+**The late-joining reader gets gets DEPTH samples from both instances.** 
+**It works the same Topics**
+
+I have made the project folders for testing data seperation (Primarily domains) and data fitlers (ContentFilter's and more). Nothing is implemented yet, it is still just a copy of the memoryTest project.
