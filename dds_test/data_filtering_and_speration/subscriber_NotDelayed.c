@@ -17,8 +17,11 @@ void sigintHandler(int sig_num) {
   sigintH = 0;
 }
 
-bool checkSampleState(dds_sample_info_t infos[DEPTH]);
-bool checkValidData(dds_sample_info_t infos[DEPTH]);
+//bool checkSampleState(dds_sample_info_t infos[DEPTH]);
+//bool checkValidData(dds_sample_info_t infos[DEPTH]);
+
+bool checkSampleState(dds_sample_info_t infos[], dds_return_t count);
+bool checkValidData(dds_sample_info_t infos[], dds_return_t count);
 
 int main (int argc, char ** argv)
 {
@@ -55,8 +58,8 @@ int main (int argc, char ** argv)
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
   /* Change History setting */
-  dds_qset_history(qos, DDS_HISTORY_KEEP_ALL, DEPTH);
-  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  //dds_qset_history(qos, DDS_HISTORY_KEEP_ALL, DEPTH);
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
 
 
   reader = dds_create_reader (participant, topic, qos, NULL);
@@ -82,14 +85,11 @@ int main (int argc, char ** argv)
   //Sleep for testing
   //dds_sleepfor (DDS_MSECS (1000));
 
-  int j = 0;
-
-  //while ((j < 10) && sigintH){
   while (sigintH){
     /* Poll until data has been read. */
     // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
   	rc = 0;
-    while (true && sigintH)
+    while (sigintH)
     {
       rc = 0;
       /* Do the actual read.
@@ -106,10 +106,10 @@ int main (int argc, char ** argv)
       fflush (stdout);*/
       /* Check if we read some data and it is valid. */
       //if ((rc > 0) && checkValidData(infos))
-      if ((rc > 0) && checkValidData(infos) && checkSampleState(infos))
+      if ((rc > 0) && checkValidData(infos, rc) && checkSampleState(infos, rc))
       {
         printf ("=== [Subscriber] Received : ");
-        printf ("Messages numbers: ");
+        printf ("Messages numbers: \n");
         fflush (stdout);
         for (int i = 0; i < rc; i ++){
           /*printf("--- Sample state = %d \n", infos[i].sample_state);
@@ -118,11 +118,11 @@ int main (int argc, char ** argv)
           if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
             /* Print Message. */
             msg = (TestDataType_data*) samples[i];
-            printf ("%d, ", msg->msgNr);
-            
+            //printf ("%d, ", msg->msgNr);
+            printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
           }
         }
-        printf("\n");
+        //printf("\n");
         fflush (stdout);
         break;
       }
@@ -133,7 +133,6 @@ int main (int argc, char ** argv)
       }
       dds_sleepfor (DDS_MSECS (100));
     }
-    j++;
   }
 
   /* Free the data location. */
@@ -155,16 +154,18 @@ int main (int argc, char ** argv)
   return EXIT_SUCCESS;
 }
 
-bool checkSampleState(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH; i++){
+//bool checkSampleState(dds_sample_info_t infos[DEPTH]){
+bool checkSampleState(dds_sample_info_t infos[], dds_return_t count){
+  for (int i = 0; i < count; i++){
     if(infos[i].sample_state == DDS_SST_NOT_READ)
       return true;
   }
   return false; 
 }
 
-bool checkValidData(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH; i++){
+//bool checkValidData(dds_sample_info_t infos[DEPTH]){
+bool checkValidData(dds_sample_info_t infos[], dds_return_t count){
+  for (int i = 0; i < count; i++){
     if(infos[i].valid_data)
       return true;
   }
