@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-19T14:16:00.421Z'
+modified: '2020-10-20T17:32:31.976Z'
 ---
 
 # Log Book
@@ -327,3 +327,13 @@ I added another writer to the HistoryTest project to see how the history setting
 **It works the same Topics**
 
 I have made the project folders for testing data seperation (Primarily domains) and data fitlers (ContentFilter's and more). Nothing is implemented yet, it is still just a copy of the memoryTest project.
+
+### 20/10-2020
+**Partition**
+Use the simplePingPong project for testing partitions. The partition is used to make sure that the samples in the ping writer is not read by the ping reader, same goes for the pong writer and reader. 
+**Content Filter**
+The filter works. In cycloneDDS you create a funciton which makes the logic operations. The function is given to the topic with dds_set_topic_filter(). The user made filter function has to take a constent void pointer and return a boolean. `typedef bool (*dds_topic_filter_fn)(const void *sample)`. It is only implemented in the subscriber.c at the moment.
+
+**New Read issues continued**
+I now know how it is possible for the program to spam, it somehow get a true from one of the two check functions, but the for loop which checks them again does not find anything, so the loop skips the delays with the break.
+**Instead of using DEPTH as the size I now use rc in the check function, it seems to have worked, but I can't know for sure yet**
