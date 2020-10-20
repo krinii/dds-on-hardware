@@ -16,8 +16,8 @@ void sigintHandler(int sig_num) {
   sigintH = 0;
 }
 
-bool checkSampleState(dds_sample_info_t infos[DEPTH]);
-bool checkValidData(dds_sample_info_t infos[DEPTH]);
+bool checkSampleState(dds_sample_info_t infos[], dds_return_t count);
+bool checkValidData(dds_sample_info_t infos[], dds_return_t count);
 
 int main (int argc, char ** argv)
 {
@@ -106,7 +106,7 @@ int main (int argc, char ** argv)
       fflush (stdout);*/
       /* Check if we read some data and it is valid. */
       //if ((rc > 0) && checkValidData(infos))
-      if ((rc > 0) && checkValidData(infos) && checkSampleState(infos))
+      if ((rc > 0) && checkValidData(infos, rc) && checkSampleState(infos, rc))
       {
         printf ("== New Read \n");
         fflush (stdout);
@@ -153,16 +153,16 @@ int main (int argc, char ** argv)
   return EXIT_SUCCESS;
 }
 
-bool checkSampleState(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH; i++){
+bool checkSampleState(dds_sample_info_t infos[], dds_return_t count){
+  for (int i = 0; i < count; i++){
     if(infos[i].sample_state == DDS_SST_NOT_READ)
       return true;
   }
   return false; 
 }
 
-bool checkValidData(dds_sample_info_t infos[DEPTH]){
-  for (int i = 0; i < DEPTH; i++){
+bool checkValidData(dds_sample_info_t infos[], dds_return_t count){
+  for (int i = 0; i < count; i++){
     if(infos[i].valid_data)
       return true;
   }
