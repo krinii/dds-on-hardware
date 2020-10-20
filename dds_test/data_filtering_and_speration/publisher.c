@@ -44,12 +44,13 @@ int main (int argc, char ** argv)
   qos = dds_create_qos ();
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
-  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
-  dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  //dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
 
   /* Create a Writer. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
-  writer = dds_create_writer (participant, topic, qos, NULL);
+  writer = dds_create_writer (participant, topic, NULL, NULL);
+  //writer = dds_create_writer (participant, topic, qos, NULL);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
 
