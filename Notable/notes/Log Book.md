@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-20T17:32:31.976Z'
+modified: '2020-10-21T18:48:06.147Z'
 ---
 
 # Log Book
@@ -332,8 +332,25 @@ I have made the project folders for testing data seperation (Primarily domains) 
 **Partition**
 Use the simplePingPong project for testing partitions. The partition is used to make sure that the samples in the ping writer is not read by the ping reader, same goes for the pong writer and reader. 
 **Content Filter**
-The filter works. In cycloneDDS you create a funciton which makes the logic operations. The function is given to the topic with dds_set_topic_filter(). The user made filter function has to take a constent void pointer and return a boolean. `typedef bool (*dds_topic_filter_fn)(const void *sample)`. It is only implemented in the subscriber.c at the moment.
+The filter works. In cycloneDDS you create a funciton which makes the logic operations. The function is given to the topic with dds_set_topic_filter(). The user made filter function has to take a constent void pointer and return a boolean. `typedef bool (*dds_topic_filter_fn)(const void *sample)`. It is only implemented in the subscriber.c at the moment. The filter is applied to the topic individually in each program, and I only applied the fitler to one of the programs (subscriber.c) and it was able to recieve samples, this most mean that one can implement different filters on the same topic.
 
 **New Read issues continued**
 I now know how it is possible for the program to spam, it somehow get a true from one of the two check functions, but the for loop which checks them again does not find anything, so the loop skips the delays with the break.
 **Instead of using DEPTH as the size I now use rc in the check function, it seems to have worked, but I can't know for sure yet**
+
+### 21/10-2020
+**Content Fitler**
+I applied two different content filters to the two readers over the same topic, they both got the messages that the filter would let through. This "proves" that one can apply different content filters on the same topic.
+Applied a content filter to just the writer and none of the readers got any of the samples that the filter should take, I would guess that the samples are never sent, but I don't know for sure (acoridnfg to notes from *3/9-2020*: The service might send some of the samples that did not pass the filter).
+
+**Listener:**
+*The listener will only be invoked on the changes of communication status
+indicated by the specified mask.* qoute from **DDS_Formal-15-04-10.pdf**.
+Only one listener can be attached to an entity at a time.
+**I have implemented a listener in one of the readers which listens to requested_incompatible_qos, offered_incompatible_qos, and data_available**
+**The callbacks "data_available" and "requested_incompatible_qos" works as they should, have not tested "offered_incompatible_qos".**
+**Important: The callback association has to be done before the listener is attached to a entity.**
+Put the reading and sample displaying code into the data available callback and it worked the same way as when using polling. I added a 3 second delay and a print into the "empty" while loop and the data available callback runs regardless of the delay, so you should be able to do almost whatever you want to do and the listener should interrupt it and run its function.
+
+**WaitSet**
+Waitset's are used for waiting for status changes that affects the enitiy the waitset is attached to.
