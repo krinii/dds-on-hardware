@@ -28,18 +28,19 @@ void data_available(dds_entity_t reader, void *arg);
 void offered_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg);
 void requested_qos(dds_entity_t reader, const dds_requested_incompatible_qos_status_t status, void *arg);
 
+TestDataType_data *msg;
+static TestDataType_data data[MAX_SAMPLES];
+void *samples[MAX_SAMPLES];
+dds_sample_info_t infos[MAX_SAMPLES];
+dds_return_t rc;
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
   dds_entity_t topic;
   dds_entity_t reader;
-  TestDataType_data *msg;
   dds_listener_t *listener = NULL;
 
-  static TestDataType_data data[MAX_SAMPLES];
-  void *samples[MAX_SAMPLES];
-  dds_sample_info_t infos[MAX_SAMPLES];
-  dds_return_t rc;
   dds_qos_t *qos;
   (void)argc;
   (void)argv;
@@ -105,53 +106,8 @@ int main (int argc, char ** argv)
   //dds_sleepfor (DDS_MSECS (1000));
 
   while (sigintH){
-    /* Poll until data has been read. */
-    // Needs to be done dds_take/read does not seem to overwrite rc if didn't get a new message
-  	rc = 0;
-    while (sigintH)
-    {
-      rc = 0;
-      /* Do the actual read.
-        * The return value contains the number of read samples. */
-      rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      //rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-      if (rc < 0)
-        DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
-
-      /*printf ("Data? \n");
-      fflush (stdout);*/
-
-      /*printf("--- Sample state = %d, %d, %d, %d, %d rc = %d \n", infos[0].sample_state, infos[1].sample_state, infos[2].sample_state, infos[3].sample_state, infos[4].sample_state, rc);
-      fflush (stdout);*/
-      /* Check if we read some data and it is valid. */
-      //if ((rc > 0) && checkValidData(infos))
-      if ((rc > 0) && checkValidData(infos, rc) && checkSampleState(infos, rc))
-      {
-        printf ("=== [Subscriber] Received : ");
-        printf ("Messages numbers: \n");
-        fflush (stdout);
-        for (int i = 0; i < rc; i ++){
-          /*printf("--- Sample state = %d \n", infos[i].sample_state);
-          fflush (stdout);*/
-          //if ((rc > 0) && (infos[i].valid_data)){
-          if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
-            /* Print Message. */
-            msg = (TestDataType_data*) samples[i];
-            //printf ("%d, ", msg->msgNr);
-            printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
-          }
-        }
-        //printf("\n");
-        fflush (stdout);
-        break;
-      }
-      else
-      {
-        /* Polling sleep. */
-        dds_sleepfor (DDS_MSECS (20));
-      }
-      dds_sleepfor (DDS_MSECS (100));
-    }
+    // Do nothing
+    dds_sleepfor (DDS_MSECS (100));
   }
 
   /* Free the data location. */
@@ -201,6 +157,27 @@ bool contentFilter(const void *sample){
 
 void data_available(dds_entity_t reader, void *arg){
   printf("\n ===== Data_available ===== \n");
+  
+  rc = 0;
+  /* Do the actual read.
+    * The return value contains the number of read samples. */
+  rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+  //rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+  if (rc < 0)
+    DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
+
+  for (int i = 0; i < rc; i ++){
+    /*printf("--- Sample state = %d \n", infos[i].sample_state);
+    fflush (stdout);*/
+    //if ((rc > 0) && (infos[i].valid_data)){
+    if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
+      /* Print Message. */
+      msg = (TestDataType_data*) samples[i];
+      //printf ("%d, ", msg->msgNr);
+      printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
+    }
+  }
+  
   fflush(stdout);
 }
 
