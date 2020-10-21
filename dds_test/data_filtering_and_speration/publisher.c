@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#define DEPTH 100
+#define DEPTH 10
 
 static volatile int sigintH = 1;
 
@@ -12,6 +12,8 @@ static volatile int sigintH = 1;
 void sigintHandler(int sig_num) {
   sigintH = 0;
 }
+
+bool contentFilter(const void *sample);
 
 int main (int argc, char ** argv)
 {
@@ -39,6 +41,9 @@ int main (int argc, char ** argv)
     participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
+  
+  // ContentFilter
+  //dds_set_topic_filter(topic, contentFilter);
 
   /* Create QoS */
   qos = dds_create_qos ();
@@ -49,8 +54,8 @@ int main (int argc, char ** argv)
 
   /* Create a Writer. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
-  writer = dds_create_writer (participant, topic, NULL, NULL);
   //writer = dds_create_writer (participant, topic, qos, NULL);
+  writer = dds_create_writer (participant, topic, NULL, NULL);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
 
@@ -72,23 +77,39 @@ int main (int argc, char ** argv)
   }
 
   int i = 0;
+
+  int hum = 35;
+  int hum_iter = 1;
+  float temp = 20.0;
+  float temp_iter = 0.1;
+  
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
-    //msg.userID = i;
-    msg.instanceID = 1;
-    msg.message = "I send you this message with dds";
+    msg.instanceID = 3;
+    msg.message = "Numbers";
+    msg.humidity = hum;
+    msg.temperature = temp;
     msg.msgNr = i;
 
-    printf ("=== [Publisher]  Writing : ");
-    printf ("Message (%"PRId32", %s; %"PRId32")\n", msg.instanceID, msg.message, msg.msgNr);
+    printf ("=== [Publisher]  Writing : \n");
+    printf ("Message (%"PRId32", %s; Temp: %.2f; HUM: %d; %"PRId32")\n", msg.instanceID, msg.message, msg.temperature, msg.humidity, msg.msgNr);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
-  	dds_sleepfor (DDS_MSECS (100));
+  	dds_sleepfor (DDS_MSECS (500));
+    
+    if (hum < 30) hum_iter = 1;
+    else if (hum > 80) hum_iter = -1;
+    hum = hum + hum_iter;
+
+    if (temp < 20.0) temp_iter = 0.5;
+    else if (temp > 25.0) temp_iter = -0.5;
+    temp = temp + temp_iter;
+
     i ++;
   }
 
@@ -100,4 +121,12 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
 
   return EXIT_SUCCESS;
+}
+
+bool contentFilter(const void *sample){
+  TestDataType_data *msg = (TestDataType_data*)sample;
+  if (msg->temperature < 25.0){
+    return true;
+  }
+  return false;
 }
