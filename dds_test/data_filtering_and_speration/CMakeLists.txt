@@ -15,6 +15,7 @@ add_executable(publisherLoop publisher.c)
 add_executable(subscriberLoop subscriber.c)
 add_executable(subscriberLoop_NotDelayed subscriber_NotDelayed.c)
 add_executable(publisherLoop_Instance publisher_instances.c)
+add_executable(multiReaderLoop multiReader.c)
 
 # Both executables need to be linked to the idl data type library and
 # the ddsc API library.
@@ -22,3 +23,4 @@ target_link_libraries(publisherLoop TestDataType_lib CycloneDDS::ddsc)
 target_link_libraries(subscriberLoop TestDataType_lib CycloneDDS::ddsc)
 target_link_libraries(subscriberLoop_NotDelayed TestDataType_lib CycloneDDS::ddsc)
 target_link_libraries(publisherLoop_Instance TestDataType_lib CycloneDDS::ddsc)
+target_link_libraries(multiReaderLoop TestDataType_lib CycloneDDS::ddsc)
