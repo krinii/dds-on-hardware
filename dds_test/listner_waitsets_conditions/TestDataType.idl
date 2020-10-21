@@ -1,0 +1,12 @@
+module TestDataType
+{
+  struct data
+  {
+    long instanceID;
+    string message;
+    float temperature;
+    long humidity;
+    long msgNr;
+  };
+  #pragma keylist data instanceID
+};
