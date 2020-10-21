@@ -107,7 +107,9 @@ int main (int argc, char ** argv)
 
   while (sigintH){
     // Do nothing
-    dds_sleepfor (DDS_MSECS (100));
+    dds_sleepfor (DDS_MSECS (3000));
+    printf ("\n=== Looped \n");
+    fflush (stdout);
   }
 
   /* Free the data location. */
