@@ -100,14 +100,14 @@ int main (int argc, char ** argv)
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
-  	dds_sleepfor (DDS_MSECS (500));
+  	dds_sleepfor (DDS_MSECS (2000));
     
-    if (hum < 30) hum_iter = 1;
-    else if (hum > 80) hum_iter = -1;
+    if (hum < 30) hum_iter = 2;
+    else if (hum > 80) hum_iter = -2;
     hum = hum + hum_iter;
 
-    if (temp < 20.0) temp_iter = 0.5;
-    else if (temp > 25.0) temp_iter = -0.5;
+    if (temp < 20.0) temp_iter = 0.7;
+    else if (temp > 25.0) temp_iter = -0.7;
     temp = temp + temp_iter;
 
     i ++;
