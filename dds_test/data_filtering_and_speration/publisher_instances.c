@@ -43,7 +43,7 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
   
   // ContentFilter
-  dds_set_topic_filter(topic, contentFilter);
+  //dds_set_topic_filter(topic, contentFilter);
 
   /* Create QoS */
   qos = dds_create_qos ();

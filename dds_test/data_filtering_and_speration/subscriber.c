@@ -57,7 +57,6 @@ int main (int argc, char ** argv)
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
-
   // ContentFilter
   //dds_set_topic_filter(topic, contentFilter);
 
