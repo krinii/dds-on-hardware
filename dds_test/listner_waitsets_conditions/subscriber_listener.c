@@ -107,7 +107,12 @@ int main (int argc, char ** argv)
 
   while (sigintH){
     // Do nothing
-    dds_sleepfor (DDS_MSECS (3000));
+    dds_sleepfor (DDS_MSECS (3000)); 
+    // can be replaced with "status = dds_waitset_attach (waitSet, waitSet, waitSet);". I think
+    // Block with dds_waitset_wait() function
+    // and unblock with "dds_waitset_set_trigger (waitSet, true);" in sigintHandler function
+    // or anywhere you wanna stop the program
+    
     printf ("\n=== Looped \n");
     fflush (stdout);
   }
