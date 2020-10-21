@@ -70,13 +70,13 @@ int main (int argc, char ** argv)
   //dds_qset_history(qos, DDS_HISTORY_KEEP_ALL, DEPTH);
   //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
 
-  listener = dds_create_listener(NULL);
+  /*listener = dds_create_listener(NULL);
   dds_lset_requested_incompatible_qos(listener, requested_qos);
   dds_lset_offered_incompatible_qos(listener, offered_qos);
-  dds_lset_data_available(listener, data_available);
+  dds_lset_data_available(listener, data_available);*/
 
-  //reader = dds_create_reader (participant, topic, qos, NULL);
-  reader = dds_create_reader (participant, topic, qos, listener);
+  reader = dds_create_reader (participant, topic, qos, NULL);
+  //reader = dds_create_reader (participant, topic, qos, listener);
   if (reader < 0)
     DDS_FATAL("dds_create_reader: %s\n", dds_strretcode(-reader));
   dds_delete_qos(qos);
