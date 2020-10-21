@@ -24,12 +24,17 @@ bool checkSampleState(dds_sample_info_t infos[], dds_return_t count);
 bool checkValidData(dds_sample_info_t infos[], dds_return_t count);
 bool contentFilter(const void *sample);
 
+void data_available(dds_entity_t reader, void *arg);
+void offered_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg);
+void requested_qos(dds_entity_t reader, const dds_requested_incompatible_qos_status_t status, void *arg);
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
   dds_entity_t topic;
   dds_entity_t reader;
   TestDataType_data *msg;
+  dds_listener_t *listener = NULL;
 
   static TestDataType_data data[MAX_SAMPLES];
   void *samples[MAX_SAMPLES];
@@ -65,11 +70,21 @@ int main (int argc, char ** argv)
   //dds_qset_history(qos, DDS_HISTORY_KEEP_ALL, DEPTH);
   //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
 
+  listener = dds_create_listener(NULL);
+  dds_lset_requested_incompatible_qos(listener, requested_qos);
+  dds_lset_offered_incompatible_qos(listener, offered_qos);
+  dds_lset_data_available(listener, data_available);
 
-  reader = dds_create_reader (participant, topic, qos, NULL);
+  //reader = dds_create_reader (participant, topic, qos, NULL);
+  reader = dds_create_reader (participant, topic, qos, listener);
   if (reader < 0)
     DDS_FATAL("dds_create_reader: %s\n", dds_strretcode(-reader));
   dds_delete_qos(qos);
+
+  if (listener == NULL){
+    printf("\n ===== WHAT?!?!?!?!?!? \n");
+    fflush(stdout);
+  }
 
   printf ("\n=== [Subscriber] Waiting for a sample ...\n");
   fflush (stdout);
@@ -182,4 +197,19 @@ bool contentFilter(const void *sample){
     return true;
   }
   return false;
+}
+
+void data_available(dds_entity_t reader, void *arg){
+  printf("\n ===== Data_available ===== \n");
+  fflush(stdout);
+}
+
+void offered_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg){
+  printf("\n ===== Offered QoS ===== \n");
+  fflush(stdout);
+}
+
+void requested_qos(dds_entity_t reader, const dds_requested_incompatible_qos_status_t status, void *arg){
+  printf("\n ===== Requested QoS ===== \n");
+  fflush(stdout);
 }
