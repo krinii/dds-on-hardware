@@ -13,6 +13,8 @@ void sigintHandler(int sig_num) {
   sigintH = 0;
 }
 
+bool contentFilter(const void *sample);
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
@@ -39,6 +41,9 @@ int main (int argc, char ** argv)
     participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
+  
+  // ContentFilter
+  dds_set_topic_filter(topic, contentFilter);
 
   /* Create QoS */
   qos = dds_create_qos ();
@@ -144,4 +149,12 @@ int main (int argc, char ** argv)
     DDS_FATAL("dds_delete: %s\n", dds_strretcode(-rc));
 
   return EXIT_SUCCESS;
+}
+
+bool contentFilter(const void *sample){
+  TestDataType_data *msg = (TestDataType_data*)sample;
+  if (msg->temperature < 25.0){
+    return true;
+  }
+  return false;
 }

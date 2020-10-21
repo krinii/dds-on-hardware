@@ -22,6 +22,7 @@ void sigintHandler(int sig_num) {
 
 bool checkSampleState(dds_sample_info_t infos[], dds_return_t count);
 bool checkValidData(dds_sample_info_t infos[], dds_return_t count);
+bool contentFilter(const void *sample);
 
 int main (int argc, char ** argv)
 {
@@ -52,6 +53,9 @@ int main (int argc, char ** argv)
     participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
+
+  // ContentFilter
+  //dds_set_topic_filter(topic, contentFilter);
 
   /* Create a reliable Reader. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
@@ -168,6 +172,14 @@ bool checkValidData(dds_sample_info_t infos[], dds_return_t count){
   for (int i = 0; i < count; i++){
     if(infos[i].valid_data)
       return true;
+  }
+  return false;
+}
+
+bool contentFilter(const void *sample){
+  TestDataType_data *msg = (TestDataType_data*)sample;
+  if (msg->humidity < 70){
+    return true;
   }
   return false;
 }

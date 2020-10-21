@@ -59,7 +59,7 @@ int main (int argc, char ** argv)
 
 
   // ContentFilter
-  dds_set_topic_filter(topic, contentFilter);
+  //dds_set_topic_filter(topic, contentFilter);
 
   /* Create a reliable Reader. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
