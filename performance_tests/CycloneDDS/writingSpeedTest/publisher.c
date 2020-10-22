@@ -5,6 +5,7 @@
 #include <signal.h>
 
 #define DEPTH 10
+#define DEBUG false
 
 static volatile int sigintH = 1;
 
@@ -83,24 +84,27 @@ int main (int argc, char ** argv)
   float temp = 20.0;
   float temp_iter = 0.1;
   
-  //while (i < 10  && sigintH){
-  while (sigintH){
-    /* Create a message to write. */
-    msg.instanceID = 3;
-    msg.message = "Numbers";
-    msg.humidity = hum;
-    msg.temperature = temp;
-    msg.msgNr = i;
+  /* Create a message to write. */
+  msg.instanceID = 3;
+  msg.message = "Numbers";
+  msg.humidity = hum;
+  msg.temperature = temp;
+  msg.msgNr = i;
 
-    printf ("=== [Publisher]  Writing : \n");
-    printf ("Message (%"PRId32", %s; Temp: %.2f; HUM: %d; %"PRId32")\n", msg.instanceID, msg.message, msg.temperature, msg.humidity, msg.msgNr);
-    fflush (stdout);
+  while (sigintH){
+    /*if (DEBUG){
+      printf ("=== [Publisher]  Writing : \n");
+      printf ("Message (%"PRId32", %s; Temp: %.2f; HUM: %d; %"PRId32")\n", msg.instanceID, msg.message, msg.temperature, msg.humidity, msg.msgNr);
+      fflush (stdout);
+    }*/
+    
 
     rc = dds_write (writer, &msg);
-    if (rc != DDS_RETCODE_OK)
-      DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
+    /*if (rc != DDS_RETCODE_OK)
+      DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));*/
 
-  	dds_sleepfor (DDS_MSECS (500));
+  	/*
+    dds_sleepfor (DDS_MSECS (500));
     
     if (hum < 30) hum_iter = 1;
     else if (hum > 80) hum_iter = -1;
@@ -110,7 +114,7 @@ int main (int argc, char ** argv)
     else if (temp > 25.0) temp_iter = -0.5;
     temp = temp + temp_iter;
 
-    i ++;
+    i ++;*/
   }
 
   //printf("Delete\n");
