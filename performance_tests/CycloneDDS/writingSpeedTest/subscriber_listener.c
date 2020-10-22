@@ -34,6 +34,8 @@ void *samples[MAX_SAMPLES];
 dds_sample_info_t infos[MAX_SAMPLES];
 dds_return_t rc;
 
+int msg_count = 0;
+
 int main (int argc, char ** argv)
 {
   dds_entity_t participant;
@@ -113,8 +115,9 @@ int main (int argc, char ** argv)
     // and unblock with "dds_waitset_set_trigger (waitSet, true);" in sigintHandler function
     // or anywhere you wanna stop the program
     
-    printf ("\n=== Looped \n");
-    fflush (stdout);
+    break;
+    //printf ("\n=== Looped \n");
+    //fflush (stdout);
   }
 
   /* Free the data location. */
@@ -125,8 +128,8 @@ int main (int argc, char ** argv)
     TestDataType_data_free (&data[i], DDS_FREE_CONTENTS);
   }
 
-  //printf("Delete\n");
-  //fflush(stdout);
+  printf("Message Count: %d\n", msg_count);
+  fflush(stdout);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
@@ -163,25 +166,26 @@ bool contentFilter(const void *sample){
 }
 
 void data_available(dds_entity_t reader, void *arg){
-  printf("\n ===== Data_available ===== \n");
+  //printf("\n ===== Data_available ===== \n");
   
   rc = 0;
   /* Do the actual read.
     * The return value contains the number of read samples. */
-  rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
-  //rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+  //rc = dds_read (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
+  rc = dds_take (reader, samples, infos, MAX_SAMPLES, MAX_SAMPLES);
   if (rc < 0)
     DDS_FATAL("dds_read: %s\n", dds_strretcode(-rc));
 
   for (int i = 0; i < rc; i ++){
     /*printf("--- Sample state = %d \n", infos[i].sample_state);
     fflush (stdout);*/
-    //if ((rc > 0) && (infos[i].valid_data)){
-    if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
+    if ((rc > 0) && (infos[i].valid_data)){
+    //if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
       /* Print Message. */
-      msg = (TestDataType_data*) samples[i];
+      //msg = (TestDataType_data*) samples[i];
       //printf ("%d, ", msg->msgNr);
-      printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
+      //printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
+      msg_count++;
     }
   }
   
