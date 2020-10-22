@@ -63,7 +63,7 @@ int main (int argc, char ** argv)
   printf("=== [Publisher]  Waiting for a reader to be discovered ...\n");
   fflush (stdout);
 
-  rc = dds_set_status_mask(writer, DDS_PUBLICATION_MATCHED_STATUS);
+  /*rc = dds_set_status_mask(writer, DDS_PUBLICATION_MATCHED_STATUS);
   if (rc != DDS_RETCODE_OK)
     DDS_FATAL("dds_set_status_mask: %s\n", dds_strretcode(-rc));
 
@@ -75,7 +75,7 @@ int main (int argc, char ** argv)
 
     //Polling sleep.
     dds_sleepfor (DDS_MSECS (20));
-  }
+  }*/
 
   int i = 0;
 
