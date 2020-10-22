@@ -7,8 +7,8 @@
 
 /* An array of one message (aka sample in dds terms) will be used. */
 #define MAX_SAMPLES 100000
-#define DEPTH MAX_SAMPLES // DEPTH is used in other functions so it still has to be here
-//#define DEPTH 12 // Irrelevant with history kind HISTORY_KEEP_ALL
+//#define DEPTH MAX_SAMPLES // DEPTH is used in other functions so it still has to be here
+#define DEPTH 20 // Irrelevant with history kind HISTORY_KEEP_ALL
 
 static volatile int sigintH = 1;
 
@@ -17,8 +17,6 @@ void sigintHandler(int sig_num) {
   sigintH = 0;
 }
 
-//bool checkSampleState(dds_sample_info_t infos[DEPTH]);
-//bool checkValidData(dds_sample_info_t infos[DEPTH]);
 
 bool checkSampleState(dds_sample_info_t infos[], dds_return_t count);
 bool checkValidData(dds_sample_info_t infos[], dds_return_t count);
@@ -70,8 +68,8 @@ int main (int argc, char ** argv)
   qos = dds_create_qos ();
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
   /* Change History setting */
-  //dds_qset_history(qos, DDS_HISTORY_KEEP_ALL, DEPTH);
-  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
+  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
 
   listener = dds_create_listener(NULL);
   dds_lset_requested_incompatible_qos(listener, requested_qos);
@@ -109,12 +107,19 @@ int main (int argc, char ** argv)
 
   while (sigintH){
     // Do nothing
-    dds_sleepfor (DDS_MSECS (3000)); 
-    // can be replaced with "status = dds_waitset_attach (waitSet, waitSet, waitSet);". I think
-    // Block with dds_waitset_wait() function
-    // and unblock with "dds_waitset_set_trigger (waitSet, true);" in sigintHandler function
-    // or anywhere you wanna stop the program
     
+    for (int i = 0; i < 5; i++){
+      msg_count = 0; // Reset counter
+      dds_sleepfor (DDS_MSECS (3000)); 
+      // can be replaced with "status = dds_waitset_attach (waitSet, waitSet, waitSet);". I think
+      // Block with dds_waitset_wait() function
+      // and unblock with "dds_waitset_set_trigger (waitSet, true);" in sigintHandler function
+      // or anywhere you wanna stop the program
+      
+      printf("Message Count: %d\n", msg_count);
+      fflush(stdout);
+    }
+
     break;
     //printf ("\n=== Looped \n");
     //fflush (stdout);
@@ -127,9 +132,6 @@ int main (int argc, char ** argv)
   {
     TestDataType_data_free (&data[i], DDS_FREE_CONTENTS);
   }
-
-  printf("Message Count: %d\n", msg_count);
-  fflush(stdout);
 
   /* Deleting the participant will delete all its children recursively as well. */
   rc = dds_delete (participant);
@@ -187,9 +189,10 @@ void data_available(dds_entity_t reader, void *arg){
       //printf ("Instance: %d; HUM: %d; TEMP: %.2f; Nr: %d \n", msg->instanceID, msg->humidity, msg->temperature, msg->msgNr);
       msg_count++;
     }
+    
   }
   
-  fflush(stdout);
+  //fflush(stdout);
 }
 
 void offered_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg){

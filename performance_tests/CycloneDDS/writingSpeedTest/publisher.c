@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#define DEPTH 10
+#define DEPTH 20
 #define DEBUG false
 
 static volatile int sigintH = 1;
@@ -50,13 +50,13 @@ int main (int argc, char ** argv)
   qos = dds_create_qos ();
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
-  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
-  //dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
+  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
 
   /* Create a Writer. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
-  //writer = dds_create_writer (participant, topic, qos, NULL);
-  writer = dds_create_writer (participant, topic, NULL, NULL);
+  writer = dds_create_writer (participant, topic, qos, NULL);
+  //writer = dds_create_writer (participant, topic, NULL, NULL);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
 
@@ -79,14 +79,14 @@ int main (int argc, char ** argv)
 
   int i = 0;
 
-  int hum = 35;
+  int hum = 0;
   int hum_iter = 1;
-  float temp = 20.0;
+  float temp = 0.0;
   float temp_iter = 0.1;
   
   /* Create a message to write. */
   msg.instanceID = 3;
-  msg.message = "Numbers";
+  msg.message = "";
   msg.humidity = hum;
   msg.temperature = temp;
   msg.msgNr = i;
