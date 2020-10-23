@@ -105,6 +105,8 @@ int main (int argc, char ** argv)
   //Sleep for testing
   //dds_sleepfor (DDS_MSECS (1000));
 
+  FILE *fp;
+  int tmp_msg_count = 0;
   while (sigintH){
     // Do nothing
     
@@ -116,7 +118,11 @@ int main (int argc, char ** argv)
       // and unblock with "dds_waitset_set_trigger (waitSet, true);" in sigintHandler function
       // or anywhere you wanna stop the program
       
-      printf("Message Count: %d\n", msg_count);
+      tmp_msg_count = msg_count;
+      fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/writingSpeedTest/data/test_200_bytes.txt", "a");
+      fprintf(fp, "%d,%d,\n", i, tmp_msg_count);
+      fclose(fp);
+      printf("Message Count: %d\n", tmp_msg_count);
       fflush(stdout);
     }
     break;
