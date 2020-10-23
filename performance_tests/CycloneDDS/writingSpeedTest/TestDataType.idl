@@ -2,11 +2,11 @@ module TestDataType
 {
   struct data
   {
-    long instanceID;
-    string message;
-    float temperature;
-    long humidity;
-    long msgNr;
+    double instanceID;
+    double msgNr;
+    double e1;
+    double e2;
+    double e3;
   };
   #pragma keylist data instanceID
 };

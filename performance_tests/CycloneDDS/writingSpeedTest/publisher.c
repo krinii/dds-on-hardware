@@ -79,17 +79,24 @@ int main (int argc, char ** argv)
 
   int i = 0;
 
-  int hum = 0;
+  double hum = 0.0;
   int hum_iter = 1;
-  float temp = 0.0;
-  float temp_iter = 0.1;
+  double temp = 0.0;
+  double temp_iter = 0.1;
   
   /* Create a message to write. */
-  msg.instanceID = 3;
-  msg.message = "";
-  msg.humidity = hum;
-  msg.temperature = temp;
-  msg.msgNr = i;
+  msg.instanceID = 3.0;
+  msg.e1 = 0.0;
+  msg.e2 = 0.0;
+  msg.e3 = 0.0;
+  msg.msgNr = 0.0;
+
+  printf("ID: %ld \n", sizeof(msg.instanceID));
+  printf("msg: %ld \n", sizeof(msg.e1));
+  printf("hum: %ld \n", sizeof(msg.e2));
+  printf("temp: %ld \n", sizeof(msg.e3));
+  printf("Nr: %ld \n", sizeof(msg.msgNr));
+  fflush (stdout);
 
   while (sigintH){
     /*if (DEBUG){
@@ -129,7 +136,7 @@ int main (int argc, char ** argv)
 
 bool contentFilter(const void *sample){
   TestDataType_data *msg = (TestDataType_data*)sample;
-  if (msg->temperature < 25.0){
+  if (msg->e1 < 25.0){
     return true;
   }
   return false;

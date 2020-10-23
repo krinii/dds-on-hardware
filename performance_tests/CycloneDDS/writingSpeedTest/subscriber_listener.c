@@ -161,7 +161,7 @@ bool checkValidData(dds_sample_info_t infos[], dds_return_t count){
 
 bool contentFilter(const void *sample){
   TestDataType_data *msg = (TestDataType_data*)sample;
-  if (msg->humidity < 70){
+  if (msg->e1 < 70.0){
     return true;
   }
   return false;
