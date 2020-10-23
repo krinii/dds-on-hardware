@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-21T18:48:06.147Z'
+modified: '2020-10-23T11:46:30.359Z'
 ---
 
 # Log Book
@@ -293,7 +293,7 @@ I applied the durability service setting to the HistoryTopicTest project, but on
 I have to install stress-ng and iperf on the PI's, is done with apt, and I need to find out how to use the programs.
 
 I have started documenting my findings/learnings from the HistoryTest and HistoryTopicTest projects in overleaf in an effort to make a template for later tests.
-
+## 42
 ### 12/10-2020
 Installed Valgrind, a tool used for observing a programs memory usage.
 
@@ -319,7 +319,7 @@ Started learning how to use Valgrind:
 *Massif is a heap profiler. It measures how much heap memory your program uses. This includes both the useful space, and the extra bytes allocated for book-keeping and alignment purposes. It can also measure the size of your program's stack(s), although it does not do so by default.*
 
 A massif.out."number" file will be made after the program is termianted, in the execution folder.
-
+## 43
 ### 19/10-2020
 **HistoryTest 2 instances:**
 I added another writer to the HistoryTest project to see how the history setting acts with two instances. **Notice** it is not necessary to make another program, the same writer can write to any instance you want to and one program can have multiple wirters. This was simply done so that I didn't have to remove code later if I need to test with only one instance.
@@ -354,3 +354,12 @@ Put the reading and sample displaying code into the data available callback and 
 
 **WaitSet**
 Waitset's are used for waiting for status changes that affects the enitiy the waitset is attached to.
+
+### 22/10-2020
+Do the writingSpeedTest with different IDL's (Larger) to see if it makes a differens.
+
+CycloneDDS chooses to use the loopback when I turn off my wifi module. When it does this I am able to see a lot more information with wireshark (most notable the HEARTBEAT).
+
+### 23/10-2020
+**IDL** in the read/write speed test: I have made the large idl have 259 doubles elements, it contains 2 seperate double and an array of 257 doubles, this is the max size for the array, any higher and it will not complie (giving the error found in "complie_error_with_arr_larger_then_257"). The reader gives a message "Killed" in the terminal when I try to receive a message of two doubles and arrary of 257 doubles (Guessign the OS kills it).
+Sending 2032 bytes is able to be send, but the laptop start being non responsive and only the first cycle of reads gets a few 1000 samples and the rest all get below 5 and in some cases 0.

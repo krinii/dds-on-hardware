@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-10-09T12:09:41.207Z'
+modified: '2020-10-22T08:59:04.011Z'
 ---
 
 # Meetings with Tórur
@@ -92,9 +92,14 @@ Hvordan kan man dokumenter test som f.eks. history size
 
 * Forklar hvor "kravne" i problem analysen kommer fra, var det noget du snakkede med MiR om (hvorfor bruger du den MCU?) (de kan ikke bare komme fra den blå luft)
 
-## 13/10-2020
+## 22/10-2020
 
 ### Questions
 * Hvordan skal jeg dokumenter mine resulater, der kommer ikke lige frem tal ud.
 * Burde jeg bruge scripts til at udføre testene for at ens svar.
 * Problemet med at reader nogle gange spammer "New Read" print'ed
+
+### Notes
+ * Beskeder per "tid" på forskillig hardware (skriv til samme device)
+ * (Egnen tanke) Skriv om hvordan DDS opfylder kravene i kravspecifikation, du behøver nok ikke at teste dem. Fokuser på hvad dds specifikation kræver og ikke på en implementering i denne del.
+ * Du skal nok have lidt om security i dds.
