@@ -1,12 +1,12 @@
 #include "dds/dds.h"
-#include "TestDataType.h"
+#include "TestDataType_150.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 100000
+#define MAX_SAMPLES 1000644 //1000000
 //#define DEPTH MAX_SAMPLES // DEPTH is used in other functions so it still has to be here
 #define DEPTH 20 // Irrelevant with history kind HISTORY_KEEP_ALL
 
@@ -119,7 +119,6 @@ int main (int argc, char ** argv)
       printf("Message Count: %d\n", msg_count);
       fflush(stdout);
     }
-
     break;
     //printf ("\n=== Looped \n");
     //fflush (stdout);
@@ -161,6 +160,7 @@ bool checkValidData(dds_sample_info_t infos[], dds_return_t count){
 
 void data_available(dds_entity_t reader, void *arg){
   //printf("\n ===== Data_available ===== \n");
+  //fflush(stdout);
   
   rc = 0;
   /* Do the actual read.

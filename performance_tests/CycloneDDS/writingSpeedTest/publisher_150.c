@@ -1,5 +1,5 @@
 #include "dds/dds.h"
-#include "TestDataType.h"
+#include "TestDataType_150.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -84,6 +84,7 @@ int main (int argc, char ** argv)
 
   printf("ID: %ld \n", sizeof(msg.instanceID));
   printf("Nr: %ld \n", sizeof(msg.msgNr));
+  printf("arr: %ld \n", sizeof(msg.arr));
   fflush (stdout);
 
   while (sigintH){

@@ -1,5 +1,5 @@
 #include "dds/dds.h"
-#include "TestDataType.h"
+#include "TestDataType_Medium.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
