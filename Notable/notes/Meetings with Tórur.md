@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-10-22T08:59:04.011Z'
+modified: '2020-10-26T20:58:14.611Z'
 ---
 
 # Meetings with Tórur
@@ -103,3 +103,11 @@ Hvordan kan man dokumenter test som f.eks. history size
  * Beskeder per "tid" på forskillig hardware (skriv til samme device)
  * (Egnen tanke) Skriv om hvordan DDS opfylder kravene i kravspecifikation, du behøver nok ikke at teste dem. Fokuser på hvad dds specifikation kræver og ikke på en implementering i denne del.
  * Du skal nok have lidt om security i dds.
+
+ ## 27/10-2020
+
+ ### Question
+  * Snak lidt om de captures du fik ud af wireshark når du sendte data over loopback.
+  * Burde jeg udføre nogle test ved brug af loopback i stedet for devicets wifi modul?
+  * Snak om de ændring du have lavet i performs test afsnittet, er strukturen som den skal være?
+  * Er testene gode nok, mangler der noget, burde der være flere?

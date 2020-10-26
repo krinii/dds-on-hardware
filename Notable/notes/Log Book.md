@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-23T11:46:30.359Z'
+modified: '2020-10-26T20:33:37.152Z'
 ---
 
 # Log Book
@@ -363,3 +363,8 @@ CycloneDDS chooses to use the loopback when I turn off my wifi module. When it d
 ### 23/10-2020
 **IDL** in the read/write speed test: I have made the large idl have 259 doubles elements, it contains 2 seperate double and an array of 257 doubles, this is the max size for the array, any higher and it will not complie (giving the error found in "complie_error_with_arr_larger_then_257"). The reader gives a message "Killed" in the terminal when I try to receive a message of two doubles and arrary of 257 doubles (Guessign the OS kills it).
 Sending 2032 bytes is able to be send, but the laptop start being non responsive and only the first cycle of reads gets a few 1000 samples and the rest all get below 5 and in some cases 0.
+
+## Week 44
+
+### 26/10-2020
+Worked on the performs test section in the report.
