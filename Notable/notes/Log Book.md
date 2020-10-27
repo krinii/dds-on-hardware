@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-26T20:33:37.152Z'
+modified: '2020-10-27T19:59:49.456Z'
 ---
 
 # Log Book
@@ -368,3 +368,8 @@ Sending 2032 bytes is able to be send, but the laptop start being non responsive
 
 ### 26/10-2020
 Worked on the performs test section in the report.
+
+### 27/10-2020
+Ved at ændre MAX_SAMPLES til **100000** i stedet for **1000000** kan programmet complie med en idl større end 257 bytes, som ellers var et problem før, men nu kan jeg gå helt op til 20000 bytes. Det ser ud til at jo mindre MAX_SAMPLES er jo større kan idl'en være. Til testen: Find forholdet mellem MAX_SAMPLES og idl størelse.
+MAX_SAMPLES størrelse er meget vigtig at tænke på. Den afgøre hvor mange samples en reader kan modtage per read operation og den er delt mellem alle instances. Så hvis MAX_SAMPLES er 1 vil det kun være muligt at modtage en sample af gangen, hvis readeren er hurtig nok kan den ind hente beskederne i dens cache, men det er ikke reliable.
+**Note** Any element in the idl will take up 8 bytes as defined in the RTPS.

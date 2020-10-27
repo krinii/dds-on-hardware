@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-10-26T20:58:14.611Z'
+modified: '2020-10-27T08:41:19.251Z'
 ---
 
 # Meetings with Tórur
@@ -111,3 +111,9 @@ Hvordan kan man dokumenter test som f.eks. history size
   * Burde jeg udføre nogle test ved brug af loopback i stedet for devicets wifi modul?
   * Snak om de ændring du have lavet i performs test afsnittet, er strukturen som den skal være?
   * Er testene gode nok, mangler der noget, burde der være flere?
+  * Snak lidt om talene fra read/write speed. 
+  * Burde jeg udføre mere statestic på mine tal. Foreksample histogram?
+  * Burde jeg lave mere end 100 cycles. På histogram'et kunne det godt se ud som om det ville give en pænere bell-kurve, men er det nødvendigt?
+
+  ### Notes
+  
