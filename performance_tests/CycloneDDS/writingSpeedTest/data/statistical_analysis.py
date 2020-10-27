@@ -34,7 +34,9 @@ np.histogram(samples)
 
 print("All samples:", sum(samples))
 
-print("Number of games:", cycles)
+print("Number of cycles:", cycles)
+
+print("Standard Deviation:", statistics.stdev(samples))
 
 print("Average Samples", sum(samples)/cycles)
 """
