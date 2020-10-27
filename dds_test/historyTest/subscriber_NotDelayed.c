@@ -6,7 +6,7 @@
 #include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 20
+#define MAX_SAMPLES 1
 #define DEPTH 12
 
 static volatile int sigintH = 1;
