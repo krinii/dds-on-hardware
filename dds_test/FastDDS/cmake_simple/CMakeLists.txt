@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.12.4)
+# cmake_minimum_required(VERSION 3.12.4)
+cmake_minimum_required(VERSION 3.10)
 
 if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
@@ -29,3 +30,9 @@ endif()
 
 message(STATUS "Configuring HelloWorld publisher/subscriber example...")
 file(GLOB DDS_HELLOWORLD_SOURCES_CXX "src/*.cxx")
+
+add_executable(DDSHelloWorldPublisher src/HelloWorldPublisher.cpp ${DDS_HELLOWORLD_SOURCES_CXX})
+target_link_libraries(DDSHelloWorldPublisher fastrtps fastcdr)
+
+add_executable(DDSHelloWorldSubscriber src/HelloWorldSubscriber.cpp ${DDS_HELLOWORLD_SOURCES_CXX})
+target_link_libraries(DDSHelloWorldSubscriber fastrtps fastcdr)
