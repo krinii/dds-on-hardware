@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-27T19:59:49.456Z'
+modified: '2020-10-28T23:01:59.718Z'
 ---
 
 # Log Book
@@ -373,3 +373,6 @@ Worked on the performs test section in the report.
 Ved at ændre MAX_SAMPLES til **100000** i stedet for **1000000** kan programmet complie med en idl større end 257 bytes, som ellers var et problem før, men nu kan jeg gå helt op til 20000 bytes. Det ser ud til at jo mindre MAX_SAMPLES er jo større kan idl'en være. Til testen: Find forholdet mellem MAX_SAMPLES og idl størelse.
 MAX_SAMPLES størrelse er meget vigtig at tænke på. Den afgøre hvor mange samples en reader kan modtage per read operation og den er delt mellem alle instances. Så hvis MAX_SAMPLES er 1 vil det kun være muligt at modtage en sample af gangen, hvis readeren er hurtig nok kan den ind hente beskederne i dens cache, men det er ikke reliable.
 **Note** Any element in the idl will take up 8 bytes as defined in the RTPS.
+
+### 28/10-2020
+Installed both Fast RTPS and RTI Connext. RTI is not really that simple and toke at bit to work and changing the code toke at bit as well. Fast RTPS seems easier to complie, need more testing. None of the implementations can communicate, and I have no idea how to fix it. Might have to scrap the cross communication performance test, since I can't make it work atm, and just write about it instead, but then do more of the test with two different implemenations
