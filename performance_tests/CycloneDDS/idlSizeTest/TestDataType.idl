@@ -3,7 +3,8 @@ module TestDataType
   struct data
   {
     //double arr[2681719];
-    double arr[1046577];
+    //double arr[1046577];
+    double arr[10];
   };
   #pragma keylist data arr
 };

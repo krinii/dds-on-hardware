@@ -11,8 +11,8 @@
 //#define MAX_SAMPLES 10000
 //#define MAX_SAMPLES 1000
 //#define MAX_SAMPLES 100
-//#define MAX_SAMPLES 10
-#define MAX_SAMPLES 1
+#define MAX_SAMPLES 10
+//#define MAX_SAMPLES 1
 
 //#define DEPTH MAX_SAMPLES // DEPTH is used in other functions so it still has to be here
 #define DEPTH 20 // Irrelevant with history kind HISTORY_KEEP_ALL
