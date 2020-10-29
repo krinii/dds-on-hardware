@@ -6,7 +6,7 @@
 #include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 100000
+#define MAX_SAMPLES 100
 //#define DEPTH MAX_SAMPLES // DEPTH is used in other functions so it still has to be here
 #define DEPTH 20 // Irrelevant with history kind HISTORY_KEEP_ALL
 
