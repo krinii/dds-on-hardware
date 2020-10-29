@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-28T23:01:59.718Z'
+modified: '2020-10-29T20:49:11.617Z'
 ---
 
 # Log Book
@@ -311,7 +311,7 @@ The "setbuf(stdout, NULL)" does not remove the New Read print issue.
 A massif.out file from Valgrind can be printed with "ms_print"m, which makes the data easier to analyse. massif-visualizer is gui for analysing the massif.out files
 
 ### 15/10-2020
-When connecting to the pi's with **screen** over serial, you have to run the screen command while the pi is booting up.
+When connecting to the pi's with **screen** over serial, you have to run the screen command while the pi is booting up. `screen /dev/ttyUSB0 115200`
 
 ### 16/10-2020
 Started learning how to use Valgrind:
@@ -375,4 +375,7 @@ MAX_SAMPLES størrelse er meget vigtig at tænke på. Den afgøre hvor mange sam
 **Note** Any element in the idl will take up 8 bytes as defined in the RTPS.
 
 ### 28/10-2020
-Installed both Fast RTPS and RTI Connext. RTI is not really that simple and toke at bit to work and changing the code toke at bit as well. Fast RTPS seems easier to complie, need more testing. None of the implementations can communicate, and I have no idea how to fix it. Might have to scrap the cross communication performance test, since I can't make it work atm, and just write about it instead, but then do more of the test with two different implemenations
+Installed both Fast RTPS and RTI Connext. RTI is not really that simple and toke at bit to work and changing the code toke at bit as well. Fast RTPS seems easier to complie, need more testing. None of the implementations can communicate, and I have no idea how to fix it. Might have to scrap the cross communication performance test, since I can't make it work atm, and just write about it instead, but then do more of the test with two different implemenations.
+
+### 29/10-2020
+Gonna change the MAX_SAMPLES define to 100 in all the read/write speed test programs.
