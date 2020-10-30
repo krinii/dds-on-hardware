@@ -1,0 +1,9 @@
+module TestDataType
+{
+  struct data
+  {
+    //double arr[1047384];
+    double arr[46];
+  };
+  #pragma keylist data arr
+};
