@@ -14,7 +14,7 @@ filepath1 = ""
 
 
 # filename1 = filepath1 + "test_8_bytes.txt"
-filename1 = filepath1 + "test_2_bytes.txt"
+filename1 = filepath1 + "test_6.txt"
 
 
 filenames_X = [filename1]

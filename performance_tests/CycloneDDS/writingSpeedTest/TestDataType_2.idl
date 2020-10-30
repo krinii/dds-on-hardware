@@ -4,7 +4,7 @@ module TestDataType
   {
     //double instanceID;
     //double msgNr;
-    double arr[1];
+    double arr[16000];
   };
   #pragma keylist data arr
 };

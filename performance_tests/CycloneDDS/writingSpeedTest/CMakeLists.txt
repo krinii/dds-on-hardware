@@ -9,47 +9,47 @@ find_package(CycloneDDS REQUIRED COMPONENTS idlc PATHS "/home/k/Desktop/Workspac
 # In short, it takes the idl file, generates the source files with
 # the proper data types and compiles them into a library.
 idlc_generate(TestDataType_lib "TestDataType.idl")
-idlc_generate(TestDataTypeMedium_lib "TestDataType_Medium.idl")
-idlc_generate(TestDataType100_lib "TestDataType_100.idl")
-idlc_generate(TestDataType150_lib "TestDataType_150.idl")
-idlc_generate(TestDataType200_lib "TestDataType_200.idl")
-idlc_generate(TestDataTypeLarge_lib "TestDataType_Large.idl")
+idlc_generate(TestDataType2_lib "TestDataType_2.idl")
+idlc_generate(TestDataType3_lib "TestDataType_3.idl")
+idlc_generate(TestDataType4_lib "TestDataType_4.idl")
+idlc_generate(TestDataType5_lib "TestDataType_5.idl")
+idlc_generate(TestDataType6_lib "TestDataType_6.idl")
 
 # Both executables have only one related source file.
-add_executable(publisherLoop publisher.c)
-add_executable(subscriberLoop_Listener subscriber_listener.c)
+add_executable(publisherLoop_1 publisher_1.c)
+add_executable(subscriberLoop_1 subscriber_1.c)
 
-add_executable(publisherLoop_medium publisher_medium.c)
-add_executable(subscriberLoop_medium subscriber_medium.c)
+add_executable(publisherLoop_2 publisher_2.c)
+add_executable(subscriberLoop_2 subscriber_2.c)
 
-add_executable(publisherLoop_100 publisher_100.c)
-add_executable(subscriberLoop_100 subscriber_100.c)
+add_executable(publisherLoop_3 publisher_3.c)
+add_executable(subscriberLoop_3 subscriber_3.c)
 
-add_executable(publisherLoop_150 publisher_150.c)
-add_executable(subscriberLoop_150 subscriber_150.c)
+add_executable(publisherLoop_4 publisher_4.c)
+add_executable(subscriberLoop_4 subscriber_4.c)
 
-add_executable(publisherLoop_200 publisher_200.c)
-add_executable(subscriberLoop_200 subscriber_200.c)
+add_executable(publisherLoop_5 publisher_5.c)
+add_executable(subscriberLoop_5 subscriber_5.c)
 
-add_executable(publisherLoop_large publisher_large.c)
-add_executable(subscriberLoop_large subscriber_large.c)
+add_executable(publisherLoop_6 publisher_6.c)
+add_executable(subscriberLoop_6 subscriber_6.c)
 
 # Both executables need to be linked to the idl data type library and
 # the ddsc API library.
-target_link_libraries(publisherLoop TestDataType_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_Listener TestDataType_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_1 TestDataType_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_1 TestDataType_lib CycloneDDS::ddsc)
 
-target_link_libraries(publisherLoop_medium TestDataTypeMedium_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_medium TestDataTypeMedium_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_2 TestDataType2_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_2 TestDataType2_lib CycloneDDS::ddsc)
 
-target_link_libraries(publisherLoop_100 TestDataType100_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_100 TestDataType100_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_3 TestDataType3_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_3 TestDataType3_lib CycloneDDS::ddsc)
 
-target_link_libraries(publisherLoop_150 TestDataType150_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_150 TestDataType150_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_4 TestDataType4_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_4 TestDataType4_lib CycloneDDS::ddsc)
 
-target_link_libraries(publisherLoop_200 TestDataType200_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_200 TestDataType200_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_5 TestDataType5_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_5 TestDataType5_lib CycloneDDS::ddsc)
 
-target_link_libraries(publisherLoop_large TestDataTypeLarge_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_large TestDataTypeLarge_lib CycloneDDS::ddsc)
+target_link_libraries(publisherLoop_6 TestDataType6_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_6 TestDataType6_lib CycloneDDS::ddsc)

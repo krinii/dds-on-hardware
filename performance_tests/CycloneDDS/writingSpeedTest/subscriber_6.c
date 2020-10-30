@@ -1,5 +1,5 @@
 #include "dds/dds.h"
-#include "TestDataType_100.h"
+#include "TestDataType_6.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -105,12 +105,19 @@ int main (int argc, char ** argv)
   //Sleep for testing
   //dds_sleepfor (DDS_MSECS (1000));
 
+  printf("Msg size: %ld \n", sizeof(msg));
+  printf("arr size: %ld \n", sizeof(msg->arr));
+  fflush (stdout);
+
   FILE *fp;
+  fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/writingSpeedTest/data/test_6.txt", "a");
+  fprintf(fp, "NewRound\n");
+  fclose(fp);
   int tmp_msg_count = 0;
   while (sigintH){
     // Do nothing
     
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; (i < 100) && (sigintH); i++){
       msg_count = 0; // Reset counter
       dds_sleepfor (DDS_MSECS (5000)); 
       // can be replaced with "status = dds_waitset_attach (waitSet, waitSet, waitSet);". I think
@@ -119,7 +126,7 @@ int main (int argc, char ** argv)
       // or anywhere you wanna stop the program
       
       tmp_msg_count = msg_count;
-      fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/writingSpeedTest/data/test_100_bytes.txt", "a");
+      fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/writingSpeedTest/data/test_6.txt", "a");
       fprintf(fp, "%d,%d,\n", i, tmp_msg_count);
       fclose(fp);
       printf("Message Count: %d\n", tmp_msg_count);
