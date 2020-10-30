@@ -1,7 +1,7 @@
 ---
 title: Test Results
 created: '2020-10-27T19:08:39.885Z'
-modified: '2020-10-29T20:21:59.657Z'
+modified: '2020-10-30T23:30:01.565Z'
 ---
 
 # Test Results
@@ -47,3 +47,37 @@ For 2145304 bytes it sometimes frezzes, but the message still gets through and d
 *Gets killed sometimes.
 8376016 bytes no real lag and any higher gives a segmentation fault, does not always.
 8376016** publisher sometimes give segmentation fault.
+
+## R/W Speed
+
+### Laptop Reliable
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  | 1575.22 |
+
+### Laptop Best Effort
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  |  |
+
+
+### PI4 Reliable
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  |  |
+
+### PI4 Best Effort
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  |  |
+
+
+### PI2 Reliable
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  |  |
+
+### PI2 Best Effort
+| 8 | 128000 | 256000 | 384000 | 512000 | 640000 |
+| - | -- | --- | ---- | ----- | ------ |
+|  |  |  |  |  |  |
