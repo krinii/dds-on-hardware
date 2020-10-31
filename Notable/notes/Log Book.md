@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-29T20:49:11.617Z'
+modified: '2020-10-30T23:37:37.877Z'
 ---
 
 # Log Book
@@ -379,3 +379,6 @@ Installed both Fast RTPS and RTI Connext. RTI is not really that simple and toke
 
 ### 29/10-2020
 Gonna change the MAX_SAMPLES define to 100 in all the read/write speed test programs.
+
+### 30/10-2020
+Performed the R/W speed test (cyclonedds) on the PI2 and laptop, almost done on the pi4 as well
