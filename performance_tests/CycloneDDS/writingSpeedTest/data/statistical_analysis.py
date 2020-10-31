@@ -14,7 +14,7 @@ filepath1 = ""
 
 
 # filename1 = filepath1 + "test_8_bytes.txt"
-filename1 = filepath1 + "test_6.txt"
+filename1 = filepath1 + "test_1.txt"
 
 
 filenames_X = [filename1]
@@ -31,6 +31,8 @@ for i in range(len(filenames_X)):
                 cycles = cycles + 1
 
 np.histogram(samples)
+
+print("Filename: ", filename1)
 
 print("All samples:", sum(samples))
 
