@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-10-30T23:37:37.877Z'
+modified: '2020-11-02T14:53:07.658Z'
 ---
 
 # Log Book
@@ -382,3 +382,16 @@ Gonna change the MAX_SAMPLES define to 100 in all the read/write speed test prog
 
 ### 30/10-2020
 Performed the R/W speed test (cyclonedds) on the PI2 and laptop, almost done on the pi4 as well
+
+### 31/10-2020
+Finished R/W performance test for cyclone and wrote the results into overleaf document
+
+## Week 45
+
+### 2/11-2020
+**For Report:** Restructure the chapters, have less chapters, so make more things into section.
+[Domain mapping to UDP](https://github.com/eclipse-cyclonedds/cyclonedds/blob/master/docs/manual/config.rst#mapping-of-dcps-domains-to-ddsi-domains). Entire articel have some good information.
+
+**For learning curve section:** eProsimas's implementation comes with a lot of different examples for both FastDDS and FastRTPS. 
+
+FastDDS does not seem to have a read or take funciton, it instead uses `take_next_sample` and `read_next_sample` which are set up with: [*The read_next_sample operation is semantically equivalent to the read operation where the input Data sequence has max_length=1, the sample_states=NOT_READ, the view_states=ANY_VIEW_STATE, and the instance_states=ANY_INSTANCE_STATE.*](https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/subscriber/datareader.html?highlight=take#datareader) The same goes for take. So I can not do the same memory test as with cyclone
