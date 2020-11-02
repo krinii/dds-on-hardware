@@ -62,7 +62,7 @@ int main (int argc, char ** argv)
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "MyTypePubSubTopic", NULL, NULL);
+    participant, &TestDataType_data_desc, "HelloWorldTopic", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
@@ -185,7 +185,7 @@ void data_available(dds_entity_t reader, void *arg){
       /* Print Message. */
       msg = (TestDataType_data*) samples[i];
       //printf ("%d, ", msg->msgNr);
-      printf ("Msg: %s \n", msg->message);
+      printf ("Msg: arr[0] = %f \n", msg->arr[0]);
     }
   }
   

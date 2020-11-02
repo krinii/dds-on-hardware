@@ -38,7 +38,7 @@ int main (int argc, char ** argv)
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
+    participant, &TestDataType_data_desc, "HelloWorldTopic", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
   
@@ -86,14 +86,16 @@ int main (int argc, char ** argv)
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
-    msg.instanceID = 3;
+    /*msg.instanceID = 3;
     msg.message = "Numbers";
     msg.humidity = hum;
     msg.temperature = temp;
-    msg.msgNr = i;
+    msg.msgNr = i;*/
+
+    msg.arr[0] = 1.5465;
 
     printf ("=== [Publisher]  Writing : \n");
-    printf ("Message (%"PRId32", %s; Temp: %.2f; HUM: %d; %"PRId32")\n", msg.instanceID, msg.message, msg.temperature, msg.humidity, msg.msgNr);
+    printf ("arr[0] : (%f)\n", msg.arr[0]);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);
@@ -123,10 +125,10 @@ int main (int argc, char ** argv)
   return EXIT_SUCCESS;
 }
 
-bool contentFilter(const void *sample){
+/*bool contentFilter(const void *sample){
   TestDataType_data *msg = (TestDataType_data*)sample;
   if (msg->temperature < 25.0){
     return true;
   }
   return false;
-}
+}*/
