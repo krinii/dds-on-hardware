@@ -35,7 +35,7 @@ using namespace eprosima::fastcdr::exception;
 HelloWorld::HelloWorld()
 {
     // m_arr com.eprosima.idl.parser.typecode.ArrayTypeCode@44f75083
-    memset(&m_arr, 0, (900000) * 8);
+    memset(&m_arr, 0, (1041803) * 8);
 
 }
 
@@ -74,7 +74,7 @@ size_t HelloWorld::getMaxCdrSerializedSize(size_t current_alignment)
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += ((900000) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+    current_alignment += ((1041803) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
     return current_alignment - initial_alignment;
@@ -86,9 +86,9 @@ size_t HelloWorld::getCdrSerializedSize(const HelloWorld& data, size_t current_a
     size_t initial_alignment = current_alignment;
 
 
-    if ((900000) > 0)
+    if ((1041803) > 0)
     {
-        current_alignment += ((900000) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+        current_alignment += ((1041803) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
     }
 
     return current_alignment - initial_alignment;
@@ -112,7 +112,7 @@ void HelloWorld::deserialize(eprosima::fastcdr::Cdr &dcdr)
  * @brief This function copies the value in member arr
  * @param _arr New value to be copied in member arr
  */
-void HelloWorld::arr(const std::array<double, 900000> &_arr)
+void HelloWorld::arr(const std::array<double, 1041803> &_arr)
 {
 m_arr = _arr;
 }
@@ -121,7 +121,7 @@ m_arr = _arr;
  * @brief This function moves the value in member arr
  * @param _arr New value to be moved in member arr
  */
-void HelloWorld::arr(std::array<double, 900000> &&_arr)
+void HelloWorld::arr(std::array<double, 1041803> &&_arr)
 {
 m_arr = std::move(_arr);
 }
@@ -130,7 +130,7 @@ m_arr = std::move(_arr);
  * @brief This function returns a constant reference to member arr
  * @return Constant reference to member arr
  */
-const std::array<double, 900000>& HelloWorld::arr() const
+const std::array<double, 1041803>& HelloWorld::arr() const
 {
     return m_arr;
 }
@@ -139,7 +139,7 @@ const std::array<double, 900000>& HelloWorld::arr() const
  * @brief This function returns a reference to member arr
  * @return Reference to member arr
  */
-std::array<double, 900000>& HelloWorld::arr()
+std::array<double, 1041803>& HelloWorld::arr()
 {
     return m_arr;
 }

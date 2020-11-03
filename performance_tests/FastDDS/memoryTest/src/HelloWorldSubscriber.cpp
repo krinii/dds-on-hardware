@@ -88,7 +88,7 @@ private:
                     samples_++;
                     std::cout << "Message Received" << std::endl;
                     std::cout << "Size of arr: " << sizeof(hello_.arr()) << std::endl;
-                    std::array<double, 900000> val = hello_.arr();
+                    std::array<double, 1041803> val = hello_.arr();
                     std::cout << "arr: " << val[0] << " RECEIVED." << std::endl;
                 }
             }

@@ -116,7 +116,7 @@ public:
         //hello_.index(0);
         //hello_.message("HelloWorld");
         //double val[10] = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9};
-        std::array<double, 900000> val;
+        std::array<double, 1041803> val;
         val[0] = 1.84;
         hello_.arr(val);
         std::cout << "Size of arr: " << sizeof(hello_.arr()) << std::endl;
