@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-10-27T08:41:19.251Z'
+modified: '2020-11-03T18:59:54.854Z'
 ---
 
 # Meetings with Tórur
@@ -104,7 +104,7 @@ Hvordan kan man dokumenter test som f.eks. history size
  * (Egnen tanke) Skriv om hvordan DDS opfylder kravene i kravspecifikation, du behøver nok ikke at teste dem. Fokuser på hvad dds specifikation kræver og ikke på en implementering i denne del.
  * Du skal nok have lidt om security i dds.
 
- ## 27/10-2020
+ ## 5/11-2020
 
  ### Question
   * Snak lidt om de captures du fik ud af wireshark når du sendte data over loopback.
@@ -114,6 +114,6 @@ Hvordan kan man dokumenter test som f.eks. history size
   * Snak lidt om talene fra read/write speed. 
   * Burde jeg udføre mere statestic på mine tal. Foreksample histogram?
   * Burde jeg lave mere end 100 cycles. På histogram'et kunne det godt se ud som om det ville give en pænere bell-kurve, men er det nødvendigt?
-
+  
   ### Notes
   

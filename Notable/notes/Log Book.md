@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-02T14:53:07.658Z'
+modified: '2020-11-03T20:26:43.341Z'
 ---
 
 # Log Book
@@ -394,4 +394,9 @@ Finished R/W performance test for cyclone and wrote the results into overleaf do
 
 **For learning curve section:** eProsimas's implementation comes with a lot of different examples for both FastDDS and FastRTPS. 
 
-FastDDS does not seem to have a read or take funciton, it instead uses `take_next_sample` and `read_next_sample` which are set up with: [*The read_next_sample operation is semantically equivalent to the read operation where the input Data sequence has max_length=1, the sample_states=NOT_READ, the view_states=ANY_VIEW_STATE, and the instance_states=ANY_INSTANCE_STATE.*](https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/subscriber/datareader.html?highlight=take#datareader) The same goes for take. So I can not do the same memory test as with cyclone
+FastDDS does not seem to have a read or take funciton, it instead uses `take_next_sample` and `read_next_sample` which are set up with: [*The read_next_sample operation is semantically equivalent to the read operation where the input Data sequence has max_length=1, the sample_states=NOT_READ, the view_states=ANY_VIEW_STATE, and the instance_states=ANY_INSTANCE_STATE.*](https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/subscriber/datareader.html?highlight=take#datareader) The same goes for take. So I can not do the same memory test as with cyclone.
+
+### 3/11-2020
+Finished idl test on Laptop.
+Installed FastDDS on Pi4, I tried on pi4 with bith ubuntu 18 and 20, but it didn't work.
+Finished idl size test on Pi4.
