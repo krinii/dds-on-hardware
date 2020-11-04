@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-03T20:26:43.341Z'
+modified: '2020-11-04T20:29:21.489Z'
 ---
 
 # Log Book
@@ -400,3 +400,6 @@ FastDDS does not seem to have a read or take funciton, it instead uses `take_nex
 Finished idl test on Laptop.
 Installed FastDDS on Pi4, I tried on pi4 with bith ubuntu 18 and 20, but it didn't work.
 Finished idl size test on Pi4.
+
+### 4/11-2020
+Starting working on the writingSpeedTest code for FastDDS. I seem to have a working version.

@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-11-03T18:59:54.854Z'
+modified: '2020-11-04T21:07:35.652Z'
 ---
 
 # Meetings with Tórur
@@ -114,6 +114,7 @@ Hvordan kan man dokumenter test som f.eks. history size
   * Snak lidt om talene fra read/write speed. 
   * Burde jeg udføre mere statestic på mine tal. Foreksample histogram?
   * Burde jeg lave mere end 100 cycles. På histogram'et kunne det godt se ud som om det ville give en pænere bell-kurve, men er det nødvendigt?
+   * Bør jeg lave cyclone speed testene igen med max sample = 1 da fastdds ikke kan gå højere.
   
   ### Notes
   
