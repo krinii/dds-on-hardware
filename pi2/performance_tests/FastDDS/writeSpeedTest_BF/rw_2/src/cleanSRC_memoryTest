@@ -1,0 +1,8 @@
+#!/bin/bash
+rm HelloWorld.cxx
+rm HelloWorld.h
+rm HelloWorldPubSubTypes.cxx
+rm HelloWorldPubSubTypes.h
+
+fastrtpsgen HelloWorld.idl
+
