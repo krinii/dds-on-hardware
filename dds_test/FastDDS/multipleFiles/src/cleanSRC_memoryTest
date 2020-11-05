@@ -1,0 +1,38 @@
+#!/bin/bash
+rm HelloWorld.cxx
+rm HelloWorld.h
+rm HelloWorldPubSubTypes.cxx
+rm HelloWorldPubSubTypes.h
+
+rm HelloWorld_2.cxx
+rm HelloWorld_2.h
+rm HelloWorld_2PubSubTypes.cxx
+rm HelloWorld_2PubSubTypes.h
+
+rm HelloWorld_3.cxx
+rm HelloWorld_3.h
+rm HelloWorld_3PubSubTypes.cxx
+rm HelloWorld_3PubSubTypes.h
+
+rm HelloWorld_4.cxx
+rm HelloWorld_4.h
+rm HelloWorld_4PubSubTypes.cxx
+rm HelloWorld_4PubSubTypes.h
+
+rm HelloWorld_5.cxx
+rm HelloWorld_5.h
+rm HelloWorld_5PubSubTypes.cxx
+rm HelloWorld_5PubSubTypes.h
+
+rm HelloWorld_6.cxx
+rm HelloWorld_6.h
+rm HelloWorld_6PubSubTypes.cxx
+rm HelloWorld_6PubSubTypes.h
+
+#fastrtpsgen HelloWorld.idl
+#fastrtpsgen HelloWorld_2.idl
+#fastrtpsgen HelloWorld_3.idl
+#fastrtpsgen HelloWorld_4.idl
+#fastrtpsgen HelloWorld_5.idl
+#fastrtpsgen HelloWorld_6.idl
+
