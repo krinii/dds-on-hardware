@@ -26,9 +26,8 @@ for i in range(len(filenames_X)):
     with open(filenames_X[i], newline='') as f1:
         csvReader = csv.reader(f1, delimiter=',')
         for row in csvReader:
-            if int(row[1]) < 1500000:
-                samples.append(int(row[1]))
-                cycles = cycles + 1
+            samples.append(int(row[1]))
+            cycles = cycles + 1
 
 np.histogram(samples)
 

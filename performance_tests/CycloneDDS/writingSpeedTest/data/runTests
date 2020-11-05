@@ -1,0 +1,16 @@
+#!/bin/bash
+
+python3 statistical_analysis.py &
+pid=$!
+echo $pid
+if ["$pid" -gt "0"]
+then
+    sleep 3s
+    kill -2 $pid
+else
+    echo SHIT
+    echo $pid
+fi
+
+echo Hello
+

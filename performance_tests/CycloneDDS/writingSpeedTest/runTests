@@ -1,0 +1,31 @@
+#!/bin/bash
+
+./build/publisherLoop_4 &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_4
+sleep 3s
+kill -2 $pid
+echo 4 is Done
+sleep 30s
+
+./build/publisherLoop_5 &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_5
+sleep 3s
+kill -2 $pid
+echo 5 is Done
+sleep 30s
+
+./build/publisherLoop_6 &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_6
+sleep 3s
+kill -2 $pid
+echo 6 is Done
+sleep 30s
