@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-04T20:29:21.489Z'
+modified: '2020-11-05T22:53:49.044Z'
 ---
 
 # Log Book
@@ -403,3 +403,7 @@ Finished idl size test on Pi4.
 
 ### 4/11-2020
 Starting working on the writingSpeedTest code for FastDDS. I seem to have a working version.
+
+### 5/11-2020
+Re did all the cyclone rw test and half the fastDDS rw test (missing the pi4 best effort)
+
