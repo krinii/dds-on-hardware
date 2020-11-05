@@ -1,0 +1,61 @@
+#!/bin/bash
+
+./rw_1/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_1/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 30s
+
+./rw_2/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_2/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 2 is Done
+sleep 30s
+
+./rw_3/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_3/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 3 is Done
+sleep 30s
+
+./rw_4/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_4/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 4 is Done
+sleep 30s
+
+./rw_5/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_5/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 5 is Done
+sleep 30s
+
+./rw_6/build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./rw_6/build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 6 is Done
+sleep 30s
