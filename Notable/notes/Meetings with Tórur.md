@@ -1,7 +1,7 @@
 ---
 title: Meetings with Tórur
 created: '2020-03-04T08:39:24.760Z'
-modified: '2020-11-05T21:40:38.515Z'
+modified: '2020-11-06T21:12:23.721Z'
 ---
 
 # Meetings with Tórur
@@ -119,3 +119,8 @@ Hvordan kan man dokumenter test som f.eks. history size
   ### Notes
   Skriv om at du nok kunne have cross compliet fastDDS til pi2'en
   Lave r/w speed testne igen med max_sample = 1 for cyclone. Behold de gamle med max_sample = 100, (egnen tanke) men put dem evt. i et appendix så de kan snakkes om, hvordan det mååske er mere atraktivt at kunne ændre max_sample (måske er 100 hurtigere en 1). Du kan også bruge standard deviation til at beskrive hvor ustabilt det bliver.
+
+## 17/11-2020
+
+### Questions
+ * Hvilke plots burde jeg lave / hvilke data skal jeg sammenligne?

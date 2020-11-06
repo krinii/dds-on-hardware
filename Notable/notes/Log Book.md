@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-05T22:53:49.044Z'
+modified: '2020-11-06T21:13:47.274Z'
 ---
 
 # Log Book
@@ -407,3 +407,5 @@ Starting working on the writingSpeedTest code for FastDDS. I seem to have a work
 ### 5/11-2020
 Re did all the cyclone rw test and half the fastDDS rw test (missing the pi4 best effort)
 
+### 6/11-2020
+Finished collection data, put the data into tables and wrote the code to make plots. [Link til plot farver](https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.pyplot.plot.html)
