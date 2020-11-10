@@ -44,7 +44,9 @@ int main (int argc, char ** argv)
   qos = dds_create_qos ();
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
-  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT);
+  //dds_qset_durability(qos, DDS_DURABILITY_PERSISTENT);
   dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
 
   /* Create a Writer. */

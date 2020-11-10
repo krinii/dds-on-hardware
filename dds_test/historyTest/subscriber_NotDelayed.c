@@ -6,7 +6,7 @@
 #include <signal.h>
 
 /* An array of one message (aka sample in dds terms) will be used. */
-#define MAX_SAMPLES 1
+#define MAX_SAMPLES 100
 #define DEPTH 12
 
 static volatile int sigintH = 1;
@@ -55,7 +55,10 @@ int main (int argc, char ** argv)
   dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
   /* Change History setting */
   dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
-  dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT);
+  dds_qset_durability(qos, DDS_DURABILITY_PERSISTENT);
 
 
   reader = dds_create_reader (participant, topic, qos, NULL);
