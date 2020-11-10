@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-06T21:13:47.274Z'
+modified: '2020-11-10T13:08:06.449Z'
 ---
 
 # Log Book
@@ -409,3 +409,19 @@ Re did all the cyclone rw test and half the fastDDS rw test (missing the pi4 bes
 
 ### 6/11-2020
 Finished collection data, put the data into tables and wrote the code to make plots. [Link til plot farver](https://matplotlib.org/3.2.1/api/_as_gen/matplotlib.pyplot.plot.html)
+
+## Week 46
+
+### 9/11-2020
+The **MAX_SAMPLES** "thing" only seems to be relevant when your programs uses polling and not a listener, it seems like the listener's data_avaliable reacts to the data in the history indivdually.
+
+**Anything "higher" TRANSIENT_LOCAL seems to not allow samples for late-joiners**
+It seem like cycloneDDS only has implemeted TRANSIENT_LOCAL at this time, based on the following quote: *but the DCPS
+specification also provides transient-local, transient and persistent data. Of these, the DDSI specification at present
+only covers transient-local, and this is the only form of durable data available when interoperating across vendors.* From CycloneDDS-0.1.0.pdf
+
+FastDDS does not support [Persistent Durability](https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/core/policy/durabilityqospolicykind.html?highlight=transient%20and%20persistent#_CPPv4N3dds7fastdds8eprosima23DurabilityQosPolicyKind25PERSISTENT_DURABILITY_QOSE), so transient should work, since not else is mentioned.
+The writer in FastDDS only needs to have its durability congfigured to be able to give late-joiner old samples. In the first example I set the durability_service and not durability, and then a late-joiner didn't get and old samples.
+
+### 10/11-2020
+**For Report** Maybe you should repersent the data in graphs and bar plots instead of tables completly
