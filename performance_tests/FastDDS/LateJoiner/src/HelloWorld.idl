@@ -1,0 +1,11 @@
+struct HelloWorld
+{
+	//unsigned long index;
+	//string message;
+	//@key double arr[1041803];
+	@key double instanceID;
+	double value;
+	//double arr[79998];
+	double arr[8];
+	//double arr;
+};

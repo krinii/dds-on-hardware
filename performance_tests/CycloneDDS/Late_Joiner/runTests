@@ -1,0 +1,11 @@
+#!/bin/bash
+
+./build/publisherLoop_1 &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_1
+sleep 3s
+kill -2 $pid
+echo 4 is Done
+# sleep 30s

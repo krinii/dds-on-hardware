@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./build/DDSHelloWorldPublisher &
+pid=$!
+echo $pid
+sleep 3s
+./build/DDSHelloWorldSubscriber
+sleep 3s
+kill -2 $pid
+echo 1 is Done
