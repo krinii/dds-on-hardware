@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-10T13:08:06.449Z'
+modified: '2020-11-11T14:30:13.462Z'
 ---
 
 # Log Book
@@ -425,3 +425,12 @@ The writer in FastDDS only needs to have its durability congfigured to be able t
 
 ### 10/11-2020
 **For Report** Maybe you should repersent the data in graphs and bar plots instead of tables completly
+
+Did some keep all limit test, gonna finish late joiner behavior tomorrow.
+
+### 11/11-2020
+I get an error when I try to make a transient writer (as for a reader):
+2020-11-11 15:06:32.963 [RTPS_PARTICIPANT Error] Couldn't create persistence service for transient/persistent writer -> Function createWriter
+2020-11-11 15:06:32.963 [DATA_WRITER Error] Problem creating associated Writer -> Function enable
+
+The Durability Service Policy is not yet implemented in FastDDS and they [write](https://fast-dds.docs.eprosima.com/en/latest/fastdds/dds_layer/core/policy/standardQosPolicies.html#durabilityserviceqospolicy) that it is used to confgure the built-in reader and writer for transient and persistent writers, so that could explain why it does not work.
