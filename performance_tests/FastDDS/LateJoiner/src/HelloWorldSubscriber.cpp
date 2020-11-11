@@ -181,9 +181,10 @@ public:
         DataReaderQos drQos;
         drQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
         drQos.reliability().max_blocking_time = 10;
+        //drQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
 
         drQos.history().kind = KEEP_LAST_HISTORY_QOS;
-        drQos.history().depth = 10;
+        drQos.history().depth = 7;
         drQos.durability().kind = TRANSIENT_LOCAL_DURABILITY_QOS;
 
         //reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);

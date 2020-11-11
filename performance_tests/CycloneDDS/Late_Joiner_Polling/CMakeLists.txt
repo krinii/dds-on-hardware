@@ -14,11 +14,11 @@ idlc_generate(TestDataType_lib "TestDataType.idl")
 add_executable(publisherLoop publisher.c)
 add_executable(subscriberLoop subscriber.c)
 add_executable(subscriberLoop_NotDelayed subscriber_NotDelayed.c)
-add_executable(subscriberLoop_All subscriber_KeepAll.c)
+add_executable(subscriberLoop_Listener subscriber_listener.c)
 
 # Both executables need to be linked to the idl data type library and
 # the ddsc API library.
 target_link_libraries(publisherLoop TestDataType_lib CycloneDDS::ddsc)
 target_link_libraries(subscriberLoop TestDataType_lib CycloneDDS::ddsc)
 target_link_libraries(subscriberLoop_NotDelayed TestDataType_lib CycloneDDS::ddsc)
-target_link_libraries(subscriberLoop_All TestDataType_lib CycloneDDS::ddsc)
+target_link_libraries(subscriberLoop_Listener TestDataType_lib CycloneDDS::ddsc)

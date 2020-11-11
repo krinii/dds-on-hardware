@@ -163,10 +163,13 @@ public:
         DataWriterQos dwQos;
         dwQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
         dwQos.reliability().max_blocking_time = 10;
+        //dwQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
 
         dwQos.history().kind = KEEP_LAST_HISTORY_QOS;
         dwQos.history().depth = 10;
         dwQos.durability().kind = TRANSIENT_LOCAL_DURABILITY_QOS;
+        //dwQos.durability().kind = TRANSIENT_DURABILITY_QOS;
+
         //dwQos.durability_service().history_kind = KEEP_LAST_HISTORY_QOS;
         //dwQos.durability_service().history_depth = 10;
         
@@ -206,7 +209,7 @@ public:
                 samples_sent++;
                 std::cout << "Value: " << hello_.value() << " SENT" << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 };

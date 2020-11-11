@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#define DEPTH 10
+#define DEPTH 20
 
 static volatile int sigintH = 1;
 
@@ -42,6 +42,8 @@ int main (int argc, char ** argv)
 
   /* Create QoS */
   qos = dds_create_qos ();
+  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  //dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
   dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
@@ -88,7 +90,7 @@ int main (int argc, char ** argv)
     if (rc != DDS_RETCODE_OK)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
-  	dds_sleepfor (DDS_MSECS (100));
+  	dds_sleepfor (DDS_MSECS (500));
     i ++;
     tmp++;
   }
