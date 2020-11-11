@@ -1,7 +1,7 @@
 ---
 title: Late-Joiner
 created: '2020-11-09T10:58:12.438Z'
-modified: '2020-11-11T15:56:28.410Z'
+modified: '2020-11-11T22:32:16.689Z'
 ---
 
 # Late-Joiner
@@ -40,6 +40,9 @@ As seen in the prevouis test and this one, there is an important balance to be f
 A late joining subscriber is able to get samples it missed, the amount of samples received is depending on the smallest DEPTH from the writer and reader. Meaning that if the reader has a depth of 10, but the writer has a depth of 5, so when the reader joins it will only receive the last 5 samples from the writer as this was what it saved, but the reader will still keep the latest 10 samples by it self. This rule seems to not matter for a listener, it seems like it will just read everything it can from the writer, so if the writer has a depth of 7 and the reader 5, the listener will read 7 samples. 
 Having two readers, one using polling and one using a listener to read with. Both has a depth of 7 and the writer one of 10. When the polling reader is late to join it will receive the 7 newest samples from the writers history. When the reader using a listener joins late, then it will receive the 10 samples stored in the writers history. So it would seem like the listener is able to get all the data that the writer has stored no matter what its own history is set to, this does however not change how many samples the reader with a listener is able to store by it self
 
+##### Over Router
+The behavior is same as communication on the same machine as over the Router for Reliable reliability. Late joiners are still not able to receive old samples over Best Effort reliability.
+
 #### TRANSIENT_LOCAL - Best Effort Reliability
 A late joining reader does is not able to receive old samples from the writer as it did with Reliable reliability.
 
@@ -63,6 +66,12 @@ With a idl size of 80 bytes, the reader is working fine, but stops taking sample
 A late joining subscriber is able to get samples it missed, the amount of samples received is depending on the smallest DEPTH from the writer and reader. Meaning that if the reader has a depth of 10, but the writer has a depth of 5, so when the reader joins it will only receive the last 5 samples from the writer as this was what it saved, but the reader will still keep the latest 10 samples by it self. 
 
 Having two readers, one using polling and one using a listener to read with. Both has a depth of 7 and the writer one of 10. When the polling reader is late to join it will receive the 7 newest samples from the writers history. When the reader using a listener joins late, then it will receive the 10 samples stored in the writers history. So it would seem like the listener is able to get all the data that the writer has stored no matter what its own history is set to, this does however not change how many samples the reader with a listener is able to store by it self
+
+##### Over Router
+The behavior is same as communication on the same machine as over the Router for Reliable reliability, but over the Router Best Effort reliability has the a late joiner of any kind is sometimes able to receive old samples from the writer, but it is not consistent. Don't really see a pattern, have had two readers on the same machine. Tried with polling and listener, both works sometimes and sometimes they don't. The readers on the same same machine as the writer are still not able to get old samples.
+
+##### Decission
+The Best Effort thing could just be casued by the fact that a Best Effort network does not make sure that the samples was received.
 
 #### TRANSIENT - Reliable Reliability
 I get the following message when I try to make a transient writer:
