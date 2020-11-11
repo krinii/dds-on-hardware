@@ -42,8 +42,8 @@ int main (int argc, char ** argv)
 
   /* Create QoS */
   qos = dds_create_qos ();
-  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
-  //dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
+  //dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
   dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);

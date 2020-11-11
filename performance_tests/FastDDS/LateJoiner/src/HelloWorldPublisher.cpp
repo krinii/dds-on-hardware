@@ -161,9 +161,9 @@ public:
 
         // Create the DataWriter
         DataWriterQos dwQos;
-        dwQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
+        //dwQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
         dwQos.reliability().max_blocking_time = 10;
-        //dwQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
+        dwQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
 
         dwQos.history().kind = KEEP_LAST_HISTORY_QOS;
         dwQos.history().depth = 10;
