@@ -1,0 +1,12 @@
+module TestDataType
+{
+  struct data
+  {
+    double instanceID;
+    //double arr[79999];
+    double arr[9];
+    long value;
+    string message;
+  };
+  #pragma keylist data instanceID
+};
