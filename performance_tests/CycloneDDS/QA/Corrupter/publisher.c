@@ -94,13 +94,14 @@ int main (int argc, char ** argv)
   msg.instanceID = 1;
   double tmp = 1.0;
   msg.value = 15;
+  msg.message = "History Pub";
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
     msg.arr[0] = tmp;
 
     printf ("=== [Publisher]  Writing : ");
-    printf ("ID: %.4f, arr[0]: %.4f, Value: %d\n", msg.instanceID, msg.arr[0], msg.value);
+    printf ("ID: %.4f, arr[0]: %.4f, Value: %d, Message. %s\n", msg.instanceID, msg.arr[0], msg.value, msg.message);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);
