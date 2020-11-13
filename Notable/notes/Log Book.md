@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-12T22:21:04.464Z'
+modified: '2020-11-13T12:37:20.864Z'
 ---
 
 # Log Book
@@ -439,3 +439,10 @@ The Durability Service Policy is not yet implemented in FastDDS and they [write]
 Prepared the code for the connection (QA) tests.
 
 A publisher with TRANSIENT_LOCAL can write to a reader with VOLITALE/Default, but not the other way around, should with with the "diagram" about durability.
+
+### 13/11-2020
+The order in which the elements are put in the idl is important. Two idl's of the same name, but different content are able to communicate with out rasing an error it seems, I had two different idl's which were identical for the first two element, but then one of them has more element after the two of the first one. The subscribers with the small idl can receive and understand the samples from the publisher with a longer idl. If you change the order of the longer idl, the subscribers with short idl are still able to receive the samples, but they no longer understand it. **Note:** a subscriber with the the longere idl does give an error when getting samples from the publisher with the short idl. The error is as follows:
+*1605268730.821586 [0]     recvUC: data(application, vendor 1.16): 43921001:8c05f9da:7bf3c90c:102 #1: deserialization TestDataType_data/TestDataType::data failed (for reasons unknown)*
+It would like the reader reader knows were the data should start in a sample and where it should end, this would explain why the subscriber with the small idl can use the samples from the bigger idl and why the subscriber with the bigger idl can get samples from the publisher with the smaller idl, since the reader would consider more of the sample form the writer to be data and then be missing parts of the message containing flags and other stuff. **Look at the serialised data from the RTPS specification to better explain this**
+Letting the idl's have different elements as key does not make a different.
+The order of the idl is also important when it has the same elements. Example: Having two machines with the same elements in their idl, but ordered differently will the same error as above: *1605270819.302654 [0]     recvUC: data(application, vendor 1.16): 15cd1001:d9bbaa2f:79fa0459:102 #1: deserialization TestDataType_data/TestDataType::data failed (for reasons unknown)*
