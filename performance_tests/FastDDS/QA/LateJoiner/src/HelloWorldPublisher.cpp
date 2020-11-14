@@ -161,9 +161,9 @@ public:
 
         // Create the DataWriter
         DataWriterQos dwQos;
-        //dwQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
+        dwQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
         dwQos.reliability().max_blocking_time = 10;
-        dwQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
+        //dwQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
 
         dwQos.history().kind = KEEP_LAST_HISTORY_QOS;
         dwQos.history().depth = 10;
@@ -186,14 +186,18 @@ public:
     //!Send a publication
     bool publish()
     {
-        if (listener_.matched_ > 0)
+        /*if (listener_.matched_ > 0)
         {
             //hello_.index(hello_.index() + 1);
             hello_.value(hello_.value() + 1.0);
             writer_->write(&hello_);
             return true;
         }
-        return false;
+        return false;*/
+
+        hello_.value(hello_.value() + 1.0);
+        writer_->write(&hello_);
+        return true;
     }
 
     //!Run the Publisher

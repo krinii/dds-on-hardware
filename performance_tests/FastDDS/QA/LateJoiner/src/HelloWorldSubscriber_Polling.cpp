@@ -179,9 +179,9 @@ public:
 
         // Create the DataReader
         DataReaderQos drQos;
-        //drQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
+        drQos.reliability().kind = RELIABLE_RELIABILITY_QOS;
         drQos.reliability().max_blocking_time = 10;
-        drQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
+        //drQos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
 
         drQos.history().kind = KEEP_LAST_HISTORY_QOS;
         drQos.history().depth = 7;
