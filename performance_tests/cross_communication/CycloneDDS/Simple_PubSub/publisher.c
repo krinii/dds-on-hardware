@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#define DEPTH 10
+//#define DEPTH 10
 
 static volatile int sigintH = 1;
 
@@ -13,7 +13,11 @@ void sigintHandler(int sig_num) {
   sigintH = 0;
 }
 
-bool contentFilter(const void *sample);
+// ### Writer
+void liveliness_lost(dds_entity_t writer, const dds_liveliness_lost_status_t status, void *arg);
+void offered_deadline_missed(dds_entity_t writer, const dds_offered_deadline_missed_status_t status, void *arg);
+void offered_incompatialbe_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg);
+void publication_mateched(dds_entity_t writer, const dds_publication_matched_status_t status, void *arg);
 
 int main (int argc, char ** argv)
 {
@@ -27,6 +31,8 @@ int main (int argc, char ** argv)
   (void)argc;
   (void)argv;
 
+  dds_listener_t *listener = NULL;
+
   signal(SIGINT, sigintHandler);
 
   /* Create a Participant. */
@@ -38,24 +44,31 @@ int main (int argc, char ** argv)
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "HelloWorldTopic", NULL, NULL);
+    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
-  
-  // ContentFilter
-  //dds_set_topic_filter(topic, contentFilter);
 
   /* Create QoS */
   qos = dds_create_qos ();
+  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  //dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
+  
   /* Change History QoS setting */
   //dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
   //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);
+  //dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT);
+  //dds_qset_durability(qos, DDS_DURABILITY_PERSISTENT);
   //dds_qset_durability_service(qos, 0, DDS_HISTORY_KEEP_LAST, DEPTH, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED, DDS_LENGTH_UNLIMITED);
+
+  listener = dds_create_listener(NULL);
+  dds_lset_liveliness_lost(listener, liveliness_lost);
+  dds_lset_offered_deadline_missed(listener, offered_deadline_missed);
+  dds_lset_offered_incompatible_qos(listener, offered_incompatialbe_qos);
 
   /* Create a Writer. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   //writer = dds_create_writer (participant, topic, qos, NULL);
-  writer = dds_create_writer (participant, topic, NULL, NULL);
+  writer = dds_create_writer (participant, topic, qos, listener);
   if (writer < 0)
     DDS_FATAL("dds_create_writer: %s\n", dds_strretcode(-writer));
 
@@ -77,25 +90,15 @@ int main (int argc, char ** argv)
   }
 
   int i = 0;
-
-  int hum = 35;
-  int hum_iter = 1;
-  float temp = 20.0;
-  float temp_iter = 0.1;
-  
+  msg.instanceID = 1;
+  double tmp = 1.0;
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
-    /*msg.instanceID = 3;
-    msg.message = "Numbers";
-    msg.humidity = hum;
-    msg.temperature = temp;
-    msg.msgNr = i;*/
+    msg.arr[0] = tmp;
 
-    msg.arr[0] = 1.5465;
-
-    printf ("=== [Publisher]  Writing : \n");
-    printf ("arr[0] : (%f)\n", msg.arr[0]);
+    printf ("=== [Publisher]  Writing : ");
+    printf ("ID: %f, arr[0]: %f\n", msg.instanceID, msg.arr[0]);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);
@@ -103,16 +106,8 @@ int main (int argc, char ** argv)
       DDS_FATAL("dds_write: %s\n", dds_strretcode(-rc));
 
   	dds_sleepfor (DDS_MSECS (500));
-    
-    if (hum < 30) hum_iter = 1;
-    else if (hum > 80) hum_iter = -1;
-    hum = hum + hum_iter;
-
-    if (temp < 20.0) temp_iter = 0.5;
-    else if (temp > 25.0) temp_iter = -0.5;
-    temp = temp + temp_iter;
-
     i ++;
+    tmp++;
   }
 
   //printf("Delete\n");
@@ -125,10 +120,19 @@ int main (int argc, char ** argv)
   return EXIT_SUCCESS;
 }
 
-/*bool contentFilter(const void *sample){
-  TestDataType_data *msg = (TestDataType_data*)sample;
-  if (msg->temperature < 25.0){
-    return true;
-  }
-  return false;
-}*/
+void liveliness_lost(dds_entity_t writer, const dds_liveliness_lost_status_t status, void *arg){
+  printf("\n ===== Liveliness Lost ===== \n");
+  fflush(stdout);
+}
+void offered_deadline_missed(dds_entity_t writer, const dds_offered_deadline_missed_status_t status, void *arg){
+  printf("\n ===== Offered Deadline Missed ===== \n");
+  fflush(stdout);
+}
+void offered_incompatialbe_qos(dds_entity_t writer, const dds_offered_incompatible_qos_status_t status, void *arg){
+  printf("\n ===== Offered Incompatible QoS ===== \n");
+  fflush(stdout);
+}
+void publication_mateched(dds_entity_t writer, const dds_publication_matched_status_t status, void *arg){
+  printf("\n ===== Publication Matched ===== \n");
+  fflush(stdout);
+}

@@ -1,0 +1,101 @@
+#!/bin/bash
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_1
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_2
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_3
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_4
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_5
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_6
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_7
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_8
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_9
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
+
+./build/publisherLoop &
+pid=$!
+echo $pid
+sleep 3s
+./build/subscriberLoop_All | tee data/keepALL2000_10
+sleep 3s
+kill -2 $pid
+echo 1 is Done
+sleep 10s
