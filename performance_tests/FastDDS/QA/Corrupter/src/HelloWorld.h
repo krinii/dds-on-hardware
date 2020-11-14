@@ -107,29 +107,6 @@ public:
     eProsima_user_DllExport HelloWorld& operator=(HelloWorld &&x);
 
     /*!
-     * @brief This function copies the value in member message
-     * @param _message New value to be copied in member message
-     */
-    eProsima_user_DllExport void message(const std::string &_message);
-
-    /*!
-     * @brief This function moves the value in member message
-     * @param _message New value to be moved in member message
-     */
-    eProsima_user_DllExport void message(std::string &&_message);
-
-    /*!
-     * @brief This function returns a constant reference to member message
-     * @return Constant reference to member message
-     */
-    eProsima_user_DllExport const std::string& message() const;
-
-    /*!
-     * @brief This function returns a reference to member message
-     * @return Reference to member message
-     */
-    eProsima_user_DllExport std::string& message();
-    /*!
      * @brief This function sets a value in member instanceID
      * @param _instanceID New value for member instanceID
      */
@@ -188,6 +165,29 @@ public:
      * @return Reference to member arr
      */
     eProsima_user_DllExport std::array<double, 8>& arr();
+    /*!
+     * @brief This function copies the value in member message
+     * @param _message New value to be copied in member message
+     */
+    eProsima_user_DllExport void message(const std::string &_message);
+
+    /*!
+     * @brief This function moves the value in member message
+     * @param _message New value to be moved in member message
+     */
+    eProsima_user_DllExport void message(std::string &&_message);
+
+    /*!
+     * @brief This function returns a constant reference to member message
+     * @return Constant reference to member message
+     */
+    eProsima_user_DllExport const std::string& message() const;
+
+    /*!
+     * @brief This function returns a reference to member message
+     * @return Reference to member message
+     */
+    eProsima_user_DllExport std::string& message();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -240,10 +240,10 @@ public:
     eProsima_user_DllExport void serializeKey(eprosima::fastcdr::Cdr &cdr) const;
 
 private:
-    std::string m_message;
     double m_instanceID;
     double m_value;
     std::array<double, 8> m_arr;
+    std::string m_message;
 };
 
 #endif // _HELLOWORLD_H_
