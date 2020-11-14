@@ -1,7 +1,7 @@
 ---
 title: QA
 created: '2020-11-13T09:17:51.753Z'
-modified: '2020-11-13T13:53:56.022Z'
+modified: '2020-11-14T17:10:15.918Z'
 ---
 
 # QA
@@ -113,40 +113,47 @@ Same
 ### Reliability reliability
 #### Disconnected RPi4 ethernet cable:
 ##### Listener
+After a while the subscriber's listener finds out that the subscribers where unmatched.
+Reconection is rather quick
 
 ##### Polling
+After a while the subscriber's listener finds out that the subscribers where unmatched.
+Reconection is rather quick
 
 ##### Publisher
+After a while the publisher's listener finds out that the publishers where unmatched.
 
 
 #### Disconnected Laptop turn off wifi module:
 ##### Listener
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Polling
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Publisher
+After a while the publisher's listener finds out that the publishers where unmatched.
 
 
 ### Best Effort reliability
-#### Disconnected RPi2 ethernet cable:
-##### Listener
-
-##### Polling
-
-##### Publisher
-
-
 #### Disconnected RPi4 ethernet cable:
 ##### Listener
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Polling
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Publisher
-
+After a while the publisher's listener finds out that the publishers where unmatched.
 
 #### Disconnected Laptop turn off wifi module:
 ##### Listener
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Polling
+After a while the subscriber's listener finds out that the subscribers where unmatched.
 
 ##### Publisher
+After a while the publisher's listener finds out that the publishers where unmatched.
+There is no indication other than the listeners reaction to "publisher unmacthed".
+If the writer and reader are started on two different networks (They can't communicate, funny right) and then the writer machine is connected to the same network as the reader they will not start communicating. Same goes for the other way around.

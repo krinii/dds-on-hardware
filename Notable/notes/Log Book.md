@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-13T12:37:20.864Z'
+modified: '2020-11-14T14:44:36.505Z'
 ---
 
 # Log Book
@@ -446,3 +446,15 @@ The order in which the elements are put in the idl is important. Two idl's of th
 It would like the reader reader knows were the data should start in a sample and where it should end, this would explain why the subscriber with the small idl can use the samples from the bigger idl and why the subscriber with the bigger idl can get samples from the publisher with the smaller idl, since the reader would consider more of the sample form the writer to be data and then be missing parts of the message containing flags and other stuff. **Look at the serialised data from the RTPS specification to better explain this**
 Letting the idl's have different elements as key does not make a different.
 The order of the idl is also important when it has the same elements. Example: Having two machines with the same elements in their idl, but ordered differently will the same error as above: *1605270819.302654 [0]     recvUC: data(application, vendor 1.16): 15cd1001:d9bbaa2f:79fa0459:102 #1: deserialization TestDataType_data/TestDataType::data failed (for reasons unknown)*
+
+### 14/11-2020
+**Small idl publisher to larger idl subscriber (IDL's are different ordered):**
+The writer does not give any error, the reader (polling and listener) gives the following error:
+*2020-11-14 14:58:04.024 [SUBSCRIBER Error] Deserialization of data failed -> Function deserialize_change*
+None of the code after the read is executed.
+
+**Larger idl publisher to smaller idl subscriber (IDL's are different ordered):**
+The writer does not give any error, the reader (polling and listener) gives the following error:
+*2020-11-14 15:24:49.645 [RTPS_HISTORY Error] Change payload size of '100' bytes is larger than the history payload size of '87' bytes and cannot be resized. -> Function add_change*
+
+**CycloneDDS** When a entity is started on one network and then swapped to one where there is on going dds communication, it does not connect to the new network, errors stop when it is reconnect to its original network.
