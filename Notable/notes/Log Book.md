@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-14T14:44:36.505Z'
+modified: '2020-11-15T22:03:57.180Z'
 ---
 
 # Log Book
@@ -458,3 +458,17 @@ The writer does not give any error, the reader (polling and listener) gives the 
 *2020-11-14 15:24:49.645 [RTPS_HISTORY Error] Change payload size of '100' bytes is larger than the history payload size of '87' bytes and cannot be resized. -> Function add_change*
 
 **CycloneDDS** When a entity is started on one network and then swapped to one where there is on going dds communication, it does not connect to the new network, errors stop when it is reconnect to its original network.
+
+**FastDDS** The order of the idl also matters for fastDDS. I have two project with the same kind of idl: 
+* Kind 1
+  * double instanceID (Key), double value and double array[8].
+* Kind 2
+  * double value, double instanceID (Key) and double array[8].
+reader with kind 2 will think that the *instanceID* element from a kind 1 writer is the *value* element and visversa.
+
+### 15/11-2020
+**FastDDS** the idl name matters since it is used to create topics, so a writer and a reader with two differently named idl's will not establish communication since they will be on different topics (The element of the idl's does not matter in this case)
+
+The topic name and type name are both used to define a topic and two topics with the same name, but different type names does not communicate. This is the case for both vendors.
+
+The domainid found with wireshark for cycloneDDS seems to change every time its started, there is a chance its just because wireshark does not decode cyclone's messages correctly. It sometimes says if from domainid 0 as it should be, but the "random" id's are still there.
