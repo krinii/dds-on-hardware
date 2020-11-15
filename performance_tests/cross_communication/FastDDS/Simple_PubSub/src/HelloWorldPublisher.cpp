@@ -125,9 +125,6 @@ public:
         //hello_.index(0);
         //hello_.message("HelloWorld");
         //double val[10] = {1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9};
-        std::array<double, 8> tmpArr;
-        tmpArr[0] = 15.856;
-        hello_.arr(tmpArr);
         hello_.value(0.0);
         hello_.instanceID(1);
 
@@ -150,6 +147,8 @@ public:
         {
             return false;
         }
+
+        std::cout << "get_type_name: " << topic_->get_type_name() << std::endl;
 
         // Create the Publisher
         publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);

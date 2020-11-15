@@ -34,18 +34,15 @@ using namespace eprosima::fastcdr::exception;
 
 HelloWorld::HelloWorld()
 {
-    // m_instanceID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@17baae6e
-    m_instanceID = 0.0;
-    // m_value com.eprosima.idl.parser.typecode.PrimitiveTypeCode@69379752
+    // m_instanceID com.eprosima.idl.parser.typecode.PrimitiveTypeCode@43d7741f
+    m_instanceID = 0;
+    // m_value com.eprosima.idl.parser.typecode.PrimitiveTypeCode@27fe3806
     m_value = 0.0;
-    // m_arr com.eprosima.idl.parser.typecode.ArrayTypeCode@27fe3806
-    memset(&m_arr, 0, (8) * 8);
 
 }
 
 HelloWorld::~HelloWorld()
 {
-
 
 
 }
@@ -54,14 +51,12 @@ HelloWorld::HelloWorld(const HelloWorld &x)
 {
     m_instanceID = x.m_instanceID;
     m_value = x.m_value;
-    m_arr = x.m_arr;
 }
 
 HelloWorld::HelloWorld(HelloWorld &&x)
 {
     m_instanceID = x.m_instanceID;
     m_value = x.m_value;
-    m_arr = std::move(x.m_arr);
 }
 
 HelloWorld& HelloWorld::operator=(const HelloWorld &x)
@@ -69,7 +64,6 @@ HelloWorld& HelloWorld::operator=(const HelloWorld &x)
 
     m_instanceID = x.m_instanceID;
     m_value = x.m_value;
-    m_arr = x.m_arr;
 
     return *this;
 }
@@ -79,7 +73,6 @@ HelloWorld& HelloWorld::operator=(HelloWorld &&x)
 
     m_instanceID = x.m_instanceID;
     m_value = x.m_value;
-    m_arr = std::move(x.m_arr);
 
     return *this;
 }
@@ -89,13 +82,10 @@ size_t HelloWorld::getMaxCdrSerializedSize(size_t current_alignment)
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
-
-
-    current_alignment += ((8) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
 
@@ -108,16 +98,11 @@ size_t HelloWorld::getCdrSerializedSize(const HelloWorld& data, size_t current_a
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
-
-    if ((8) > 0)
-    {
-        current_alignment += ((8) * 8) + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
-    }
 
 
     return current_alignment - initial_alignment;
@@ -128,8 +113,6 @@ void HelloWorld::serialize(eprosima::fastcdr::Cdr &scdr) const
 
     scdr << m_instanceID;
     scdr << m_value;
-    scdr << m_arr;
-
 }
 
 void HelloWorld::deserialize(eprosima::fastcdr::Cdr &dcdr)
@@ -137,15 +120,13 @@ void HelloWorld::deserialize(eprosima::fastcdr::Cdr &dcdr)
 
     dcdr >> m_instanceID;
     dcdr >> m_value;
-    dcdr >> m_arr;
-
 }
 
 /*!
  * @brief This function sets a value in member instanceID
  * @param _instanceID New value for member instanceID
  */
-void HelloWorld::instanceID(double _instanceID)
+void HelloWorld::instanceID(int32_t _instanceID)
 {
 m_instanceID = _instanceID;
 }
@@ -154,7 +135,7 @@ m_instanceID = _instanceID;
  * @brief This function returns the value of member instanceID
  * @return Value of member instanceID
  */
-double HelloWorld::instanceID() const
+int32_t HelloWorld::instanceID() const
 {
     return m_instanceID;
 }
@@ -163,7 +144,7 @@ double HelloWorld::instanceID() const
  * @brief This function returns a reference to member instanceID
  * @return Reference to member instanceID
  */
-double& HelloWorld::instanceID()
+int32_t& HelloWorld::instanceID()
 {
     return m_instanceID;
 }
@@ -195,46 +176,10 @@ double& HelloWorld::value()
     return m_value;
 }
 
-/*!
- * @brief This function copies the value in member arr
- * @param _arr New value to be copied in member arr
- */
-void HelloWorld::arr(const std::array<double, 8> &_arr)
-{
-m_arr = _arr;
-}
-
-/*!
- * @brief This function moves the value in member arr
- * @param _arr New value to be moved in member arr
- */
-void HelloWorld::arr(std::array<double, 8> &&_arr)
-{
-m_arr = std::move(_arr);
-}
-
-/*!
- * @brief This function returns a constant reference to member arr
- * @return Constant reference to member arr
- */
-const std::array<double, 8>& HelloWorld::arr() const
-{
-    return m_arr;
-}
-
-/*!
- * @brief This function returns a reference to member arr
- * @return Reference to member arr
- */
-std::array<double, 8>& HelloWorld::arr()
-{
-    return m_arr;
-}
 
 size_t HelloWorld::getKeyMaxCdrSerializedSize(size_t current_alignment)
 {
     size_t current_align = current_alignment;
-
 
 
 
@@ -251,7 +196,6 @@ bool HelloWorld::isKeyDefined()
 void HelloWorld::serializeKey(eprosima::fastcdr::Cdr &scdr) const
 {
     (void) scdr;
-     
      
      
 }

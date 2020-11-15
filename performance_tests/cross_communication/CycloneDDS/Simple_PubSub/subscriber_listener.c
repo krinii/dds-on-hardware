@@ -33,8 +33,8 @@ void requested_dealine_missed(dds_entity_t reader, const dds_requested_deadline_
 void requested_incompatible_qos(dds_entity_t reader, const dds_requested_incompatible_qos_status_t status, void *arg);
 void subscription_macthed(dds_entity_t reader, const dds_subscription_matched_status_t status, void *arg);
 
-TestDataType_data *msg;
-static TestDataType_data data[MAX_SAMPLES];
+HelloWorld_data *msg;
+static HelloWorld_data data[MAX_SAMPLES];
 void *samples[MAX_SAMPLES];
 dds_sample_info_t infos[MAX_SAMPLES];
 dds_return_t rc;
@@ -55,14 +55,15 @@ int main (int argc, char ** argv)
 
   /* Create a Participant. */
   /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
-  participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  //participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  participant = dds_create_participant (0, NULL, NULL);
   if (participant < 0)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
+    participant, &HelloWorld_data_desc, "HelloWorldTopic", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
@@ -137,7 +138,7 @@ int main (int argc, char ** argv)
 
   for (unsigned int i = 0; i < MAX_SAMPLES; i++)
   {
-    TestDataType_data_free (&data[i], DDS_FREE_CONTENTS);
+    HelloWorld_data_free (&data[i], DDS_FREE_CONTENTS);
   }
 
   //printf("Delete\n");
@@ -170,10 +171,10 @@ void data_available(dds_entity_t reader, void *arg){
     if ((rc > 0) && (infos[i].valid_data)){
     //if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
       /* Print Message. */
-      msg = (TestDataType_data*) samples[i];
+      msg = (HelloWorld_data*) samples[i];
       sample_Count++;
       //printf ("%d, ", msg->msgNr);
-      printf ("arr[0]: %2f, %d\n", msg->arr[0], sample_Count);
+      printf ("instanceID: %d, value: %.2f, %d\n", msg->instanceID, msg->value, sample_Count);
     }
   }
   

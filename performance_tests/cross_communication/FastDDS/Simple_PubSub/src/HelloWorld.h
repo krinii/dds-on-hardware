@@ -110,19 +110,19 @@ public:
      * @brief This function sets a value in member instanceID
      * @param _instanceID New value for member instanceID
      */
-    eProsima_user_DllExport void instanceID(double _instanceID);
+    eProsima_user_DllExport void instanceID(int32_t _instanceID);
 
     /*!
      * @brief This function returns the value of member instanceID
      * @return Value of member instanceID
      */
-    eProsima_user_DllExport double instanceID() const;
+    eProsima_user_DllExport int32_t instanceID() const;
 
     /*!
      * @brief This function returns a reference to member instanceID
      * @return Reference to member instanceID
      */
-    eProsima_user_DllExport double& instanceID();
+    eProsima_user_DllExport int32_t& instanceID();
 
     /*!
      * @brief This function sets a value in member value
@@ -142,29 +142,6 @@ public:
      */
     eProsima_user_DllExport double& value();
 
-    /*!
-     * @brief This function copies the value in member arr
-     * @param _arr New value to be copied in member arr
-     */
-    eProsima_user_DllExport void arr(const std::array<double, 8> &_arr);
-
-    /*!
-     * @brief This function moves the value in member arr
-     * @param _arr New value to be moved in member arr
-     */
-    eProsima_user_DllExport void arr(std::array<double, 8> &&_arr);
-
-    /*!
-     * @brief This function returns a constant reference to member arr
-     * @return Constant reference to member arr
-     */
-    eProsima_user_DllExport const std::array<double, 8>& arr() const;
-
-    /*!
-     * @brief This function returns a reference to member arr
-     * @return Reference to member arr
-     */
-    eProsima_user_DllExport std::array<double, 8>& arr();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -217,9 +194,8 @@ public:
     eProsima_user_DllExport void serializeKey(eprosima::fastcdr::Cdr &cdr) const;
 
 private:
-    double m_instanceID;
+    int32_t m_instanceID;
     double m_value;
-    std::array<double, 8> m_arr;
 };
 
 #endif // _HELLOWORLD_H_

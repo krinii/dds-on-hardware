@@ -25,7 +25,7 @@ int main (int argc, char ** argv)
   dds_entity_t topic;
   dds_entity_t writer;
   dds_return_t rc;
-  TestDataType_data msg;
+  HelloWorld_data msg;
   uint32_t status = 0;
   dds_qos_t *qos;
   (void)argc;
@@ -37,16 +37,29 @@ int main (int argc, char ** argv)
 
   /* Create a Participant. */
   /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
-  participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  //participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  participant = dds_create_participant ((uint32_t) 0, NULL, NULL);
   if (participant < 0)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
+
+
+  dds_domainid_t *dID;
+  //if(dds_get_domainid(participant, dID))
+  //  printf("Worked");
+  //  fflush(stdout);
+  //printf("get domain id: %d", DDS_DOMAIN_DEFAULT);
+  printf("Default Domain: %zu \n", DDS_DOMAIN_DEFAULT);
+  fflush(stdout);
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
+    participant, &HelloWorld_data_desc, "HelloWorldTopic", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
+
+  printf("desc: %s\n", HelloWorld_data_desc.m_typename);
+  fflush (stdout);
 
   /* Create QoS */
   qos = dds_create_qos ();
@@ -95,10 +108,10 @@ int main (int argc, char ** argv)
   //while (i < 10  && sigintH){
   while (sigintH){
     /* Create a message to write. */
-    msg.arr[0] = tmp;
+    msg.value = tmp;
 
     printf ("=== [Publisher]  Writing : ");
-    printf ("ID: %f, arr[0]: %f\n", msg.instanceID, msg.arr[0]);
+    printf ("ID: %d, value: %f\n", msg.instanceID, msg.value);
     fflush (stdout);
 
     rc = dds_write (writer, &msg);

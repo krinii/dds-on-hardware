@@ -32,11 +32,11 @@ int main (int argc, char ** argv)
   dds_entity_t participant;
   dds_entity_t topic;
   dds_entity_t reader;
-  TestDataType_data *msg;
+  HelloWorld_data *msg;
 
   dds_listener_t *listener = NULL;
 
-  static TestDataType_data data[MAX_SAMPLES];
+  static HelloWorld_data data[MAX_SAMPLES];
   void *samples[MAX_SAMPLES];
   dds_sample_info_t infos[MAX_SAMPLES];
   dds_return_t rc;
@@ -48,14 +48,15 @@ int main (int argc, char ** argv)
 
   /* Create a Participant. */
   /* dds_create_participant ( domain (int: 0 - 230), qos, listener ) */
-  participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  //participant = dds_create_participant (DDS_DOMAIN_DEFAULT, NULL, NULL);
+  participant = dds_create_participant (0, NULL, NULL);
   if (participant < 0)
     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
 
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
+    participant, &HelloWorld_data_desc, "HelloWorldTopic", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
@@ -138,9 +139,9 @@ int main (int argc, char ** argv)
           //if ((rc > 0) && (infos[i].valid_data)){
           if ((rc > 0) && (infos[i].valid_data) && (infos[i].sample_state == DDS_SST_NOT_READ)){
             /* Print Message. */
-            msg = (TestDataType_data*) samples[i];
+            msg = (HelloWorld_data*) samples[i];
             printf ("=== [Subscriber] Received : ");
-            printf ("arr[0]: %f, rc: %d\n", msg->arr[0], rc);
+            printf ("instanceID: %d, value: %f, rc: %d\n", msg->instanceID, msg->value, rc);
             fflush (stdout);
           }
         }
@@ -161,7 +162,7 @@ int main (int argc, char ** argv)
 
   for (unsigned int i = 0; i < MAX_SAMPLES; i++)
   {
-    TestDataType_data_free (&data[i], DDS_FREE_CONTENTS);
+    HelloWorld_data_free (&data[i], DDS_FREE_CONTENTS);
   }
 
   //printf("Delete\n");
