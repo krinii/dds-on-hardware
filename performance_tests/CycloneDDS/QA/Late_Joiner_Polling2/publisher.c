@@ -25,7 +25,7 @@ int main (int argc, char ** argv)
   dds_entity_t topic;
   dds_entity_t writer;
   dds_return_t rc;
-  TestDataType_data msg;
+  TestDataTyping_data msg;
   uint32_t status = 0;
   dds_qos_t *qos;
   (void)argc;
@@ -44,11 +44,11 @@ int main (int argc, char ** argv)
   /* Create a Topic. */
   /* dds_create_topic ( participant, descriptor, name, qos, listener ) */
   topic = dds_create_topic (
-    participant, &TestDataType_data_desc, "TestDataType_data", NULL, NULL);
+    participant, &TestDataTyping_data_desc, "TestDataTypin_data", NULL, NULL);
   if (topic < 0)
     DDS_FATAL("dds_create_topic: %s\n", dds_strretcode(-topic));
 
-  printf("Type name: %s \n", TestDataType_data_desc.m_typename);
+  printf("Type name: %s \n", TestDataTyping_data_desc.m_typename);
   fflush(stdout);
 
   /* Create QoS */
