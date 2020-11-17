@@ -63,28 +63,32 @@ fast_pi4_bf_plot = pd.DataFrame({"Bytes":x_b, "Samples":fast_pi4_bf})
 # plt.plot(x_b, fast_lap_reli, '-o', x_b, fast_lap_bf, '-^')
 # plt.legend(['Laptop Reliable', 'Laptop Best Effort'])
 
+ax = plt.gca()
+ax.tick_params(axis = 'both', which = 'major', labelsize = 22)
+ax.tick_params(axis = 'both', which = 'minor', labelsize = 22)
+
 ### Comparison Cyclone Laptop and FastDDS Laptop
 # plt.plot(x_b, cyc_lap_reli, '-o', x_b, cyc_lap_bf, '-^', x_b, fast_lap_reli, '-s', x_b, fast_lap_bf, '-p')
 # plt.legend(['CycloneDDS Laptop Reliable', 'CycloneDDS Laptop Best Effort', 'FastDDS Laptop Reliable', 'FastDDS Laptop Best Effort'])
 
 ### All CycloneDDS data
-# plt.plot(x_b, cyc_lap_reli, '-o', x_b, cyc_lap_bf, '-^', x_b, cyc_pi4_reli, '-s', x_b, cyc_pi4_bf, '-p', x_b, cyc_pi2_reli, '-D', x_b, cyc_pi2_bf, '-h')
-# plt.legend(['Laptop Reliable', 'Laptop Best Effort', 'RPi4 Reliable', 'RPi4 Best Effort', 'RPi2 Reliable', 'RPi2 Best Effort'])
-# plt.title('CycloneDDS')
+plt.plot(x_b, cyc_lap_reli, '-o', x_b, cyc_lap_bf, '-^', x_b, cyc_pi4_reli, '-s', x_b, cyc_pi4_bf, '-p', x_b, cyc_pi2_reli, '-D', x_b, cyc_pi2_bf, '-h', linewidth=4, markersize=12)
+plt.legend(['Laptop Reliable', 'Laptop Best Effort', 'RPi4 Reliable', 'RPi4 Best Effort', 'RPi2 Reliable', 'RPi2 Best Effort'], fontsize=24)
+plt.title('CycloneDDS', fontsize=26)
 
 ### All FastDDS data 
-# plt.plot(x_b, fast_lap_reli, '-o', x_b, fast_lap_bf, '-^', x_b, fast_pi4_reli, '-s', x_b, fast_pi4_bf, '-p')
-# plt.legend(['Laptop Reliable', 'Laptop Best Effort', 'RPi4 Reliable', 'RPi4 Best Effort'])
-# plt.title('FastDDS')
+# plt.plot(x_b, fast_lap_reli, '-o', x_b, fast_lap_bf, '-^', x_b, fast_pi4_reli, '-s', x_b, fast_pi4_bf, '-p', linewidth=4, markersize=12)
+# plt.legend(['Laptop Reliable', 'Laptop Best Effort', 'RPi4 Reliable', 'RPi4 Best Effort'], fontsize=24)
+# plt.title('FastDDS', fontsize=26)
 
 ### All Devices Reliable both Vendors 
-plt.plot(x_b, cyc_lap_reli, '-o', x_b, cyc_pi4_reli, '-^', x_b, cyc_pi2_reli, '-s', x_b, fast_lap_reli, '-p', x_b, fast_pi4_reli, '-D')
-plt.legend(['CycloneDDS Laptop', 'CycloneDDS RPi4', 'CycloneDDS RPi2', 'FastDDS Laptop', 'FastDDS RP4'])
-# plt.title('CycloneDDS')
+# plt.plot(x_b, cyc_lap_reli, '-o', x_b, cyc_pi4_reli, '-^', x_b, cyc_pi2_reli, '-s', x_b, fast_lap_reli, '-p', x_b, fast_pi4_reli, '-D', linewidth=4, markersize=12)
+# plt.legend(['CycloneDDS Laptop', 'CycloneDDS RPi4', 'CycloneDDS RPi2', 'FastDDS Laptop', 'FastDDS RP4'], fontsize=24)
+# plt.title('CycloneDDS vs. FastDDS', fontsize=26)
 
 plt.yscale('log')
-plt.xlabel('Bytes')
+plt.xlabel('Bytes', fontsize=24)
 plt.xticks(x_b)
-plt.ylabel('Samples')
+plt.ylabel('Samples', fontsize=24)
 plt.grid(b=True, which='both', color='#BBBBBB', linestyle='-')
 plt.show()
