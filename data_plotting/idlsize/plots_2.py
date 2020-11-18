@@ -36,6 +36,7 @@ rects2 = ax.bar(x_pos + width/2, fast_pi4, width, label='RPi4')
 
 ax.tick_params(axis = 'both', which = 'major', labelsize = 22)
 ax.tick_params(axis = 'both', which = 'minor', labelsize = 22)
+ax.yaxis.offsetText.set_fontsize(22)
 
 # plt.bar(r1, fast_lap, width=barWidth, label='Laptop')
 # plt.bar(r2, fast_pi4, width=barWidth, label='RPi4')
