@@ -1,7 +1,7 @@
 ---
 title: Late-Joiner
 created: '2020-11-09T10:58:12.438Z'
-modified: '2020-11-11T22:32:16.689Z'
+modified: '2020-11-20T21:34:46.227Z'
 ---
 
 # Late-Joiner
@@ -12,7 +12,8 @@ Having history enabled greatly reduces the amount of samples received doing a sp
 **Anything "higher" TRANSIENT_LOCAL seems to not allow samples for late-joiners**, the slow reader is still able to get samples it "missed" from after it was created, so the history still works. This the same case when communicating on the same device and over two seperate ones.
 
 ### Limit
-The MAX_SAMPLES cannot be 1, when working with a read operator and polling, as this will fill up the history cache and it will not be emptied since we are using read and not take
+*The test had a depth of 7 and is used to see if anything goes wrong doing operation (Not that used probarly not worth to talk about in the report)*
+The MAX_SAMPLES cannot be 1, when working with a read operator and polling, as this will fill up the history cache and it will not be emptied since we are using read and not take. So if you don't empty the history cache and the depth is greater than the buffer size, than you will not be able to access more samples than the buffer size allows.
 
 80 bytes works fine
 
@@ -21,11 +22,22 @@ I performed the 256000 bytes Reliable communication speed test, on the laptop, t
 **Result:** 3614.61 average samples over 5 seconds with a standard deviation of 47.3.
 This is significantly slower than the original test which got 7197.23 average samples over 5 seconds
 
+Average
+| 128000 | 256000 | 384000 |
+| - | - | - |
+| 8879.3 | 3614.61 | 2561.99 |
+
+Standard Deviation
+| 128000 | 256000 | 384000 |
+| - | - | - |
+| 92.38 | 47.30 | 74.59 |
+
 ### History Size
 A reader with keep all history kind, reliable communication, and sample size 640k bytes
 
 #### Samples in cache at the time it consistenly started to loose samples
 The numbers are based on observations. The value is noted from around the point where the reader loses samples between its read operations.
+Amount of samples before the reader loses samples
 |  | 1469 | 1362 | 1312 | 1280 | 1496 |  |  |  |  |
 | - | - | - | - | - | - | - | - | - | - |
 
@@ -53,12 +65,24 @@ I performed the 256000 bytes Reliable communication speed test, on the laptop, t
 **Result:** 9681.68 average samples over 5 seconds with a standard deviation of 1099.7.
 This is quite a bit slower than the original test which got 64540.0 average samples over 5 seconds
 
+Average
+| 128000 | 256000 | 384000 |
+| - | - | - |
+| 30078.25 | 9681.68 | 5200.07 |
+
+Standard Deviation
+| 128000 | 256000 | 384000 |
+| - | - | - |
+| 1645.66 | 1099.65 | 1224.11 |
+
+
 ### Limit
+*The test had a depth of 7 and is used to see if anything goes wrong doing operation (Not that used probarly not worth to talk about in the report)*
 640000 and 320000 :The reader was unsable after the second sample
 
 With a idl size of 80 bytes, the reader is working fine, but stops taking samples after 400. FastDDS has ResourceLimits max_samples_per_instance set to 400 by [default](https://fast-dds.docs.eprosima.com/en/latest/fastdds/dds_layer/core/policy/standardQosPolicies.html#resourcelimitsqospolicy)
 
-80 byes: Worked fine, stopped after 20000 samples
+80 byes: Worked fine, I stopped it after 20000 samples
 
 ### Behavior
 

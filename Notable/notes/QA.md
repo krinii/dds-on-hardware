@@ -1,7 +1,7 @@
 ---
 title: QA
 created: '2020-11-13T09:17:51.753Z'
-modified: '2020-11-14T17:10:15.918Z'
+modified: '2020-11-20T19:25:29.934Z'
 ---
 
 # QA
@@ -156,4 +156,6 @@ After a while the subscriber's listener finds out that the subscribers where unm
 ##### Publisher
 After a while the publisher's listener finds out that the publishers where unmatched.
 There is no indication other than the listeners reaction to "publisher unmacthed".
+
+### Both
 If the writer and reader are started on two different networks (They can't communicate, funny right) and then the writer machine is connected to the same network as the reader they will not start communicating. Same goes for the other way around.

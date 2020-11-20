@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-15T22:03:57.180Z'
+modified: '2020-11-17T22:53:57.070Z'
 ---
 
 # Log Book
@@ -472,3 +472,6 @@ reader with kind 2 will think that the *instanceID* element from a kind 1 writer
 The topic name and type name are both used to define a topic and two topics with the same name, but different type names does not communicate. This is the case for both vendors.
 
 The domainid found with wireshark for cycloneDDS seems to change every time its started, there is a chance its just because wireshark does not decode cyclone's messages correctly. It sometimes says if from domainid 0 as it should be, but the "random" id's are still there.
+
+### 16/11-2020
+Did graph stuff
