@@ -2,7 +2,11 @@ struct HelloWorld
 {
 	//unsigned long index;
 	//string message;
-	//@key double arr[1041803];
-	@key double arr[32000];
+	//@key double arr[1];
+	//@key double arr[16000];
+	//@key double arr[32000];
+	//@key double arr[48000];
+	@key double arr[64000];
+	//@key double arr[80000];
 	//double arr;
 };

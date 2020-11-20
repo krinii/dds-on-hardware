@@ -4,7 +4,9 @@ module TestDataType_Speed
   {
     //double instanceID;
     //double msgNr;
-    double arr[32000];
+    double arr[48000];
+    //double arr[32000];
+    //double arr[16000];
   };
   #pragma keylist data arr
 };

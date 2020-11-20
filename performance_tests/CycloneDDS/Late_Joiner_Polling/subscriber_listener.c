@@ -7,7 +7,7 @@
 
 /* An array of one message (aka sample in dds terms) will be used. */
 #define MAX_SAMPLES 100
-#define DEPTH 7 // DEPTH is used in other functions so it still has to be here
+#define DEPTH 5 // DEPTH is used in other functions so it still has to be here
 //#define DEPTH 20 // Irrelevant with history kind HISTORY_KEEP_ALL
 
 static volatile int sigintH = 1;
@@ -67,8 +67,8 @@ int main (int argc, char ** argv)
   /* Create a reliable Reader. */
   /* dds_create_writer ( participant_or_publisher, topic, qos, listener ) */
   qos = dds_create_qos ();
-  //dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
-  dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
+  dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS (10));
+  //dds_qset_reliability (qos, DDS_RELIABILITY_BEST_EFFORT, DDS_SECS (10));
   /* Change History setting */
   dds_qset_history(qos, DDS_HISTORY_KEEP_LAST, DEPTH);
   dds_qset_durability(qos, DDS_DURABILITY_TRANSIENT_LOCAL);

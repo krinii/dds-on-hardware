@@ -198,7 +198,7 @@ public:
         uint32_t samples)
     {
         FILE *fp;
-        fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/FastDDS/LateJoinerSpeed/data/test_DEPTH100.txt", "a");
+        fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/FastDDS/LateJoinerSpeed/data/test_DEPTH100_512.txt", "a");
         fprintf(fp, "NewRound\n");
         fclose(fp);
 
@@ -210,7 +210,7 @@ public:
 
             tmp_msg_count = listener_.samples_;
             
-            fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/FastDDS/LateJoinerSpeed/data/test_DEPTH100.txt", "a");
+            fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/FastDDS/LateJoinerSpeed/data/test_DEPTH100_512.txt", "a");
             fprintf(fp, "%d,%d,\n", i, tmp_msg_count);
             fclose(fp);
             

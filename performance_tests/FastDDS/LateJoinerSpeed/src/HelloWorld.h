@@ -110,25 +110,25 @@ public:
      * @brief This function copies the value in member arr
      * @param _arr New value to be copied in member arr
      */
-    eProsima_user_DllExport void arr(const std::array<double, 32000> &_arr);
+    eProsima_user_DllExport void arr(const std::array<double, 64000> &_arr);
 
     /*!
      * @brief This function moves the value in member arr
      * @param _arr New value to be moved in member arr
      */
-    eProsima_user_DllExport void arr(std::array<double, 32000> &&_arr);
+    eProsima_user_DllExport void arr(std::array<double, 64000> &&_arr);
 
     /*!
      * @brief This function returns a constant reference to member arr
      * @return Constant reference to member arr
      */
-    eProsima_user_DllExport const std::array<double, 32000>& arr() const;
+    eProsima_user_DllExport const std::array<double, 64000>& arr() const;
 
     /*!
      * @brief This function returns a reference to member arr
      * @return Reference to member arr
      */
-    eProsima_user_DllExport std::array<double, 32000>& arr();
+    eProsima_user_DllExport std::array<double, 64000>& arr();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -181,7 +181,7 @@ public:
     eProsima_user_DllExport void serializeKey(eprosima::fastcdr::Cdr &cdr) const;
 
 private:
-    std::array<double, 32000> m_arr;
+    std::array<double, 64000> m_arr;
 };
 
 #endif // _HELLOWORLD_H_

@@ -187,7 +187,7 @@ public:
         if ((listener_.matched_ > 0) && sigintH) //Makes sure there is a listener on the other end, remove if you just want it to write anyway
         {
             //hello_.index(hello_.index() + 1);
-            std::array<double, 32000> val = hello_.arr();
+            std::array<double, 64000> val = hello_.arr();
             val[0] = val[0] + 1.0;
             hello_.arr(val);
             writer_->write(&hello_);

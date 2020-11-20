@@ -107,7 +107,7 @@ int main (int argc, char ** argv)
 
   FILE *fp;
 
-  fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/Late_Joiner/data/test_DEPTH100.txt", "a");
+  fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/Late_Joiner/data/test_DEPTH100_384000.txt", "a");
   fprintf(fp, "NewRound\n");
   fclose(fp);
 
@@ -124,7 +124,7 @@ int main (int argc, char ** argv)
       // or anywhere you wanna stop the program
       
       tmp_msg_count = msg_count;
-      fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/Late_Joiner/data/test_DEPTH100.txt", "a");
+      fp = fopen("/home/k/Desktop/Workspaces/Master_Project/Git_Repositories/dds-on-hardware/performance_tests/CycloneDDS/Late_Joiner/data/test_DEPTH100_384000.txt", "a");
       fprintf(fp, "%d,%d,\n", i, tmp_msg_count);
       fclose(fp);
       printf("Message Count: %d\n", tmp_msg_count);
