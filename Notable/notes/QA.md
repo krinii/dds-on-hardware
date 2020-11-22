@@ -1,7 +1,7 @@
 ---
 title: QA
 created: '2020-11-13T09:17:51.753Z'
-modified: '2020-11-20T19:25:29.934Z'
+modified: '2020-11-21T14:14:28.194Z'
 ---
 
 # QA
@@ -9,6 +9,8 @@ modified: '2020-11-20T19:25:29.934Z'
 ## CycloneDDS
 
 ### Reliable reliability
+A reader listener will react to being unmacthed on average 10s after disconnection, this time is the same if its the writer device or the reader device it self that gets disconnected. Same for Laptop and RPi4.
+
 #### Disconnected RPi2 ethernet cable:
 ##### Listener
 Gave the following error when cable was disconmected: 
