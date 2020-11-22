@@ -1,5 +1,5 @@
 #include "dds/dds.h"
-#include "TestDataType.h"
+#include "HelloWorld.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
