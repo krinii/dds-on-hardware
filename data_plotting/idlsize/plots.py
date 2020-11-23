@@ -17,6 +17,7 @@ cyc_pi2 = [8379072, 8379072, 3675200, 372864, 37312, 3728, 368]
 cyc_pi4 = [8376016, 8376016, 8376016, 1865072, 186752, 18664, 1864]
 cyc_lap = [8372616, 8372616, 8372616, 2145304, 214464, 21376, 2072]
 
+# print("Correlation:", np.corrcoef(x_b, cyc_pi2))
 # plt.bar(cyc_pi2, x_b , align='center', alpha=0.5)
 # plt.legend(['CycloneDDS Laptop', 'CycloneDDS RPi4', 'CycloneDDS RPi2', 'FastDDS Laptop', 'FastDDS RP4'])
 # plt.title('CycloneDDS')
