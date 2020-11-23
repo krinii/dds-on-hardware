@@ -94,6 +94,14 @@ private:
             }
         }
 
+        void on_sample_rejected(DataReader* reader, const SampleRejectedStatus& status){
+            std::cout << "Sample Rejected Triggered" << std::endl;
+        }
+
+        void on_sample_lost(DataReader* reader, const SampleLostStatus& status){
+            std::cout << "Sample Lost Triggered" << std::endl;
+        }
+
         HelloWorld hello_;
 
         std::atomic_int samples_;
