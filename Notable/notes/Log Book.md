@@ -1,7 +1,7 @@
 ---
 title: Log Book
 created: '2020-03-11T09:53:48.064Z'
-modified: '2020-11-17T22:53:57.070Z'
+modified: '2020-11-23T08:36:26.543Z'
 ---
 
 # Log Book
@@ -87,6 +87,7 @@ The simple ping pong programs can now send and recieve messages between eachothe
 
 ### 6/9-2020
 A program "Join group 239.255.0.1 for any sources" twice when it starts. Both subscriber and publisher will "ping" "239.255.0.1 (Protocol RTPS)" the network every once in awhile when waiting for the other one to appear on the network.
+**This is what the reader and writer does to discover other entities. They multicast over 239.255.0.1**
 
 ## Week 37
 
