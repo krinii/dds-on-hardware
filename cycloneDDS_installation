@@ -1,0 +1,22 @@
+#!/bin/bash
+# Install the required applications
+apt-get -y update && apt-get install -y \ 
+build-essential \
+cmake \
+maven \
+openssl \
+openjdk-8-jdk
+
+# Get Cyclone DDS
+git clone https://github.com/eclipse-cyclonedds/cyclonedds.git
+cd cyclonedds
+mkdir build
+
+# Install Cyclone DDS
+# Note: The CycloneDDS_Library folder's name location can be changed to anything you wish
+cd
+mkdir CycloneDDS_Library
+cd cyclonedds/build
+cmake -DCMAKE_INSTALL_PREFIX=../../CycloneDDS_Library ..
+cmake --build .
+cmake --build . --target install
